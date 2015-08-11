@@ -1,0 +1,160 @@
+/** Add css rules here for your application. */
+
+
+/** Example rules used by the template application (remove for your app) */
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #777777;
+  margin: 40px 0px 70px;
+  text-align: center;
+}
+
+.sendButton {
+  display: block;
+  font-size: 16pt;
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+  width: 400px;
+}
+
+.dialogVPanel {
+  margin: 5px;
+}
+
+.serverResponseLabelError {
+  color: red;
+}
+
+/** Set ids using widget.getElement().setId("idOfElement") */
+#closeButton {
+  margin: 15px 6px 6px;
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #777777;
+  margin: 40px 0px 70px;
+  text-align: center;
+}
+
+.sendButton {
+  display: block;
+  font-size: 20pt;
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+  width: 400px;
+}
+
+.dialogVPanel {
+  margin: 5px;
+}
+
+.serverResponseLabelError {
+  color: red;
+}
+
+.panel{
+	border-style: groove;
+	border-color: #cecece;
+	border-radius:10px;
+	margin-top:20px;
+	border-radius: 5px;
+	background-color: #f3f3f3;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+.gridpanel{
+	border-style: solid;
+	border-color:grey;
+	border-radius:10px;
+	margin-top:20px;
+	border-radius: 10px;
+	background-image: url("Background3.png") ;
+	background-repeat: no-repeat;
+	background-size:100%;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+
+.gwt-Label {
+   font: bold 16px "Lucida Grande", Geneva, Verdana, sans-serif;
+   vertical-align: middle;
+   margin-left: 0px;
+   margin-right: 10px;
+   margin-top: 0px;
+   text-decoration: none;
+   padding-top: 0px;
+    padding-right: 50px;
+    padding-bottom: 0px;
+    padding-left: 50px;
+   /**padding: 3px 5px 3px 5px;*//
+ }
+/** Set ids using widget.getElement().setId("idOfElement") */
+#closeButton {
+  margin: 15px 6px 6px;
+}
+
+.header_title{
+    padding: 8px 7px;
+    margin: 5px;
+    height: 70px;
+    background-color: #f3f3f3;
+}
+
+h1.title{
+    font-size: 40pt;
+    text-align: center;
+}
+
+td.indicator{
+    width: 300px;
+    text-align: center;
+    align-items: center;
+}
+
+td.budget{
+    width: 300px;
+    text-align: center;
+    align-items: center;
+}
+
+progress.progress_bar{
+    background-color: #eee;
+    width: 250px;
+    height: 30px;
+    border-radius: 2px;
+    border: darkgray thin;
+    box-shadow: inset;
+}
+
+.hr {
+    border: none;
+    color: steelblue;
+    background-color: #FFFFFF;
+    height: 1px;
+    margin-bottom: 5px;
+}
+
+.spielfeld{
+	width:100%;
+	height: 100%;
+	background-image: url("Background3.png") no-repeat;
+	background-repeat: no-repeat;
+	
+}
+
+.cellSize{
+	width: 40px;
+	height: 40px;
+}
+
+#transparentImage{
+	 opacity: 1.0;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+}

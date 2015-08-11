@@ -1,0 +1,85 @@
+<!doctype html>
+<!-- The DOCTYPE declaration above will set the     -->
+<!-- browser's rendering engine into                -->
+<!-- "Standards Mode". Replacing this declaration   -->
+<!-- with a "Quirks Mode" doctype is not supported. -->
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <!--                                                               -->
+    <!-- Consider inlining CSS to reduce the number of requested files -->
+    <!--                                                               -->
+    <link type="text/css" rel="stylesheet" href="WaterGame.css">
+
+    <!--                                           -->
+    <!-- Any title is fine                         -->
+    <!--                                           -->
+    <title>WATER GAME</title>
+    
+    <!--                                           -->
+    <!-- This script loads your compiled module.   -->
+    <!-- If you add any GWT meta tags, they must   -->
+    <!-- be added before this line.                -->
+    <!--                                           -->
+    <script type="text/javascript" language="javascript" src="watergame/watergame.nocache.js"></script>
+  </head>
+
+  <!--                                           -->
+  <!-- The body can have arbitrary html, or      -->
+  <!-- you can leave the body empty if you want  -->
+  <!-- to create a completely dynamic UI.        -->
+  <!--                                           -->
+  <body>
+
+    <!-- OPTIONAL: include this if you want history support -->
+    <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
+    
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    <noscript>
+      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+      </div>
+    </noscript>
+    <!-- HEADER------------------------------------------------------------ -->
+<div id="header_title" class="header_title">
+    <div class="container" >
+        <h1>Up- and Down-Stream</h1>
+    </div>
+</div>
+
+<div class="hr"><hr /></div>
+<!-- HEADER END------------------------------------------------------------ -->
+    
+    
+<!-- START GAME WINDOW------------------------------------------------------------ -->
+<div align = "center" id="sendButtonContainer">
+
+</div>
+
+<div align = "center"  id="instructionButtonContainer">
+
+</div>
+    
+<div align = "center" style="margin:0 auto;" id= "waitingBoxContainer">
+	
+</div>
+
+<!-- TRADE WINDOW -->
+<div align = "center" id= "tradeContainer"  style="margin:0 auto;"> </div>
+<!-- START GAME WINDOWEND------------------------------------------------------------ -->
+
+<div width = 100% align = "center" id="gamefield">
+
+</div>
+
+<div align = "center" id="validateButtonContainer">
+</div>
+
+<div id="NotYourTurn">
+<h1 align="center">Bitte warten...</h1>
+</div>
+  </body>
+</html>
