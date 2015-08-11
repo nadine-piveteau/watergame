@@ -685,9 +685,15 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	}
 	
 	@Override
-	public void removeTradeContract(Trade trade) {
+	public void removeALLTradeContract(Trade trade) {
 		Player partnerB = game.playerlist.get(trade.partnerBID - 1);
-		partnerB.removeTradeContract();
+		System.out.println("Die Liste von PlayerB "+ (trade.partnerBID - 1)+ "ist "+partnerB.getTradePartner().size() + " lang. " );
+		for(int i = 0; i < partnerB.getTradePartner().size(); i++){
+			partnerB.removeTradeContract();
+		}
+		System.out.println("Die Liste von PlayerB "+ (trade.partnerBID - 1)+ "ist "+partnerB.getTradePartner().size() + " lang. " );
+		System.out.println("Die Liste von PlayerA "+ (trade.partnerAID - 1)+ "ist "+partnerB.getTradePartner().size() + " lang. " );
+
 	}
 
 	@Override

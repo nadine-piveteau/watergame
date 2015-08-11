@@ -1,0 +1,2 @@
+serviceClass: ch.watergame.client.GreetingService
+path: 5708EF7AE12AF1D44793B8338F914842.gwt.rpc

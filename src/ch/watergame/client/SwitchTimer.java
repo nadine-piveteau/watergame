@@ -42,6 +42,7 @@ public class SwitchTimer extends Timer {
 					cancel();
 					
 					if(!result.tradeContractResult.isEmpty()){
+						ConcludeTradeClickHandler concludeHandler = new ConcludeTradeClickHandler(waterGame, greetingService);
 						
 						waterGame.tradeBoxTitle = new Label("Handel");
 						waterGame.tradeBoxContent.add(waterGame.tradeBoxTitle);
@@ -52,13 +53,12 @@ public class SwitchTimer extends Timer {
 							tradeMessagePanel.add(tradeMessage);
 							Button jaButton = new Button("JA");
 							Button neinButton = new Button("NEIN");
-							JaTradeButtonClickHandler jaHandler = new JaTradeButtonClickHandler(trade, greetingService);
+							JaTradeButtonClickHandler jaHandler = new JaTradeButtonClickHandler(trade, greetingService, concludeHandler );
 							jaButton.addClickHandler(jaHandler);
 							tradeMessagePanel.add(neinButton);
 							tradeMessagePanel.add(jaButton);
 							waterGame.tradeBoxContent.add(tradeMessagePanel);
 						}
-						ConcludeTradeClickHandler concludeHandler = new ConcludeTradeClickHandler(waterGame, greetingService);
 						Button okButton = new Button("OK");
 						okButton.addClickHandler(concludeHandler);
 						waterGame.tradeBoxContent.add(okButton);
