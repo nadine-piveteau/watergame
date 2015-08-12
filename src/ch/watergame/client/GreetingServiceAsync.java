@@ -32,7 +32,7 @@ public interface GreetingServiceAsync {
 	void checkBudgetAndKnowledge(int playerID, int rizePrice,
 			int amountknowledge, AsyncCallback<String> asyncCallback);
 	void checkTrade(Trade tradeContract1, AsyncCallback<Boolean> asyncCallback);
-	void removeALLTradeContract(Trade trade, AsyncCallback<Void> callback);
+	void removeALLTradeContract(AsyncCallback<Void> callback);
 	
 
 }

@@ -31,6 +31,7 @@ public class JaTradeButtonClickHandler implements ClickHandler {
 		
 		
 		
+		
 	}
 
 }

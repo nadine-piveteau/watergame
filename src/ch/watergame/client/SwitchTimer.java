@@ -8,12 +8,14 @@ import ch.watergame.shared.TradeResult;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SwitchTimer extends Timer {
 	private GreetingServiceAsync greetingService;
@@ -43,28 +45,39 @@ public class SwitchTimer extends Timer {
 					
 					if(!result.tradeContractResult.isEmpty()){
 						ConcludeTradeClickHandler concludeHandler = new ConcludeTradeClickHandler(waterGame, greetingService);
+						//waterGame.tradeBox.remove(waterGame.tradeBoxContent);
+						RootPanel.get("tradeContainer").clear();
+						//waterGame.tradeBox.center();
+						//waterGame.tradeBoxTitle = new Label("Handel");
+						//waterGame.tradeBoxContent.add(waterGame.tradeBoxTitle);
 						
-						waterGame.tradeBoxTitle = new Label("Handel");
-						waterGame.tradeBoxContent.add(waterGame.tradeBoxTitle);
+						DialogBox tradeBox = new DialogBox();
+						VerticalPanel tradeBoxContent = new VerticalPanel();
+						Label tradeBoxTitel = new Label("Handel");
+						tradeBoxContent.add(tradeBoxTitel);
+						System.out.println("SIZE OF TRADECONTRACT RESULT: " +result.tradeContractResult.size());
 						for(Trade trade : result.tradeContractResult){
 							HorizontalPanel tradeMessagePanel = new HorizontalPanel();
 							Label tradeMessage = new Label(trade.toString());
 							System.out.println("TradeMessage: "+tradeMessage);
 							tradeMessagePanel.add(tradeMessage);
-							Button jaButton = new Button("JA");
-							Button neinButton = new Button("NEIN");
+							CheckBox jaButton = new CheckBox();
+							//Button neinButton = new Button("NEIN");
 							JaTradeButtonClickHandler jaHandler = new JaTradeButtonClickHandler(trade, greetingService, concludeHandler );
 							jaButton.addClickHandler(jaHandler);
-							tradeMessagePanel.add(neinButton);
+							//tradeMessagePanel.add(neinButton);
 							tradeMessagePanel.add(jaButton);
-							waterGame.tradeBoxContent.add(tradeMessagePanel);
+							tradeBoxContent.add(tradeMessagePanel);
 						}
 						Button okButton = new Button("OK");
 						okButton.addClickHandler(concludeHandler);
-						waterGame.tradeBoxContent.add(okButton);
-						waterGame.tradeBox.add(waterGame.tradeBoxContent);
-						waterGame.tradeBox.setWidth("800px");
-						RootPanel.get("tradeContainer").add(waterGame.tradeBox);
+						tradeBoxContent.add(okButton);
+						tradeBox.add(tradeBoxContent);
+						tradeBox.center();
+						//waterGame.tradeBoxContent.add(okButton);
+						//waterGame.tradeBox.add(waterGame.tradeBoxContent);
+						//waterGame.tradeBox.setWidth("800px");
+						RootPanel.get("tradeContainer").add(tradeBox);
 						RootPanel.get("tradeContainer").setVisible(true);
 						RootPanel.get("gamefield").setVisible(false);
 						RootPanel.get("validateButtonContainer").setVisible(false);

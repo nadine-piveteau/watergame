@@ -685,16 +685,20 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	}
 	
 	@Override
-	public void removeALLTradeContract(Trade trade) {
-		Player partnerB = game.playerlist.get(trade.partnerBID - 1);
-		System.out.println("Die Liste von PlayerB "+ (trade.partnerBID - 1)+ "ist "+partnerB.getTradePartner().size() + " lang. " );
-		for(int i = 0; i < partnerB.getTradePartner().size(); i++){
+	public void removeALLTradeContract() {
+		Player partnerB = game.playerlist.get(game.getPlayingPlayer()-1);
+		System.out.println("SIZE LIST "+ partnerB.getTradePartner().size());
+		for(Trade trade: partnerB.getTradePartner()){
+			Player partnerA = game.playerlist.get((trade.partnerAID - 1));
+			System.out.println("Die Liste von PlayerB "+ (trade.partnerBID - 1)+ "ist "+partnerB.getTradePartner().size() + " lang. " );
+			System.out.println("Die Liste von PlayerA "+ (trade.partnerAID - 1)+ "ist "+partnerA.getTradePartner().size() + " lang. " );		
 			partnerB.removeTradeContract();
+			System.out.println("Die Liste von PlayerB "+ (trade.partnerBID - 1)+ "ist "+partnerB.getTradePartner().size() + " lang. " );
+			System.out.println("Die Liste von PlayerA "+ (trade.partnerAID - 1)+ "ist "+partnerA.getTradePartner().size() + " lang. " );
 		}
-		System.out.println("Die Liste von PlayerB "+ (trade.partnerBID - 1)+ "ist "+partnerB.getTradePartner().size() + " lang. " );
-		System.out.println("Die Liste von PlayerA "+ (trade.partnerAID - 1)+ "ist "+partnerB.getTradePartner().size() + " lang. " );
-
 	}
+		
+	
 
 	@Override
 	public void executeTradeContract(Trade tradeToExecute) {
@@ -718,12 +722,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 
 		}
 		if(tradeToExecute.importGood.equals("Zucker")){
-			System.out.println("Old value reis partnerA: " + partnerA.getSugar());
-			System.out.println("Old value reis partnerB: " + partnerB.getSugar());
+			System.out.println("Old value Zucker partnerA: " + partnerA.getSugar());
+			System.out.println("Old value Zucker partnerB: " + partnerB.getSugar());
 			partnerA.setSugar(partnerA.getSugar()+tradeToExecute.importAmount);
 			partnerB.setSugar(partnerB.getSugar()-tradeToExecute.importAmount);
-			System.out.println("new value reis partnerA: " + partnerA.getSugar());
-			System.out.println("new value reis partnerB: " + partnerB.getSugar());
+			System.out.println("new value Zucker partnerA: " + partnerA.getSugar());
+			System.out.println("new value Zucker partnerB: " + partnerB.getSugar());
 		}
 		if(tradeToExecute.importGood.equals("Fisch")){
 			partnerA.setFish(partnerA.getFish()+tradeToExecute.importAmount);
@@ -743,15 +747,19 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		}
 		//EXPORT EXECUTED
 		if(tradeToExecute.exportGood.equals("Reis")){
+			System.out.println("Old value reis partnerA: " + partnerA.getThe());
+			System.out.println("Old value reis partnerB: " + partnerB.getThe());
 			partnerA.setRize(partnerA.getRize()-tradeToExecute.exportAmount);
 			partnerB.setRize(partnerB.getRize()+tradeToExecute.exportAmount);
+			System.out.println("new value reis partnerA: " + partnerA.getSugar());
+			System.out.println("new value reis partnerB: " + partnerB.getSugar());
 		}
 		if(tradeToExecute.exportGood.equals("Tee")){
 			partnerA.setThe(partnerA.getThe()-tradeToExecute.exportAmount);
 			partnerB.setThe(partnerB.getThe()+tradeToExecute.exportAmount);
 		}
 		if(tradeToExecute.exportGood.equals("Zucker")){
-			System.out.println("Old value Zucker Partner A: " +partnerA.getSugar());
+			System.out.println("Old value Zucker Partner A : " +partnerA.getSugar());
 			System.out.println("Old value Zucker partnerB: " + partnerB.getSugar());
 			partnerA.setSugar(partnerA.getSugar()-tradeToExecute.exportAmount);
 			partnerB.setSugar(partnerB.getSugar()+tradeToExecute.exportAmount);

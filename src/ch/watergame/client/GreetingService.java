@@ -31,7 +31,7 @@ public interface GreetingService extends RemoteService {
 	String checkBudgetAndKnowledge(int playerID, int rizePrice,
 			int amountknowledge);
 	boolean checkTrade(Trade tradeContract1);
-	void removeALLTradeContract(Trade trade);
+	void removeALLTradeContract();
 
 
 }
