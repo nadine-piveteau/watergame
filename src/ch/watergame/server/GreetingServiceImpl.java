@@ -798,5 +798,27 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 			return false;
 		}
 	}
+	@Override	
+	public boolean checkTradePartnerA( Trade trade){
+		Player tradePartner = game.playerlist.get(trade.partnerAID-1);
+		int resourceA = tradePartner.getRessource(trade.exportGood);
+		if((resourceA-trade.exportAmount)>=0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean checkTradePartnerB(Trade trade){
+		Player tradePartner = game.playerlist.get(trade.partnerBID-1);
+		int resourceA = tradePartner.getRessource(trade.exportGood);
+		if((resourceA-trade.importAmount)>=0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 
 }

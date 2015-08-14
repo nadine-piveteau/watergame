@@ -75,6 +75,7 @@ public class WaterGame implements EntryPoint {
 		
 		//TradeBox
 		public DialogBox tradeBox ;
+		public DialogBox tradeRessourceBox;
 		public Label tradeBoxTitle;
 		public VerticalPanel tradeBoxContent = new VerticalPanel();
 
@@ -204,16 +205,24 @@ public class WaterGame implements EntryPoint {
 		String umweltIndicatorValue;
 		final Label rizeLabel = new Label("Reis: ");
 		Label rizeValue;
+		int rizeValueInteger;
 		final Label fishLabel = new Label("Fisch: ");
 		Label fishValue;
+		int fishValueInteger;
 		final Label sugarLabel = new Label("Zucker: ");
 		Label sugarValue;
-		final Label theLabel = new Label("The: ");
+		int sugarValueInteger;
+		final Label theLabel = new Label("Tee: ");
 		Label teaValue;
+		int teaValueInteger;
 		Label lederValue;
+		int lederValueInteger;
 		Label textilValue;
+		int textilValueInteger;
 		Label itValue;
+		int itValueInteger;
 		Label knowhowValue;
+		int knowhowValueInteger;
 		/**
 		 * This is the entry point method.
 		 */
@@ -292,7 +301,10 @@ public class WaterGame implements EntryPoint {
 
 		//add Trade container
 				tradeBox = new DialogBox();
+				tradeRessourceBox = new DialogBox();
 				RootPanel.get("tradeContainer").add(tradeBox);
+				RootPanel.get("tradeContainer").add(tradeRessourceBox);
+				
 
 			
 				// Add a handler to send the name to the server

@@ -9,7 +9,9 @@ import ch.watergame.shared.TradeResult;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
@@ -19,6 +21,23 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 	WaterGame waterGame;
 	GreetingServiceAsync greetingService;
 	Queue<Trade> tradeList = new LinkedList<Trade>();
+	Queue<CheckBox> selectedCheckboxes = new LinkedList<CheckBox>();
+	boolean checkTrade1= false;
+	boolean checkTrade2= false;
+	boolean checkTrade3= false;
+	boolean checkTrade4= false;
+	//Landwirtschaft	
+	int rize;
+	int the;
+	int fish;
+	int sugar;
+	int technology;
+	int knowhow;
+	
+	//industrie
+	int leder;
+	int textil;
+	int it; 
 	
 	
 	public ConcludeTradeClickHandler(WaterGame waterGame, 	GreetingServiceAsync greetingService) {
@@ -27,11 +46,43 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 		this.greetingService = greetingService;
 	}
 
-
+	public void copyRessources(){
+		this.rize = waterGame.rizeValueInteger;
+		this.the = waterGame.teaValueInteger;
+		this.fish = waterGame.fishValueInteger;
+		this.sugar = waterGame.sugarValueInteger;
+		this.leder = waterGame.lederValueInteger;
+		this.textil = waterGame.textilValueInteger;
+		this.it = waterGame.itValueInteger;
+		this.knowhow = waterGame.knowhowValueInteger;
+	}
 
 	@Override
 	public void onClick(ClickEvent event) {
-		System.out.println("Anzahl der auszuführenden Trades: "+tradeList.size());
+		copyRessources();
+		/*checkTrade1 = checkTrade1();
+		System.out.println("CheckTrade 1: "+checkTrade1);
+		checkTrade2 = checkTrade2();
+		System.out.println("CheckTrade 2: "+checkTrade2);
+		checkTrade3 = checkTrade3();
+		System.out.println("CheckTrade 3: "+checkTrade3);
+		checkTrade4 = checkTrade4();
+		System.out.println("CheckTrade 4: "+checkTrade4);*/
+		
+		//if(!(checkTrade1&&checkTrade2&&checkTrade3&&checkTrade4)){
+		System.out.println("Nr of Trades to accept: "+ selectedCheckboxes.size() + " / "+ tradeList.size() );
+		
+		if(!checkTrades()){
+			Window.alert("Trade not possible. You don't have enough ressources.");
+			copyRessources();
+			for(CheckBox checkbox: selectedCheckboxes){
+				checkbox.setValue(false);
+			}
+			this.selectedCheckboxes.clear();
+			this.tradeList.clear();
+			return;
+		}
+		
 		for (Trade tradeToExecute:tradeList){
 		greetingService.executeTradeContract(tradeToExecute, new AsyncCallback<Void>(){
 
@@ -44,7 +95,6 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 			@Override
 			public void onSuccess(Void result) {
 				// TODO Auto-generated method stub
-				System.out.println("Executed");
 				
 			}
 			
@@ -87,6 +137,7 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 		RootPanel.get("validateButtonContainer").setVisible(true);
 		RootPanel.get("tradeContainer").setVisible(false);
 		waterGame.tradeBox.clear();
+		waterGame.tradeRessourceBox.clear();
 		RootPanel.get("tradeContainer").clear();
 		
 		greetingService.updateAndGetRessources(new AsyncCallback<ArrayList<Integer>>() {
@@ -247,6 +298,499 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 		waterGame.populationPanel.setCellHorizontalAlignment(waterGame.populationValue, HasHorizontalAlignment.ALIGN_CENTER);
 	}
 
+	public boolean checkTrade1(){
+		System.out.println("ImportAMountText1"+ waterGame.importAmountText1.getText());
+		System.out.println("Import Good: "+ waterGame.importList1.getValue(waterGame.importList1.getSelectedIndex()));
+		System.out.println("Empty check: "+(waterGame.importAmountText1.getText().equals("")));
+		if(!waterGame.importAmountText1.getText().equals("")){
+			int importAmountRessource = Integer.parseInt(waterGame.importAmountText1.getText());
+			String importAmountString = waterGame.importList1.getValue(waterGame.importList1.getSelectedIndex());
+
+		if(importAmountString.contains("Reis")){
+			System.out.println("import: REIS");
+			if((this.rize-importAmountRessource)>=0){
+				this.rize = this.rize-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("Tee")){
+			System.out.println("Import: TEE");
+			if((this.the-importAmountRessource)>=0){
+				this.the = this.the-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else if(importAmountString.contains("Fisch")){
+			System.out.println("Import: FISCH");
+			if((this.fish-importAmountRessource)>=0){
+				this.fish = this.fish-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else if(importAmountString.contains("Zucker")){
+			System.out.println("Import: ZUCKER");
+			if((this.sugar-importAmountRessource)>=0){
+				this.sugar = this.sugar-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else if(importAmountString.contains("Leder")){
+			System.out.println("Import: LEDER");
+			if((this.leder-importAmountRessource)>=0){
+				this.leder = this.leder-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("Textilien")){
+			System.out.println("Import: TEXTILIEN");
+			if((this.textil-importAmountRessource)>=0){
+				this.textil = this.textil-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("IT")){
+			System.out.println("Import: IT");
+			if((this.it-importAmountRessource)>=0){
+				this.it = this.it-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("Wissen")){
+			System.out.println("Import: WISSEN");
+			if((this.knowhow-importAmountRessource)>=0){
+				this.knowhow = this.knowhow-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else{
+			System.out.println("No import given.");
+			return true;
+		}
+	}else{
+	return true;
+	}
+	}
+	public boolean checkTrade2(){
+		if(!waterGame.importAmountText2.getText().equals("")){
+			int importAmountRessource = Integer.parseInt(waterGame.importAmountText2.getText());
+			String importAmountString = waterGame.importList2.getValue(waterGame.importList2.getSelectedIndex());
+
+		if(importAmountString.contains("Reis")){
+			System.out.println("import: REIS");
+			
+			if((this.rize-importAmountRessource)>=0){
+				this.rize = this.rize-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("Tee")){
+			System.out.println("Import: TEE");
+			if((this.the-importAmountRessource)>=0){
+				this.the = this.the-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else if(importAmountString.contains("Fisch")){
+			System.out.println("Import: FISCH");
+			if((this.fish-importAmountRessource)>=0){
+				this.fish = this.fish-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else if(importAmountString.contains("Zucker")){
+			System.out.println("Import: ZUCKER");
+			if((this.sugar-importAmountRessource)>=0){
+				this.sugar = this.sugar-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else if(importAmountString.contains("Leder")){
+			System.out.println("Import: LEDER");
+			if((this.leder-importAmountRessource)>=0){
+				this.leder = this.leder-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("Textilien")){
+			System.out.println("Import: TEXTILIEN");
+			if((this.textil-importAmountRessource)>=0){
+				this.textil = this.textil-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("IT")){
+			System.out.println("Import: IT");
+			if((this.it-importAmountRessource)>=0){
+				this.it = this.it-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("Wissen")){
+			System.out.println("Import: WISSEN");
+			if((this.knowhow-importAmountRessource)>=0){
+				this.knowhow = this.knowhow-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else{
+			System.out.println("No import given.");
+			return true;
+		
+		}
+		}else{
+			return true;
+		}
+	}	
+	
+	public boolean checkTrade3(){
+		if(!waterGame.importAmountText3.getText().equals("")){
+			int importAmountRessource = Integer.parseInt(waterGame.importAmountText3.getText());
+			String importAmountString = waterGame.importList3.getValue(waterGame.importList3.getSelectedIndex());
+
+		if(importAmountString.contains("Reis")){
+			System.out.println("import: REIS");
+			if((this.rize-importAmountRessource)>=0){
+				this.rize = this.rize-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("Tee")){
+			System.out.println("Import: TEE");
+			if((this.the-importAmountRessource)>=0){
+				this.the = this.the-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else if(importAmountString.contains("Fisch")){
+			System.out.println("Import: FISCH");
+			if((this.fish-importAmountRessource)>=0){
+				this.fish = this.fish-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else if(importAmountString.contains("Zucker")){
+			System.out.println("Import: ZUCKER");
+			if((this.sugar-importAmountRessource)>=0){
+				this.sugar = this.sugar-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else if(importAmountString.contains("Leder")){
+			System.out.println("Import: LEDER");
+			if((this.leder-importAmountRessource)>=0){
+				this.leder = this.leder-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("Textilien")){
+			System.out.println("Import: TEXTILIEN");
+			if((this.textil-importAmountRessource)>=0){
+				this.textil = this.textil-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("IT")){
+			System.out.println("Import: IT");
+			if((this.it-importAmountRessource)>=0){
+				this.it = this.it-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("Wissen")){
+			System.out.println("Import: WISSEN");
+			if((this.knowhow-importAmountRessource)>=0){
+				this.knowhow = this.knowhow-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else{
+			System.out.println("No import given.");
+			return true;
+		}
+	}else{
+		return true;
+	}
+	}
+
+	public boolean checkTrade4(){
+		if(!waterGame.importAmountText4.getText().equals("")){
+			int importAmountRessource = Integer.parseInt(waterGame.importAmountText4.getText());
+			String importAmountString = waterGame.importList4.getValue(waterGame.importList4.getSelectedIndex());
+			if(importAmountString.contains("Reis")){
+			System.out.println("import: REIS");
+			if((this.rize-importAmountRessource)>=0){
+				this.rize = this.rize-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("Tee")){
+			System.out.println("Import: TEE");
+			if((this.the-importAmountRessource)>=0){
+				this.the = this.the-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else if(importAmountString.contains("Fisch")){
+			System.out.println("Import: FISCH");
+			if((this.fish-importAmountRessource)>=0){
+				this.fish = this.fish-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else if(importAmountString.contains("Zucker")){
+			System.out.println("Import: ZUCKER");
+			if((this.sugar-importAmountRessource)>=0){
+				this.sugar = this.sugar-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else if(importAmountString.contains("Leder")){
+			System.out.println("Import: LEDER");
+			if((this.leder-importAmountRessource)>=0){
+				this.leder = this.leder-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("Textilien")){
+			System.out.println("Import: TEXTILIEN");
+			if((this.textil-importAmountRessource)>=0){
+				this.textil = this.textil-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("IT")){
+			System.out.println("Import: IT");
+			if((this.it-importAmountRessource)>=0){
+				this.it = this.it-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}else if(importAmountString.contains("Wissen")){
+			System.out.println("Import: WISSEN");
+			if((this.knowhow-importAmountRessource)>=0){
+				this.knowhow = this.knowhow-importAmountRessource;
+				System.out.println("Trade Check : True");
+				return true;
+			}else {
+				System.out.println("Trade Check : False");
+				return false;
+				}
+		}
+		else{
+			System.out.println("No import given.");
+			return true;
+		}
+		}else{
+			return true;
+		}
+	}
+	
+	public boolean checkTrades(){
+		boolean isChecked = true;
+		for (Trade trade: this.tradeList){
+				int importAmountRessource = trade.importAmount;
+				String importAmountString = trade.importGood;
+				if(importAmountString.contains("Reis")){
+				System.out.println("import: REIS");
+				if((this.rize-importAmountRessource)>=0){
+					this.rize = this.rize-importAmountRessource;
+					System.out.println("Trade Check : True");
+					isChecked= true;
+				}else {
+					System.out.println("Trade Check : False");
+					isChecked=  false;
+					}
+			}else if(importAmountString.contains("Tee")){
+				System.out.println("Import: TEE");
+				if((this.the-importAmountRessource)>=0){
+					this.the = this.the-importAmountRessource;
+					System.out.println("Trade Check : True");
+					isChecked=  true;
+				}else {
+					System.out.println("Trade Check : False");
+					isChecked=  false;
+					}
+			}
+			else if(importAmountString.contains("Fisch")){
+				System.out.println("Import: FISCH");
+				if((this.fish-importAmountRessource)>=0){
+					this.fish = this.fish-importAmountRessource;
+					System.out.println("Trade Check : True");
+					isChecked=  true;
+				}else {
+					System.out.println("Trade Check : False");
+					isChecked=  false;
+					}
+			}
+			else if(importAmountString.contains("Zucker")){
+				System.out.println("Import: ZUCKER");
+				if((this.sugar-importAmountRessource)>=0){
+					this.sugar = this.sugar-importAmountRessource;
+					System.out.println("Trade Check : True");
+					isChecked=  true;
+				}else {
+					System.out.println("Trade Check : False");
+					isChecked=  false;
+					}
+			}
+			else if(importAmountString.contains("Leder")){
+				System.out.println("Import: LEDER");
+				if((this.leder-importAmountRessource)>=0){
+					this.leder = this.leder-importAmountRessource;
+					System.out.println("Trade Check : True");
+					isChecked=  true;
+				}else {
+					System.out.println("Trade Check : False");
+					isChecked=  false;
+					}
+			}else if(importAmountString.contains("Textilien")){
+				System.out.println("Import: TEXTILIEN");
+				if((this.textil-importAmountRessource)>=0){
+					this.textil = this.textil-importAmountRessource;
+					System.out.println("Trade Check : True");
+					isChecked=  true;
+				}else {
+					System.out.println("Trade Check : False");
+					isChecked= false;
+					}
+			}else if(importAmountString.contains("IT")){
+				System.out.println("Import: IT");
+				if((this.it-importAmountRessource)>=0){
+					this.it = this.it-importAmountRessource;
+					System.out.println("Trade Check : True");
+					isChecked=  true;
+				}else {
+					System.out.println("Trade Check : False");
+					isChecked=  false;
+					}
+			}else if(importAmountString.contains("Wissen")){
+				System.out.println("Import: WISSEN");
+				if((this.knowhow-importAmountRessource)>=0){
+					this.knowhow = this.knowhow-importAmountRessource;
+					System.out.println("Trade Check : True");
+					isChecked=  true;
+				}else {
+					System.out.println("Trade Check : False");
+					isChecked=  false;
+					}
+			}
+			else{
+				System.out.println("No import given.");
+				isChecked=  true;
+			}
+			
+			}
+		return isChecked;
+		}
+	
 
 
 }

@@ -55,15 +55,13 @@ public class SwitchTimer extends Timer {
 						VerticalPanel tradeBoxContent = new VerticalPanel();
 						Label tradeBoxTitel = new Label("Handel");
 						tradeBoxContent.add(tradeBoxTitel);
-						System.out.println("SIZE OF TRADECONTRACT RESULT: " +result.tradeContractResult.size());
 						for(Trade trade : result.tradeContractResult){
 							HorizontalPanel tradeMessagePanel = new HorizontalPanel();
 							Label tradeMessage = new Label(trade.toString());
-							System.out.println("TradeMessage: "+tradeMessage);
 							tradeMessagePanel.add(tradeMessage);
 							CheckBox jaButton = new CheckBox();
 							//Button neinButton = new Button("NEIN");
-							JaTradeButtonClickHandler jaHandler = new JaTradeButtonClickHandler(trade, greetingService, concludeHandler );
+							JaTradeButtonClickHandler jaHandler = new JaTradeButtonClickHandler(trade, greetingService, concludeHandler, jaButton );
 							jaButton.addClickHandler(jaHandler);
 							//tradeMessagePanel.add(neinButton);
 							tradeMessagePanel.add(jaButton);
@@ -74,10 +72,23 @@ public class SwitchTimer extends Timer {
 						tradeBoxContent.add(okButton);
 						tradeBox.add(tradeBoxContent);
 						tradeBox.center();
+						Label ressourceTitle = new Label("Meine Ressourcen");
+						VerticalPanel tradeRessourceBoxContent = new VerticalPanel();
+						tradeRessourceBoxContent.add(ressourceTitle);
+						tradeRessourceBoxContent.add(waterGame.rizeValue);
+						tradeRessourceBoxContent.add(waterGame.fishValue);
+						tradeRessourceBoxContent.add(waterGame.sugarValue);
+						tradeRessourceBoxContent.add(waterGame.teaValue);
+						tradeRessourceBoxContent.add(waterGame.lederValue);
+						tradeRessourceBoxContent.add(waterGame.textilValue);
+						tradeRessourceBoxContent.add(waterGame.itValue);
+						tradeRessourceBoxContent.add(waterGame.knowhowValue);
+						waterGame.tradeRessourceBox.add(tradeRessourceBoxContent);
 						//waterGame.tradeBoxContent.add(okButton);
 						//waterGame.tradeBox.add(waterGame.tradeBoxContent);
 						//waterGame.tradeBox.setWidth("800px");
 						RootPanel.get("tradeContainer").add(tradeBox);
+						RootPanel.get("tradeContainer").add(waterGame.tradeRessourceBox);
 						RootPanel.get("tradeContainer").setVisible(true);
 						RootPanel.get("gamefield").setVisible(false);
 						RootPanel.get("validateButtonContainer").setVisible(false);
@@ -166,6 +177,10 @@ public class SwitchTimer extends Timer {
 		waterGame.fishValue = new Label("Fisch: \t" + Integer.toString(fishValueInt) + "/" + Integer.toString(fishNeededInt));
 		waterGame.sugarValue = new Label("Zucker: \t" + Integer.toString(sugarValueInt) + "/" + Integer.toString(sugarNeededInt));
 		waterGame.teaValue = new Label("Tee: \t" + Integer.toString(theValueInt) + "/" + Integer.toString(theNeededInt));
+		waterGame.rizeValueInteger = rizeValueInt;
+		waterGame.teaValueInteger = theValueInt;
+		waterGame.fishValueInteger = fishValueInt;
+		waterGame.sugarValueInteger = sugarValueInt;
 
 	}
 
@@ -180,11 +195,15 @@ public class SwitchTimer extends Timer {
 		waterGame.lederValue = new Label("Leder: \t" + Integer.toString(lederValueInt) + "/" + Integer.toString(lederNeededInt));
 		waterGame.textilValue = new Label("Textilien: \t" + Integer.toString(textilValueInt) + "/" + Integer.toString(textilNeededInt));
 		waterGame.itValue = new Label("IT: \t" + Integer.toString(itValueInt) + "/" + Integer.toString(itNeededInt));
+		waterGame.lederValueInteger = lederValueInt;
+		waterGame.textilValueInteger = lederValueInt;
+		waterGame.itValueInteger = itValueInt;
 	}
 
 	void setKnowHowValue(ArrayList<Integer>result) {
 		int knowHow = result.get(12);
 		waterGame.knowhowValue = new Label("Wissen: \t" + Integer.toString(knowHow));
+		waterGame.knowhowValueInteger = knowHow;
 	}
 
 	void setPopulationValue(int populationInt) {

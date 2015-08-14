@@ -32,6 +32,8 @@ public interface GreetingService extends RemoteService {
 			int amountknowledge);
 	boolean checkTrade(Trade tradeContract1);
 	void removeALLTradeContract();
+	boolean checkTradePartnerA(Trade trade);
+	boolean checkTradePartnerB(Trade trade);
 
 
 }

@@ -33,6 +33,8 @@ public interface GreetingServiceAsync {
 			int amountknowledge, AsyncCallback<String> asyncCallback);
 	void checkTrade(Trade tradeContract1, AsyncCallback<Boolean> asyncCallback);
 	void removeALLTradeContract(AsyncCallback<Void> callback);
+	void checkTradePartnerA(Trade trade, AsyncCallback<Boolean> callback);
+	void checkTradePartnerB(Trade trade, AsyncCallback<Boolean> callback);
 	
 
 }

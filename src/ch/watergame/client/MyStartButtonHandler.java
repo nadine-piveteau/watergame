@@ -192,6 +192,14 @@ public class MyStartButtonHandler implements ClickHandler {
 						int itValueInt = result.get(11);
 						int itNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
 						int knowHow = result.get(12);
+						waterGame.rizeValueInteger = rizeValueInt;
+						waterGame.teaValueInteger = theValueInt;
+						waterGame.fishValueInteger = fishValueInt;
+						waterGame.sugarValueInteger = sugarValueInt;
+						waterGame.lederValueInteger = lederValueInt;
+						waterGame.textilValueInteger = lederValueInt;
+						waterGame.itValueInteger = itValueInt;
+						waterGame.knowhowValueInteger = knowHow;
 
 						// add the information of the Arraylist to the
 						// corresponding panel
