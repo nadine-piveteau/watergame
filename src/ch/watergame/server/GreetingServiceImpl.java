@@ -1,11 +1,13 @@
 package ch.watergame.server;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import ch.watergame.client.GreetingService;
+import ch.watergame.client.WaterGame;
 import ch.watergame.shared.FieldVerifier;
 import ch.watergame.shared.Game;
 import ch.watergame.shared.GameField;
@@ -159,17 +161,18 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	}
 
 	public int getIndicatorWirtschaft(int playerID) {
-		int indicator = game.playerlist.get(playerID - 1).getWirtschaftsKraft();
+		int indicator = game.playerlist.get(playerID - 1).getPercentualIndicatorWirtschaft();
+
 		return indicator;
 	}
 
 	public int getIndicatorLebensquali(int playerID) {
-		int indicator = game.playerlist.get(playerID - 1).getLebensQuali();
+		int indicator = game.playerlist.get(playerID - 1).getPercentualLebensquali();
 		return indicator;
 	}
 
 	public int getIndicatorUmwelt(int playerID) {
-		int indicator = game.playerlist.get(playerID - 1).getUmweltfreundlichketi();
+		int indicator = game.playerlist.get(playerID - 1).getPercentualUmwelt();
 		return indicator;
 	}
 
@@ -411,11 +414,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 			for (int col = 0; col < 15; col++) {
 				FieldType cell = field[row][col];
 				sum = sum + cell.getErtragBudget();
-				System.out.println(sum);
 			}
 		}
 		player.setBudget(player.getBudget() + sum);
-		System.out.println("New Budget: "+ player.getBudget());
 
 	}
 
@@ -455,28 +456,20 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 				sum = sum + cell.getLebenQuali();
 			}
 		}
-		player.setLebensQuali(player.getInitialIndicatorLebensquali() + sum);
+		int newLebensquali = player.getInitialIndicatorLebensquali() + sum;
+		player.setLebensQuali(newLebensquali);
+		double percentage = ((double)newLebensquali/player.getMaxLebensquali())*100;
+		if(player.getMaxLebensquali()<newLebensquali){
+			player.setPercentualLebensquali(100);
+		}else{
+		player.setPercentualLebensquali((int)(percentage));
 
-	}
-
-	public void calculateIndicatorLebensquali(int otherPlayer) {
-		int sum = 0;
-		Player player = game.playerlist.get(otherPlayer);
-		FieldType[][] field = player.getGamefield().getGameField();
-		for (int row = 0; row < 11; row++) {
-			for (int col = 0; col < 15; col++) {
-				FieldType cell = field[row][col];
-				sum = sum + cell.getLebenQuali();
-			}
 		}
-		
-		player.setLebensQuali(player.getInitialIndicatorLebensquali() + sum);
-
 	}
 
 	public void calculateIndicatorWirtschaftskraft() {
-		int sum = 0;
-		int defizit;
+		double sum = 0;
+		
 		Player player = game.playerlist.get(game.getPlayingPlayer() - 1);
 		FieldType[][] field = player.getGamefield().getGameField();
 		for (int row = 0; row < 11; row++) {
@@ -485,52 +478,38 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 				sum = sum + cell.getWirtschaftsKraft();
 			}
 		}
-		if(player.getRize()<(player.getPopulation()/2)){
-			defizit= ((player.getPopulation()/2)-player.getRize())/10;
-			sum = sum + defizit;
+		int countSiedlung = player.getGamefield().getNrofSiedlung();
+		int countSiedlungCopy = countSiedlung;
+		
+		int[] countsLWRessources = {player.getGamefield().getNrofRice(), player.getGamefield().getNrofTee(), player.getGamefield().getNrofZucker(), player.getGamefield().getNrofFisch()};
+		int[] countsINDRessources = {player.getGamefield().getNrofTextil(), player.getGamefield().getNrofLeder(), player.getGamefield().getNrofIT()};
+		// 4 LW per house!!!!!!!!!
+		for(int nr:countsLWRessources){
+			int expectedNrSiedlung = (nr/4)+1;
+			countSiedlungCopy = countSiedlungCopy-expectedNrSiedlung;
 		}
-		if(player.getThe()<(player.getPopulation()/2)){
-			defizit= ((player.getPopulation()/2)-player.getThe())/10;
-			sum = sum + defizit;
-		}
-		if(player.getSugar()<(player.getPopulation()/2)){
-			defizit= ((player.getPopulation()/2)-player.getSugar())/10;
-			sum = sum + defizit;
-		}
-		if(player.getFish()<(player.getPopulation()/2)){
-			defizit= ((player.getPopulation()/2)-player.getFish())/10;
-			sum = sum + defizit;
-		}
-		if(player.getTextil()<(player.getPopulation()/3)){
-			defizit= ((player.getPopulation()/3)-player.getTextil())/10;
-			sum = sum + defizit;
-		}
-		if(player.getLeder()<(player.getPopulation()/3)){
-			defizit= ((player.getPopulation()/3)-player.getLeder())/10;
-			sum = sum + defizit;
-		}if(player.getIt()<(player.getPopulation()/3)){
-			defizit= ((player.getPopulation()/3)-player.getIt())/10;
-			sum = sum + defizit;
+		// 2 Industries per house!!!!!!!!!!
+		for(int nr:countsINDRessources){
+			int expectedNrSiedlung = (nr/2)+1;
+			countSiedlungCopy = countSiedlungCopy-expectedNrSiedlung;
 		}
 		
-		player.setWirtschaftsKraft(player.getInitialIndicatorWirtschaft() + sum);
-		
-
-	}
-
-	public void calculateIndicatorWirtschaftskraft(int otherPlayer) {
-		int sum = 0;
-		Player player = game.playerlist.get(otherPlayer);
-		FieldType[][] field = player.getGamefield().getGameField();
-		for (int row = 0; row < 11; row++) {
-			for (int col = 0; col < 15; col++) {
-				FieldType cell = field[row][col];
-				sum = sum + cell.getWirtschaftsKraft();
-			}
+		//if not enough houses, remove 10%
+		if(countSiedlungCopy<0){
+			sum = sum - (sum/10);
 		}
-		player.setWirtschaftsKraft(player.getInitialIndicatorWirtschaft() + sum);
-
+		
+		int newWirtschaftskraft = player.getInitialIndicatorWirtschaft() + (int)sum;
+		player.setWirtschaftsKraft(newWirtschaftskraft);
+		double percentage = ((double)newWirtschaftskraft/player.getMaxWirtschaft())*100;
+		if(player.getMaxWirtschaft()<newWirtschaftskraft){
+			player.setPercentualIndicatorWirtschaft(100);
+		}else{
+		player.setPercentualIndicatorWirtschaft((int)(percentage));
+		
+		}
 	}
+
 
 	public void calculateIndicatorUmweltfreundlichkeit() {
 		int sum = 0;
@@ -542,12 +521,19 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 				sum = sum + cell.getUmweltFreundlichkeit();
 			}
 		}
-		player.setUmweltfreundlichketi(player.getInitialIndicatorUmwelt() + sum);
-
+		int newUmwelt = player.getInitialIndicatorUmwelt() + sum;
+		player.setUmweltfreundlichketi(newUmwelt);
+		double percentage = ((double)newUmwelt/player.getMaxUmwelt())*100;
+		if(player.getMaxUmwelt()<newUmwelt){
+			player.setPercentualUmwelt(100);
+		}else{
+		player.setPercentualUmwelt((int)(percentage));
+		}
 	}
 
 	public void calculateIndicatorUmweltfreundlichkeit(int otherPlayer) {
 		int sum = 0;
+		Player playingPlayer = game.playerlist.get(game.getPlayingPlayer() - 1);
 		Player player = game.playerlist.get(otherPlayer);
 		FieldType[][] field = player.getGamefield().getGameField();
 		for (int row = 0; row < 11; row++) {
@@ -556,7 +542,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 				sum = sum + cell.getUmweltFreundlichkeit();
 			}
 		}
-		player.setUmweltfreundlichketi(player.getInitialIndicatorUmwelt() + sum);
+		int newUmwelt = playingPlayer.getInitialIndicatorUmwelt() + sum;
+		playingPlayer.setUmweltfreundlichketi(newUmwelt);
+		double percentage = ((double)newUmwelt/player.getMaxUmwelt())*100;
+		if(player.getMaxUmwelt()<newUmwelt){
+			player.setPercentualUmwelt(100);
+		}else{
+		player.setPercentualUmwelt((int)(percentage));
+		}
 
 	}
 
@@ -570,8 +563,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 				sum = sum + cell.getPopulation();
 			}
 		}
-		player.setPopulation(player.getPopulation() + sum);
-		;
+		player.setPopulation(player.getBasepopulation() + sum);
 	}
 
 	public void calculatePopulation(int otherPlayer) {
@@ -687,14 +679,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	@Override
 	public void removeALLTradeContract() {
 		Player partnerB = game.playerlist.get(game.getPlayingPlayer()-1);
-		System.out.println("SIZE LIST "+ partnerB.getTradePartner().size());
 		for(Trade trade: partnerB.getTradePartner()){
 			Player partnerA = game.playerlist.get((trade.partnerAID - 1));
-			System.out.println("Die Liste von PlayerB "+ (trade.partnerBID - 1)+ "ist "+partnerB.getTradePartner().size() + " lang. " );
-			System.out.println("Die Liste von PlayerA "+ (trade.partnerAID - 1)+ "ist "+partnerA.getTradePartner().size() + " lang. " );		
 			partnerB.removeTradeContract();
-			System.out.println("Die Liste von PlayerB "+ (trade.partnerBID - 1)+ "ist "+partnerB.getTradePartner().size() + " lang. " );
-			System.out.println("Die Liste von PlayerA "+ (trade.partnerAID - 1)+ "ist "+partnerA.getTradePartner().size() + " lang. " );
 		}
 	}
 		
@@ -706,28 +693,18 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		Player partnerB = game.playerlist.get(tradeToExecute.partnerBID - 1);
 		//IMPORT EXECUTED
 		if(tradeToExecute.importGood.equals("Reis")){
-			System.out.println("Old value reis partnerA: " + partnerA.getThe());
-			System.out.println("Old value reis partnerB: " + partnerB.getThe());
 			partnerA.setRize(partnerA.getRize()+tradeToExecute.importAmount);
 			partnerB.setRize(partnerB.getRize()-tradeToExecute.importAmount);
-			System.out.println("new value reis partnerA: " + partnerA.getThe());
-			System.out.println("new value reis partnerB: " + partnerB.getThe());
 
 		}
 		if(tradeToExecute.importGood.equals("Tee")){
-			System.out.println("Old value tea partnerA: " + partnerA.getThe());
 			partnerA.setThe(partnerA.getThe()+tradeToExecute.importAmount);
 			partnerB.setThe(partnerB.getThe()-tradeToExecute.importAmount);
-			System.out.println("new value tea partnerA: " + partnerA.getThe());
 
 		}
 		if(tradeToExecute.importGood.equals("Zucker")){
-			System.out.println("Old value Zucker partnerA: " + partnerA.getSugar());
-			System.out.println("Old value Zucker partnerB: " + partnerB.getSugar());
 			partnerA.setSugar(partnerA.getSugar()+tradeToExecute.importAmount);
 			partnerB.setSugar(partnerB.getSugar()-tradeToExecute.importAmount);
-			System.out.println("new value Zucker partnerA: " + partnerA.getSugar());
-			System.out.println("new value Zucker partnerB: " + partnerB.getSugar());
 		}
 		if(tradeToExecute.importGood.equals("Fisch")){
 			partnerA.setFish(partnerA.getFish()+tradeToExecute.importAmount);
@@ -747,24 +724,16 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		}
 		//EXPORT EXECUTED
 		if(tradeToExecute.exportGood.equals("Reis")){
-			System.out.println("Old value reis partnerA: " + partnerA.getThe());
-			System.out.println("Old value reis partnerB: " + partnerB.getThe());
 			partnerA.setRize(partnerA.getRize()-tradeToExecute.exportAmount);
 			partnerB.setRize(partnerB.getRize()+tradeToExecute.exportAmount);
-			System.out.println("new value reis partnerA: " + partnerA.getSugar());
-			System.out.println("new value reis partnerB: " + partnerB.getSugar());
 		}
 		if(tradeToExecute.exportGood.equals("Tee")){
 			partnerA.setThe(partnerA.getThe()-tradeToExecute.exportAmount);
 			partnerB.setThe(partnerB.getThe()+tradeToExecute.exportAmount);
 		}
 		if(tradeToExecute.exportGood.equals("Zucker")){
-			System.out.println("Old value Zucker Partner A : " +partnerA.getSugar());
-			System.out.println("Old value Zucker partnerB: " + partnerB.getSugar());
 			partnerA.setSugar(partnerA.getSugar()-tradeToExecute.exportAmount);
 			partnerB.setSugar(partnerB.getSugar()+tradeToExecute.exportAmount);
-			System.out.println("New value Zucker Partner A: " +partnerA.getSugar());
-			System.out.println("New value Zucker Partner B: " +partnerB.getSugar());
 
 
 		}
@@ -820,5 +789,81 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		}
 	}
 
+	
+	
+	@Override
+	public void executeMeasures(int[] measures){
+		Player player= game.playerlist.get(game.playingPlayer-1);
+		for(int measure:measures){
+			//Erhöht die Umweltfreundlichkeit um 10%
+			if( measure==1){
+				player.setUmweltfreundlichkeit(player.getPercentualUmwelt() + (player.getPercentualUmwelt()/10));
+
+			}
+			//Doppelt so viel Ertrag			
+			else if(measure ==2){
+				calculateRessource();
+			}
+			//erhöht die Lebensqualität um 10%
+			else if(measure == 3){
+				player.setLebensQuali(player.getLebensQuali() + (player.getLebensQuali()/10));
+			}else if(measure == 4){
+				//keine Naturkatastrophe
+			}
+		}
+	}
+	
+	@Override
+	public int getRoundNR(){
+		return game.getGameRound();
+	}
+	
+	@Override
+	public String executeEvent(int playerID){
+		
+		Random rand = new Random();
+		//Min + (int)(Math.random() * ((Max - Min) + 1))
+	    int randomNum = 1;
+		//int randomNum = 1 + (int)(Math.random() * ((10 - 1) + 1));
+	    // Dürre: Kein Ertrag in der Landwirtschaft
+	    //Lebensqualität nimmt ab
+	    Player player = game.playerlist.get(playerID-1);
+	    if(randomNum == 1){
+	    	game.lossLW(player);
+	    	return "Dürre";
+	    }
+	    //Überschwemmung, MonsunRegen
+	    //Dürre: Kein Ertrag, 
+	    //Budget: Beschädigte Häuser
+	    else if(randomNum == 2){
+	    	return "überschwemmung";
+	    }
+	    //Grundwasservergiftung
+	    //Keine: Erträge
+	    //Budget: 
+	    else if(randomNum == 3){
+	    	return "Grundwasservergiftung ";
+	    }
+	    
+	    //Zyklone und dadurch bedingte Flutwellen, nur für Kalkuta
+	    else if(randomNum == 4){
+	    	return"Flutwelle";
+	    }
+	    //Erdbeben 
+	    else if(randomNum == 5){
+	    	return "Erdbeben";
+	    }
+	    //Verseuchtes Trinkwasse
+	    else if(randomNum ==6){
+	    	return"Trinkwasser";
+	    }
+	    else if(randomNum == 7){
+	    	return "Grundwasserspiegel tief";
+	    }
+	    else{
+	    	return null;
+	    }
+		
+	}
 
 }

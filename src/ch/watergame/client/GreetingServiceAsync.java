@@ -35,6 +35,9 @@ public interface GreetingServiceAsync {
 	void removeALLTradeContract(AsyncCallback<Void> callback);
 	void checkTradePartnerA(Trade trade, AsyncCallback<Boolean> callback);
 	void checkTradePartnerB(Trade trade, AsyncCallback<Boolean> callback);
+	void executeMeasures(int[] measures, AsyncCallback<Void> callback);
+	void getRoundNR(AsyncCallback<Integer> callback);
+	void executeEvent(int playerID, AsyncCallback<String> callback);
 	
 
 }

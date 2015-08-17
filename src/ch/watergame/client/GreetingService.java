@@ -34,6 +34,9 @@ public interface GreetingService extends RemoteService {
 	void removeALLTradeContract();
 	boolean checkTradePartnerA(Trade trade);
 	boolean checkTradePartnerB(Trade trade);
+	void executeMeasures(int[] measures);
+	int getRoundNR();
+	String executeEvent(int playerID);
 
 
 }

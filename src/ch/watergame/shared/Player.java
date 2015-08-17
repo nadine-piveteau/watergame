@@ -9,16 +9,23 @@ import com.google.gwt.user.client.Window;
 public class Player {
 	//initial indicators
 	int initialIndicatorWirtschaft;
-
-	int initialIndicatorLebensquali;
-	int initialIndicatorUmwelt;
-	
 	int wirtschaftsKraft;
+	int maxWirtschaft;
+	int percentualIndicatorWirtschaft;
+	
+	int initialIndicatorLebensquali;
 	int lebensQuali;
+	int maxLebensquali;
+	int percentualLebensquali;
+	
+	int initialIndicatorUmwelt;
 	int umweltfreundlichkeit;
+	int maxUmwelt;
+	int percentualUmwelt;
 	
 	int budget;
 	int population;
+	int basepopulation;
 	int id;
 	
 
@@ -51,15 +58,32 @@ public class Player {
 		this.getTradePartner().poll();
 	}
 
-	public Player(int initialIndicatorWirtschaft, int indicatorWirtschaft, int initialIndicatorLebensquali, int indicatorLebensquali, int initialIndicatorUmwelt, int indicatorUmwelt, int budget, int population, int id,
-			int rize, int the, int fish, int sugar, int technology, int knowhow, int leder, int textil, int it, GameField gamefield) {
+	public Player(int initialIndicatorWirtschaft, int wirtschaftsKraft,
+			int maxWirtschaft, double percentualIndicatorWirtschaft,
+			int initialIndicatorLebensquali, int lebensQuali,
+			int maxLebensquali, double percentualLebensquali,
+			int initialIndicatorUmwelt, int umweltfreundlichkeit,
+			int maxUmwelt, double percentualUmwelt, int budget, int population,
+			int id, int rize, int the, int fish, int sugar, int technology,
+			int knowhow, int leder, int textil, int it, GameField gamefield, int basepopulation) {
 		super();
-		this.wirtschaftsKraft = indicatorWirtschaft;
-		this.lebensQuali = indicatorLebensquali;
-		this.umweltfreundlichkeit = indicatorUmwelt;
 		this.initialIndicatorWirtschaft = initialIndicatorWirtschaft;
+		this.wirtschaftsKraft = wirtschaftsKraft;
+		this.maxWirtschaft = maxWirtschaft;
+		double percentagW = percentualIndicatorWirtschaft;
+		System.out.println("percentagW "+percentagW);
+		this.percentualIndicatorWirtschaft = (int) percentagW;
+		System.out.println(this.percentualIndicatorWirtschaft);
 		this.initialIndicatorLebensquali = initialIndicatorLebensquali;
+		this.lebensQuali = lebensQuali;
+		this.maxLebensquali = maxLebensquali;
+		double percentagL = percentualLebensquali;
+		this.percentualLebensquali = (int)percentagL;
 		this.initialIndicatorUmwelt = initialIndicatorUmwelt;
+		this.umweltfreundlichkeit = umweltfreundlichkeit;
+		this.maxUmwelt = maxUmwelt;
+		double percentagU = percentualUmwelt;
+		this.percentualUmwelt = (int)percentagU;
 		this.budget = budget;
 		this.population = population;
 		this.id = id;
@@ -73,6 +97,71 @@ public class Player {
 		this.textil = textil;
 		this.it = it;
 		this.gamefield = gamefield;
+		this.basepopulation= basepopulation;
+	}
+
+	public int getBasepopulation() {
+		return basepopulation;
+	}
+
+	public void setBasepopulation(int basepopulation) {
+		this.basepopulation = basepopulation;
+	}
+
+	public int getMaxWirtschaft() {
+		return maxWirtschaft;
+	}
+
+	public void setMaxWirtschaft(int maxWirtschaft) {
+		this.maxWirtschaft = maxWirtschaft;
+	}
+
+	public int getPercentualIndicatorWirtschaft() {
+		return percentualIndicatorWirtschaft;
+	}
+
+	public void setPercentualIndicatorWirtschaft(int percentualIndicatorWirtschaft) {
+		this.percentualIndicatorWirtschaft = percentualIndicatorWirtschaft;
+	}
+
+	public int getMaxLebensquali() {
+		return maxLebensquali;
+	}
+
+	public void setMaxLebensquali(int maxLebensquali) {
+		this.maxLebensquali = maxLebensquali;
+	}
+
+	public int getPercentualLebensquali() {
+		return percentualLebensquali;
+	}
+
+	public void setPercentualLebensquali(int percentualLebensquali) {
+		this.percentualLebensquali = percentualLebensquali;
+	}
+
+	public int getUmweltfreundlichkeit() {
+		return umweltfreundlichkeit;
+	}
+
+	public void setUmweltfreundlichkeit(int umweltfreundlichkeit) {
+		this.umweltfreundlichkeit = umweltfreundlichkeit;
+	}
+
+	public int getMaxUmwelt() {
+		return maxUmwelt;
+	}
+
+	public void setMaxUmwelt(int maxUmwelt) {
+		this.maxUmwelt = maxUmwelt;
+	}
+
+	public int getPercentualUmwelt() {
+		return percentualUmwelt;
+	}
+
+	public void setPercentualUmwelt(int percentualUmwelt) {
+		this.percentualUmwelt = percentualUmwelt;
 	}
 
 	public int getWirtschaftsKraft() {
@@ -96,7 +185,7 @@ public class Player {
 	}
 	
 	public void setUmweltfreundlichketi(int umweltfreundlichketi) {
-		umweltfreundlichketi = umweltfreundlichketi;
+		this.umweltfreundlichkeit = umweltfreundlichketi;
 	}
 	public int getInitialIndicatorWirtschaft() {
 		return initialIndicatorWirtschaft;

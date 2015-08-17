@@ -19,6 +19,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -87,6 +88,7 @@ public class WaterGame implements EntryPoint {
 		VerticalPanel umweltFreundlichkeitPanel = new VerticalPanel();
 		VerticalPanel populationPanel = new VerticalPanel();
 		VerticalPanel budgetPanel = new VerticalPanel();
+		VerticalPanel fieldsAndRoundCounter = new VerticalPanel();
 		
 
 		// indicators Label
@@ -111,6 +113,7 @@ public class WaterGame implements EntryPoint {
 		VerticalPanel gamegridPanel = new VerticalPanel();
 		VerticalPanel fieldsPanel = new VerticalPanel();
 		VerticalPanel tradePanel = new VerticalPanel();
+		VerticalPanel measuresPanel = new VerticalPanel();
 		HorizontalPanel importPanel = new HorizontalPanel();
 		HorizontalPanel exportPanel = new HorizontalPanel();
 		// Ressourcen Panel
@@ -138,6 +141,32 @@ public class WaterGame implements EntryPoint {
 		ListBox exportList2;
 		ListBox exportList3;
 		ListBox exportList4;
+		// political measures field
+		Label titleMeasures = new Label("Politische Massnahmen");
+		HTML subventionenLabel = new HTML ("<h4><strong>Subventionen</strong><br>Preis: 800");
+		CheckBox subventionenButton = new CheckBox ();
+		//HTML subventionenBeschreibung = new HTML("<h5>Doppelter Ertrag pro Feld <br> Preis: XXXX<h5>");
+		HTML umweltSchutzLabel = new HTML("<h4><strong>Massnahmen gegen Umweltverschmutzung</strong><br>Preis: 800<h4>");
+		CheckBox umweltSchutzButton = new CheckBox ();
+		//HTML umweltSchutzBeschreibung = new HTML("<h5>Flusssäuberung, Energiesparmassnahmen<br> Preis: XXXX<h5>");
+		HTML reformen = new HTML("<h4>Politische Reformen<br>Preis: XXXX<h4>");
+		CheckBox reformenButton = new CheckBox ();
+		//HTML reformenBeschreibung = new HTML("<h5>Verbesserung des politischen Systems <br> Preis: XXXX<h5>");
+		HTML naturgefahrenSchutz = new HTML("<h4><strong>Schutz vor Naturkatastrophen</strong><br>Preis: 800<h4>");
+		CheckBox naturkatastropheButton = new CheckBox ();
+		//HTML naturkatastropheBeschreibung = new HTML("<h5>Schutzmassnahmen gegen die nächste Naturkatstrophe <br> Preis: XXXX<h5>");
+		int preisSubventionen = 800;
+		boolean activeSubventionen;
+		int preisUmweltverschmutzung= 800;
+		boolean activeUmweltschutz;
+		int preisReformen = 800;
+		boolean activeReformen;
+		int preisNaturkatastrophen = 800;
+		boolean activeNaturkatastrophen;
+
+ 
+
+
 		// grid field
 		Grid grid = new Grid(15, 15);
 		// Fields
@@ -223,6 +252,12 @@ public class WaterGame implements EntryPoint {
 		int itValueInteger;
 		Label knowhowValue;
 		int knowhowValueInteger;
+		
+		// RUNDEN ZÄhler!!!
+		int gameRound;
+		VerticalPanel roundPanel = new VerticalPanel();
+		Label roundCounter = new Label("1. Runde");
+		int eventNR;
 		/**
 		 * This is the entry point method.
 		 */
@@ -282,10 +317,13 @@ public class WaterGame implements EntryPoint {
 				fieldsPanel.add(fieldsTitle);
 				fieldsPanel.setCellHorizontalAlignment(fieldsTitle, HasHorizontalAlignment.ALIGN_CENTER);
 				fieldsPanel.setSize("350px", "650px");
+				fieldsAndRoundCounter.add(fieldsPanel);
+				roundPanel.add(roundCounter);
+				fieldsAndRoundCounter.add(roundPanel);
 				mainPanel.add(ressourcePanel);
 				mainPanel.add(ressourceTradePanel);
 				mainPanel.add(gamegridPanel);
-				mainPanel.add(fieldsPanel);
+				mainPanel.add(fieldsAndRoundCounter);
 
 				// Add the nameField and sendButton to the RootPanel
 				// Use RootPanel.get() to get the entire body element

@@ -24,6 +24,12 @@ h1 {
   margin: 5px;
 }
 
+.h4{
+	line-height: 5pt;
+}
+.h5{
+	line-height: 2pt;
+}
 .serverResponseLabelError {
   color: red;
 }

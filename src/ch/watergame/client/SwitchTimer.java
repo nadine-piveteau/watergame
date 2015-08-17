@@ -5,13 +5,20 @@ import java.util.ArrayList;
 import ch.watergame.shared.Trade;
 import ch.watergame.shared.TradeResult;
 
+import com.google.appengine.api.files.FileServicePb.ShuffleRequest.Callback;
+import com.google.gwt.core.ext.TreeLogger;
+import com.google.gwt.dev.util.msg.Message;
+import com.google.gwt.dev.util.msg.Message0;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -28,6 +35,25 @@ public class SwitchTimer extends Timer {
 
 	@Override
 	public void run() {
+		greetingService.getRoundNR(new AsyncCallback<Integer>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(Integer result) {
+				// TODO Auto-generated method stub
+				waterGame.gameRound = result;
+				waterGame.roundPanel.clear();
+				waterGame.roundCounter = new Label(result +". Runde");
+				waterGame.roundPanel.add(waterGame.roundCounter);
+
+			}
+			
+		});
 		greetingService.isMyTurn(new AsyncCallback<TradeResult>() {
 
 			@Override
@@ -98,51 +124,78 @@ public class SwitchTimer extends Timer {
 						RootPanel.get("tradeContainer").setVisible(false);
 						RootPanel.get("gamefield").setVisible(true);
 						RootPanel.get("validateButtonContainer").setVisible(true);
-						// refreshAndGetRessources: neue werte updaten und
-						// zurückgeben methode hier aufrufen
-						greetingService.updateAndGetRessources(new AsyncCallback<ArrayList<Integer>>() {
+						//Zufallsereigniss hier aufrufen
+						System.out.println("BEFORE EVENT EXECUTED");
+						greetingService.executeEvent(waterGame.playerID, new AsyncCallback<String>() {
 							
 							@Override
 							public void onFailure(Throwable caught) {
 								// TODO Auto-generated method stub
 								
 							}
-							
+
 							@Override
-							public void onSuccess(ArrayList<Integer> result) {
-								int populationInt = result.get(3);
+							public void onSuccess(String result) {
+								// TODO Auto-generated method stub
+								System.out.println("Event : "+ result );
+								//Window.alert(result);
+								DialogBox alertEvent = new DialogBox();
+								VerticalPanel contentAlertMessage = new VerticalPanel();
+								Label message = new Label(result);
+								Button okAlertMessageButton = new Button("OK");
+								contentAlertMessage.add(message);
+								contentAlertMessage.add(okAlertMessageButton);
+								contentAlertMessage.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+								alertEvent.add(contentAlertMessage);
+								alertEvent.center();
+								alertEvent.show();
 								
-								// clear wirtschaft/lebensquali/umwelt/population/resourcen Panel
-								clearPanels();
-								// set new Values for indicators, ressources, knohow and population
-								setIndicatorValue(result);
-								setRessourceValueLW(result, populationInt);
-								setRessourceValueIndustrie(result, populationInt);
-								setKnowHowValue(result);
-								setPopulationValue(populationInt);
-								setBudgetValue(result.get(4));
-								
-								
-								// fill the panels
-								fillWirtschaftskraftPanel(); 
-								fillLebensqualiPanel();
-								fillUmweltPanel();
-								fillPopulationPanel();
-								fillRessourcePanel();
-								fillBudgetPanel();
-								
+
+								greetingService.updateAndGetRessources(new AsyncCallback<ArrayList<Integer>>() {
+									
+									@Override
+									public void onFailure(Throwable caught) {
+										// TODO Auto-generated method stub
+										
+									}
+									
+									@Override
+									public void onSuccess(ArrayList<Integer> result) {
+										System.out.println("Event method: "+ result);
+										System.out.println("New Rice amount client side: "+result.get(5));
+										int populationInt = result.get(3);
+										
+										// clear wirtschaft/lebensquali/umwelt/population/resourcen Panel
+										clearPanels();
+										// set new Values for indicators, ressources, knohow and population
+										setIndicatorValue(result);
+										setRessourceValueLW(result, populationInt);
+										setRessourceValueIndustrie(result, populationInt);
+										setKnowHowValue(result);
+										setPopulationValue(populationInt);
+										setBudgetValue(result.get(4));
+										
+										// fill the panels
+										fillWirtschaftskraftPanel(); 
+										fillLebensqualiPanel();
+										fillUmweltPanel();
+										fillPopulationPanel();
+										fillRessourcePanel();
+										fillBudgetPanel();
+										fillMeasuresPanel();
+									}
+								});
 							}
-							
-							
 						});
+						// refreshAndGetRessources: neue werte updaten und
+						// zurückgeben methode hier aufrufen
+						
 					}
 				} else {
 					RootPanel.get("gamefield").setVisible(false);
 					RootPanel.get("validateButtonContainer").setVisible(false);
 					RootPanel.get("NotYourTurn").setVisible(true);
 				}
-				
-				
 			}
 		});
 	}
@@ -153,6 +206,7 @@ public class SwitchTimer extends Timer {
 		waterGame.lebensQualitaetPanel.clear();
 		waterGame.wirtschaftsKraftPanel.clear();
 		waterGame.umweltFreundlichkeitPanel.clear();
+		waterGame.measuresPanel.clear();
 	}
 
 	void setIndicatorValue(ArrayList<Integer>result) {
@@ -272,5 +326,51 @@ public class SwitchTimer extends Timer {
 		waterGame.populationPanel.add(waterGame.populationLabel);
 		waterGame.populationPanel.add(waterGame.populationValue);
 		waterGame.populationPanel.setCellHorizontalAlignment(waterGame.populationValue, HasHorizontalAlignment.ALIGN_CENTER);
+	}
+	
+	void fillMeasuresPanel(){
+		//UmweltSchutz
+				Grid measuresTable = new Grid(4, 2);
+				measuresTable.setWidget(0, 0, waterGame.umweltSchutzLabel);
+				//measuresTable.setWidget(0, 0, waterGame.umweltSchutzBeschreibung);
+				measuresTable.setWidget(0, 1, waterGame.umweltSchutzButton);
+				measuresTable.setWidget(1, 0, waterGame.subventionenLabel);
+				//measuresTable.setWidget(1, 0, waterGame.subventionenBeschreibung);
+				measuresTable.setWidget(1, 1, waterGame.subventionenButton);
+				measuresTable.setWidget(2, 0, waterGame.reformen);
+				//measuresTable.setWidget(2, 0, waterGame.reformenBeschreibung);
+				measuresTable.setWidget(2, 1, waterGame.reformenButton);
+				measuresTable.setWidget(3, 0, waterGame.naturgefahrenSchutz);
+				//measuresTable.setWidget(3, 0, waterGame.naturkatastropheBeschreibung);
+				measuresTable.setWidget(3, 1, waterGame.naturkatastropheButton);
+				waterGame.measuresPanel.add(waterGame.titleMeasures);
+				waterGame.measuresPanel.add(measuresTable);
+		/*
+				HorizontalPanel hp1 = new HorizontalPanel();
+				hp1.add(waterGame.umweltSchutzLabel);
+				hp1.add(waterGame.umweltSchutzButton);
+				waterGame.measuresPanel.add(hp1);
+				waterGame.measuresPanel.add(waterGame.umweltSchutzBeschreibung);
+				// Subventionen
+				HorizontalPanel hp2 = new HorizontalPanel();
+				hp2.add(waterGame.subventionenLabel);
+				hp2.add(waterGame.subventionenButton);
+				waterGame.measuresPanel.add(hp2);
+				waterGame.measuresPanel.add(waterGame.subventionenBeschreibung);
+				//Reformen
+				HorizontalPanel hp3 = new HorizontalPanel();
+				hp3.add(waterGame.reformen);
+				hp3.add(waterGame.reformenButton);
+				waterGame.measuresPanel.add(hp3);
+				waterGame.measuresPanel.add(waterGame.reformenBeschreibung);
+				//Naturkatastrophen
+				HorizontalPanel hp4 = new HorizontalPanel();
+				hp4.add(waterGame.naturgefahrenSchutz);
+				hp4.add(waterGame.naturkatastropheButton);
+				waterGame.measuresPanel.add(hp3);
+				waterGame.measuresPanel.add(waterGame.naturkatastropheBeschreibung);
+				*/
+		
+
 	}
 }

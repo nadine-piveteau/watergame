@@ -11,18 +11,18 @@ public class GameField implements Serializable {
 				0, 3, -2, 0), ZUCKERBIO(10, 20, 0, 1, 1, 1, 0), FISCH(10, 20, 0, 0, 3, -2, 0), FISHBIO(10, 20, 0, 1,1, 1, 0), LEDER(30, 60, 0, 0, 5, -5, 0), 
 				LEDERBIO(30,60,0,1,1,1,0), TEXTIL(30, 60, 0, 1, 5, -3, 0), TEXTILBIO(30,60,0,1,1,1,0),IT(40, 60, 0, 1, 6, -3, 0), ITBIO(30,60,0,1,1,1,0),
 				SIEDLUNG(0, 0, 0, 0, 0, -1, 100), SIEDLUNGBIO(0,0,0,0,0,0,100), UNTERSTUFE(0, 0, 20, 2, 0, 0,
-				0), OBERSTUFE(0, 0, 40, 3, 0, 0, 0), UNI(0, 0, 60, 4, 0, 0, 0), NATIONALPARK(0, 0, 0, 0, 1, 0, 0), TEMPEL(0, 0, 0, 1, 0, 0, 0), WATER(
+				0), OBERSTUFE(0, 0, 40, 3, 0, 0, 0), UNI(0, 0, 60, 4, 0, 0, 0), NATIONALPARK(0, 0, 0, 0, 0.25, 0, 0), TEMPEL(0, 0, 0, 1, 0, 0, 0), WATER(
 				0, 0, 0, 0, 0, 0, 0), EMPTY(0, 0, 0, 0, 0, 0, 0);
 
 		private int ertragRessourcen;
 		private int ertragBudget;
 		private int ertragWissen;
 		private int lebenQuali;
-		private int wirtschaftsKraft;
+		private double wirtschaftsKraft;
 		private int umweltFreundlichkeit;
 		private int population;
 
-		private FieldType(int ertragRessourcen, int ertragBudget, int ertragWissen, int quali, int wirtschaft, int umwelt, int pop) {
+		private FieldType(int ertragRessourcen, int ertragBudget, int ertragWissen, int quali, double wirtschaft, int umwelt, int pop) {
 			this.ertragRessourcen = ertragRessourcen;
 			this.ertragBudget = ertragBudget;
 			this.ertragWissen = ertragWissen;
@@ -40,7 +40,7 @@ public class GameField implements Serializable {
 			this.lebenQuali = lebenQuali;
 		}
 
-		public int getWirtschaftsKraft() {
+		public double getWirtschaftsKraft() {
 			return wirtschaftsKraft;
 		}
 
@@ -160,8 +160,8 @@ public class GameField implements Serializable {
 
 	public int getNrofSiedlung() {
 		int nrSiedlung = 0;
-		for (int row = 0; row < 7; row++) {
-			for (int col = 8; col < 15; col++) {
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
 				if (gameField[row][col] == FieldType.SIEDLUNG) {
 					nrSiedlung++;
 				}
@@ -172,9 +172,21 @@ public class GameField implements Serializable {
 
 	public int getNrofRice() {
 		int nr = 0;
-		for (int row = 0; row < 7; row++) {
-			for (int col = 8; col < 15; col++) {
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
 				if (gameField[row][col] == FieldType.RICE) {
+					nr++;
+					System.out.println();
+				}
+			}
+		}
+		return nr;
+	}
+	public int getNrofRiceBio() {
+		int nr = 0;
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
+				if (gameField[row][col] == FieldType.RICEBIO) {
 					nr++;
 				}
 			}
@@ -184,9 +196,20 @@ public class GameField implements Serializable {
 
 	public int getNrofTee() {
 		int nr = 0;
-		for (int row = 0; row < 7; row++) {
-			for (int col = 8; col < 15; col++) {
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
 				if (gameField[row][col] == FieldType.TEE) {
+					nr++;
+				}
+			}
+		}
+		return nr;
+	}
+	public int getNrofTeeBio() {
+		int nr = 0;
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
+				if (gameField[row][col] == FieldType.TEEBIO) {
 					nr++;
 				}
 			}
@@ -196,9 +219,20 @@ public class GameField implements Serializable {
 
 	public int getNrofZucker() {
 		int nr = 0;
-		for (int row = 0; row < 7; row++) {
-			for (int col = 8; col < 15; col++) {
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
 				if (gameField[row][col] == FieldType.ZUCKER) {
+					nr++;
+				}
+			}
+		}
+		return nr;
+	}
+	public int getNrofZuckerBio() {
+		int nr = 0;
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
+				if (gameField[row][col] == FieldType.ZUCKERBIO) {
 					nr++;
 				}
 			}
@@ -208,9 +242,20 @@ public class GameField implements Serializable {
 
 	public int getNrofFisch() {
 		int nr = 0;
-		for (int row = 0; row < 7; row++) {
-			for (int col = 8; col < 15; col++) {
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
 				if (gameField[row][col] == FieldType.FISCH) {
+					nr++;
+				}
+			}
+		}
+		return nr;
+	}
+	public int getNrofFischBio() {
+		int nr = 0;
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
+				if (gameField[row][col] == FieldType.FISHBIO) {
 					nr++;
 				}
 			}
@@ -220,8 +265,8 @@ public class GameField implements Serializable {
 
 	public int getNrofLeder() {
 		int nr = 0;
-		for (int row = 0; row < 7; row++) {
-			for (int col = 8; col < 15; col++) {
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
 				if (gameField[row][col] == FieldType.LEDER) {
 					nr++;
 				}
@@ -232,8 +277,8 @@ public class GameField implements Serializable {
 
 	public int getNrofTextil() {
 		int nr = 0;
-		for (int row = 0; row < 7; row++) {
-			for (int col = 8; col < 15; col++) {
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
 				if (gameField[row][col] == FieldType.TEXTIL) {
 					nr++;
 				}
@@ -244,8 +289,8 @@ public class GameField implements Serializable {
 
 	public int getNrofIT() {
 		int nr = 0;
-		for (int row = 0; row < 7; row++) {
-			for (int col = 8; col < 15; col++) {
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
 				if (gameField[row][col] == FieldType.IT) {
 					nr++;
 				}
@@ -256,8 +301,8 @@ public class GameField implements Serializable {
 
 	public int getNrofUnterstufe() {
 		int nr = 0;
-		for (int row = 0; row < 7; row++) {
-			for (int col = 8; col < 15; col++) {
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
 				if (gameField[row][col] == FieldType.UNTERSTUFE) {
 					nr++;
 				}
@@ -280,8 +325,8 @@ public class GameField implements Serializable {
 
 	public int getNrofUni() {
 		int nr = 0;
-		for (int row = 0; row < 7; row++) {
-			for (int col = 8; col < 15; col++) {
+		for (int row = 0; row < gameField.length; row++) {
+			for (int col = 0; col < gameField[0].length; col++) {
 				if (gameField[row][col] == FieldType.UNI) {
 					nr++;
 				}
