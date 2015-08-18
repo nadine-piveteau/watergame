@@ -2,6 +2,7 @@ package ch.watergame.shared;
 
 import java.util.ArrayList;
 
+import sun.misc.Perf.GetPerfAction;
 import ch.watergame.shared.GameField.FieldType;
 
 public class Game {
@@ -91,5 +92,16 @@ public class Game {
 		player.setFish(player.getFish()- (nrOfFisch*FieldType.FISCH.getErtragRessourcen())-(nrOfFischBio*FieldType.FISHBIO.getErtragRessourcen()));
 	}
 	
+	
+	public double getCommonIndicator(){
+		int counter = 0;
+		int sum = 0;
+		for(Player player : playerlist){
+			sum = sum + player.getPercentualIndicatorWirtschaft() + player.getPercentualLebensquali() + player.getPercentualUmwelt();
+			counter = counter + 3;
+		}
+		double indicator = (double) sum/ counter;
+		return indicator;
+	}
 
 }

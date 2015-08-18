@@ -142,7 +142,9 @@ public class SwitchTimer extends Timer {
 								DialogBox alertEvent = new DialogBox();
 								VerticalPanel contentAlertMessage = new VerticalPanel();
 								Label message = new Label(result);
+								OkEventAlertClickHandler okClickHandler = new OkEventAlertClickHandler(alertEvent);
 								Button okAlertMessageButton = new Button("OK");
+								okAlertMessageButton.addClickHandler(okClickHandler);
 								contentAlertMessage.add(message);
 								contentAlertMessage.add(okAlertMessageButton);
 								contentAlertMessage.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
@@ -183,6 +185,35 @@ public class SwitchTimer extends Timer {
 										fillRessourcePanel();
 										fillBudgetPanel();
 										fillMeasuresPanel();
+										greetingService.getCommonIndicator(new AsyncCallback<Integer>() {
+
+											@Override
+											public void onFailure(Throwable caught) {
+												// TODO Auto-generated method stub
+												
+											}
+
+											@Override
+											public void onSuccess(Integer result) {
+												// TODO Auto-generated method stub
+												
+												HTML commonIndicatorHTML = new HTML("<progress value=\"" +  result + "\" max=\"100\">"
+														+  result + "% </progress>");
+												waterGame.commonIndikatorPanel.add(waterGame.commonIndikatorLabel);
+												waterGame.commonIndikatorPanel.add(commonIndicatorHTML);
+												Label percentage = new Label(Integer.toString(result)+"%");
+												waterGame.commonIndikatorPanel.add(percentage);
+												waterGame.commonIndikatorPanel.setCellVerticalAlignment(waterGame.commonIndikatorLabel, HasVerticalAlignment.ALIGN_MIDDLE);
+												waterGame.commonIndikatorPanel.setCellHorizontalAlignment(waterGame.commonIndikatorLabel, HasHorizontalAlignment.ALIGN_CENTER);
+												waterGame.commonIndikatorPanel.setCellVerticalAlignment(commonIndicatorHTML, HasVerticalAlignment.ALIGN_MIDDLE);
+												waterGame.commonIndikatorPanel.setCellHorizontalAlignment(commonIndicatorHTML, HasHorizontalAlignment.ALIGN_CENTER);
+												waterGame.commonIndikatorPanel.setCellVerticalAlignment(percentage, HasVerticalAlignment.ALIGN_MIDDLE);
+												waterGame.commonIndikatorPanel.setCellHorizontalAlignment(percentage, HasHorizontalAlignment.ALIGN_CENTER);
+
+
+												
+											}
+										});
 									}
 								});
 							}
@@ -207,6 +238,7 @@ public class SwitchTimer extends Timer {
 		waterGame.wirtschaftsKraftPanel.clear();
 		waterGame.umweltFreundlichkeitPanel.clear();
 		waterGame.measuresPanel.clear();
+		waterGame.commonIndikatorPanel.clear();
 	}
 
 	void setIndicatorValue(ArrayList<Integer>result) {

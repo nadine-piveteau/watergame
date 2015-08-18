@@ -37,6 +37,7 @@ public interface GreetingService extends RemoteService {
 	void executeMeasures(int[] measures);
 	int getRoundNR();
 	String executeEvent(int playerID);
+	int getCommonIndicator();
 
 
 }

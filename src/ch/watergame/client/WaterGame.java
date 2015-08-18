@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -226,7 +227,13 @@ public class WaterGame implements EntryPoint {
 		
 
 		// BOTTOM PANEL-----------------------------------------
+		VerticalPanel validateButtonPanel = new VerticalPanel();
 		final Button validateButton = new Button("Validieren");
+		HorizontalPanel bottomPanel = new HorizontalPanel();
+		VerticalPanel commonIndikatorPanel = new VerticalPanel();
+		Label commonIndikatorLabel = new Label("Fortschritt");
+		int commonIndikator;
+		
 
 		// ressourcenstand
 		String wirtschaftIndicatorValue;
@@ -258,6 +265,8 @@ public class WaterGame implements EntryPoint {
 		VerticalPanel roundPanel = new VerticalPanel();
 		Label roundCounter = new Label("1. Runde");
 		int eventNR;
+		
+		
 		/**
 		 * This is the entry point method.
 		 */
@@ -319,6 +328,8 @@ public class WaterGame implements EntryPoint {
 				fieldsPanel.setSize("350px", "650px");
 				fieldsAndRoundCounter.add(fieldsPanel);
 				roundPanel.add(roundCounter);
+				roundPanel.setHeight("70px");
+				roundPanel.setWidth("350px");
 				fieldsAndRoundCounter.add(roundPanel);
 				mainPanel.add(ressourcePanel);
 				mainPanel.add(ressourceTradePanel);
@@ -329,7 +340,18 @@ public class WaterGame implements EntryPoint {
 				// Use RootPanel.get() to get the entire body element
 				RootPanel.get("sendButtonContainer").add(startButton);
 				RootPanel.get("instructionButtonContainer").add(instructionButton);
-				RootPanel.get("validateButtonContainer").add(validateButton);
+				commonIndikatorPanel.add(commonIndikatorLabel);
+				commonIndikatorPanel.setCellVerticalAlignment(commonIndikatorLabel, HasVerticalAlignment.ALIGN_MIDDLE);
+				commonIndikatorPanel.setCellHorizontalAlignment(commonIndikatorLabel, HasHorizontalAlignment.ALIGN_CENTER);
+
+				commonIndikatorPanel.setWidth("800px");
+				bottomPanel.add(commonIndikatorPanel);
+				
+				validateButtonPanel.add(validateButton);
+				bottomPanel.add(validateButtonPanel);
+				bottomPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+				bottomPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+				RootPanel.get("validateButtonContainer").add(bottomPanel);
 				RootPanel.get("gamefield").add(headerPanel);
 				RootPanel.get("gamefield").add(mainPanel);
 				RootPanel.get().add(clientCheckButton);

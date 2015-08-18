@@ -457,6 +457,7 @@ public class MyStartButtonHandler implements ClickHandler {
 								waterGame.fieldsPanel.add(tp);
 								waterGame.fieldsPanel.setCellVerticalAlignment(tp, HasVerticalAlignment.ALIGN_TOP);
 								waterGame.fieldsPanel.setCellHorizontalAlignment(tp,HasHorizontalAlignment.ALIGN_CENTER);
+								waterGame.commonIndikatorPanel.setWidth("700px");
 								
 								
 								//waterGame.fieldsPanel.setCellVerticalAlignment(tp, HasVerticalAlignment.ALIGN_TOP);
@@ -488,6 +489,32 @@ public class MyStartButtonHandler implements ClickHandler {
 						BildungPanel.add(waterGame.uniImage);
 						waterGame.fieldsPanel.add(BildungPanel);
 								 */
+								greetingService.getCommonIndicator(new AsyncCallback<Integer>() {
+
+									@Override
+									public void onFailure(Throwable caught) {
+										// TODO Auto-generated method stub
+										
+									}
+
+									@Override
+									public void onSuccess(Integer result) {
+										// TODO Auto-generated method stub
+										HTML commonIndicatorHTML = new HTML("<progress value=\"" +  result + "\" max=\"100\">"
+												+  result + "% </progress>");
+										Label percentage = new Label(Integer.toString(result)+"%");
+										waterGame.commonIndikatorPanel.add(commonIndicatorHTML);
+										waterGame.commonIndikatorPanel.add(percentage);
+										waterGame.commonIndikatorPanel.setCellVerticalAlignment(waterGame.commonIndikatorLabel, HasVerticalAlignment.ALIGN_MIDDLE);
+										waterGame.commonIndikatorPanel.setCellHorizontalAlignment(waterGame.commonIndikatorLabel, HasHorizontalAlignment.ALIGN_CENTER);
+										waterGame.commonIndikatorPanel.setCellVerticalAlignment(commonIndicatorHTML, HasVerticalAlignment.ALIGN_MIDDLE);
+										waterGame.commonIndikatorPanel.setCellHorizontalAlignment(commonIndicatorHTML, HasHorizontalAlignment.ALIGN_CENTER);
+										waterGame.commonIndikatorPanel.setCellVerticalAlignment(percentage, HasVerticalAlignment.ALIGN_MIDDLE);
+										waterGame.commonIndikatorPanel.setCellHorizontalAlignment(percentage, HasHorizontalAlignment.ALIGN_CENTER);
+
+										
+									}
+								});
 								
 								// We can add style names to widgets
 								waterGame.startButton.addStyleName("startButton");
@@ -505,7 +532,8 @@ public class MyStartButtonHandler implements ClickHandler {
 								waterGame.tradePanel.addStyleName("panel");
 								waterGame.measuresPanel.addStyleName("panel");
 								waterGame.roundPanel.addStyleName("panel");
-								
+								waterGame.commonIndikatorPanel.addStyleName("panel");
+								waterGame.validateButtonPanel.addStyleName("panel");
 							}
 							
 						});
@@ -796,12 +824,19 @@ public class MyStartButtonHandler implements ClickHandler {
 	void fillMeasuresPanel(){
 		//UmweltSchutz
 		Grid measuresTable = new Grid(4, 2);
-		measuresTable.setWidget(0, 0, waterGame.umweltSchutzLabel);
+		VerticalPanel umweltSchutzpanel = new VerticalPanel();
+		VerticalPanel subventionenpanel = new VerticalPanel();
+
+		umweltSchutzpanel.add(waterGame.umweltSchutzLabel);
+		measuresTable.setWidget(0, 0, umweltSchutzpanel);
+		umweltSchutzpanel.addStyleName("measures");
 		//measuresTable.setWidget(0, 0, waterGame.umweltSchutzBeschreibung);
 		UmweltverschmutzungClickHandler umweltClick = new UmweltverschmutzungClickHandler(waterGame, greetingService);
 		waterGame.umweltSchutzButton.addClickHandler(umweltClick);
 		measuresTable.setWidget(0, 1, waterGame.umweltSchutzButton);
-		measuresTable.setWidget(1, 0, waterGame.subventionenLabel);
+		subventionenpanel.add(waterGame.subventionenLabel);
+		subventionenpanel.addStyleName("measures");
+		measuresTable.setWidget(1, 0, subventionenpanel);
 		//measuresTable.setWidget(1, 0, waterGame.subventionenBeschreibung);
 		measuresTable.setWidget(1, 1, waterGame.subventionenButton);
 		measuresTable.setWidget(2, 0, waterGame.reformen);
@@ -810,8 +845,11 @@ public class MyStartButtonHandler implements ClickHandler {
 		measuresTable.setWidget(3, 0, waterGame.naturgefahrenSchutz);
 		//measuresTable.setWidget(3, 0, waterGame.naturkatastropheBeschreibung);
 		measuresTable.setWidget(3, 1, waterGame.naturkatastropheButton);
+		waterGame.measuresPanel.addStyleName("measures");
 		waterGame.measuresPanel.add(waterGame.titleMeasures);
+
 		waterGame.measuresPanel.add(measuresTable);
+		waterGame.measuresPanel.setHeight("300px");
 /*
 		HorizontalPanel hp1 = new HorizontalPanel();
 		hp1.add(waterGame.umweltSchutzLabel);

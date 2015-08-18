@@ -11,11 +11,16 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ConcludeTradeClickHandler implements ClickHandler {
 	WaterGame waterGame;
@@ -136,10 +141,111 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 		RootPanel.get("gamefield").setVisible(true);
 		RootPanel.get("validateButtonContainer").setVisible(true);
 		RootPanel.get("tradeContainer").setVisible(false);
+		
+		RootPanel.get("tradeContainer").setVisible(false);
+		RootPanel.get("gamefield").setVisible(true);
+		RootPanel.get("validateButtonContainer").setVisible(true);
+		//Zufallsereigniss hier aufrufen
+		System.out.println("BEFORE EVENT EXECUTED");
+		greetingService.executeEvent(waterGame.playerID, new AsyncCallback<String>() {
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				// TODO Auto-generated method stub
+				System.out.println("Event : "+ result );
+				//Window.alert(result);
+				DialogBox alertEvent = new DialogBox();
+				VerticalPanel contentAlertMessage = new VerticalPanel();
+				Label message = new Label(result);
+				OkEventAlertClickHandler okClickHandler = new OkEventAlertClickHandler(alertEvent);
+				Button okAlertMessageButton = new Button("OK");
+				okAlertMessageButton.addClickHandler(okClickHandler);
+				contentAlertMessage.add(message);
+				contentAlertMessage.add(okAlertMessageButton);
+				contentAlertMessage.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+				alertEvent.add(contentAlertMessage);
+				alertEvent.center();
+				alertEvent.show();
+				
+
+				greetingService.updateAndGetRessources(new AsyncCallback<ArrayList<Integer>>() {
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void onSuccess(ArrayList<Integer> result) {
+						System.out.println("Event method: "+ result);
+						System.out.println("New Rice amount client side: "+result.get(5));
+						int populationInt = result.get(3);
+						
+						// clear wirtschaft/lebensquali/umwelt/population/resourcen Panel
+						clearPanels();
+						// set new Values for indicators, ressources, knohow and population
+						setIndicatorValue(result);
+						setRessourceValueLW(result, populationInt);
+						setRessourceValueIndustrie(result, populationInt);
+						setKnowHowValue(result);
+						setPopulationValue(populationInt);
+						setBudgetValue(result.get(4));
+						
+						// fill the panels
+						fillWirtschaftskraftPanel(); 
+						fillLebensqualiPanel();
+						fillUmweltPanel();
+						fillPopulationPanel();
+						fillRessourcePanel();
+						fillBudgetPanel();
+						fillMeasuresPanel();
+						
+						greetingService.getCommonIndicator(new AsyncCallback<Integer>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onSuccess(Integer result) {
+								// TODO Auto-generated method stub
+								
+								HTML commonIndicatorHTML = new HTML("<progress value=\"" +  result + "\" max=\"100\">"
+										+  result + "% </progress>");
+								Label percentage = new Label(Integer.toString(result)+"%");
+
+								waterGame.commonIndikatorPanel.add(waterGame.commonIndikatorLabel);
+								waterGame.commonIndikatorPanel.add(commonIndicatorHTML);
+								waterGame.commonIndikatorPanel.add(percentage);
+								waterGame.commonIndikatorPanel.setCellVerticalAlignment(waterGame.commonIndikatorLabel, HasVerticalAlignment.ALIGN_MIDDLE);
+								waterGame.commonIndikatorPanel.setCellHorizontalAlignment(waterGame.commonIndikatorLabel, HasHorizontalAlignment.ALIGN_CENTER);
+								waterGame.commonIndikatorPanel.setCellVerticalAlignment(commonIndicatorHTML, HasVerticalAlignment.ALIGN_MIDDLE);
+								waterGame.commonIndikatorPanel.setCellHorizontalAlignment(commonIndicatorHTML, HasHorizontalAlignment.ALIGN_CENTER);
+								waterGame.commonIndikatorPanel.setCellVerticalAlignment(percentage, HasVerticalAlignment.ALIGN_MIDDLE);
+								waterGame.commonIndikatorPanel.setCellHorizontalAlignment(percentage, HasHorizontalAlignment.ALIGN_CENTER);
+
+								
+
+								
+							}
+						});
+					}
+				});
+			}
+		});
 		waterGame.tradeBox.clear();
 		waterGame.tradeRessourceBox.clear();
 		RootPanel.get("tradeContainer").clear();
-		
+		/*
 		greetingService.updateAndGetRessources(new AsyncCallback<ArrayList<Integer>>() {
 			
 			@Override
@@ -174,7 +280,7 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 			}
 			
 			
-		});
+		});*/
 		
 		
 		
@@ -185,6 +291,7 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 		waterGame.lebensQualitaetPanel.clear();
 		waterGame.wirtschaftsKraftPanel.clear();
 		waterGame.umweltFreundlichkeitPanel.clear();
+		waterGame.commonIndikatorPanel.clear();
 	}
 
 	void setIndicatorValue(ArrayList<Integer>result) {
@@ -791,6 +898,50 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 		return isChecked;
 		}
 	
+	void fillMeasuresPanel(){
+		//UmweltSchutz
+				Grid measuresTable = new Grid(4, 2);
+				measuresTable.setWidget(0, 0, waterGame.umweltSchutzLabel);
+				//measuresTable.setWidget(0, 0, waterGame.umweltSchutzBeschreibung);
+				measuresTable.setWidget(0, 1, waterGame.umweltSchutzButton);
+				measuresTable.setWidget(1, 0, waterGame.subventionenLabel);
+				//measuresTable.setWidget(1, 0, waterGame.subventionenBeschreibung);
+				measuresTable.setWidget(1, 1, waterGame.subventionenButton);
+				measuresTable.setWidget(2, 0, waterGame.reformen);
+				//measuresTable.setWidget(2, 0, waterGame.reformenBeschreibung);
+				measuresTable.setWidget(2, 1, waterGame.reformenButton);
+				measuresTable.setWidget(3, 0, waterGame.naturgefahrenSchutz);
+				//measuresTable.setWidget(3, 0, waterGame.naturkatastropheBeschreibung);
+				measuresTable.setWidget(3, 1, waterGame.naturkatastropheButton);
+				waterGame.measuresPanel.add(waterGame.titleMeasures);
+				waterGame.measuresPanel.add(measuresTable);
+		/*
+				HorizontalPanel hp1 = new HorizontalPanel();
+				hp1.add(waterGame.umweltSchutzLabel);
+				hp1.add(waterGame.umweltSchutzButton);
+				waterGame.measuresPanel.add(hp1);
+				waterGame.measuresPanel.add(waterGame.umweltSchutzBeschreibung);
+				// Subventionen
+				HorizontalPanel hp2 = new HorizontalPanel();
+				hp2.add(waterGame.subventionenLabel);
+				hp2.add(waterGame.subventionenButton);
+				waterGame.measuresPanel.add(hp2);
+				waterGame.measuresPanel.add(waterGame.subventionenBeschreibung);
+				//Reformen
+				HorizontalPanel hp3 = new HorizontalPanel();
+				hp3.add(waterGame.reformen);
+				hp3.add(waterGame.reformenButton);
+				waterGame.measuresPanel.add(hp3);
+				waterGame.measuresPanel.add(waterGame.reformenBeschreibung);
+				//Naturkatastrophen
+				HorizontalPanel hp4 = new HorizontalPanel();
+				hp4.add(waterGame.naturgefahrenSchutz);
+				hp4.add(waterGame.naturkatastropheButton);
+				waterGame.measuresPanel.add(hp3);
+				waterGame.measuresPanel.add(waterGame.naturkatastropheBeschreibung);
+				*/
+		
 
+	}
 
 }

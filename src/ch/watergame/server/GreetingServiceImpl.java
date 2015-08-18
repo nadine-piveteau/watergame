@@ -865,5 +865,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	    }
 		
 	}
+	@Override
+	public int getCommonIndicator(){
+		int indicator = (int)game.getCommonIndicator();
+		return indicator;
+	}
 
 }

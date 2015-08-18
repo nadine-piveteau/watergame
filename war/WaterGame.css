@@ -25,10 +25,16 @@ h1 {
 }
 
 .h4{
-	line-height: 5pt;
+
+	margin: 0px;
+	padding: 0px;
 }
 .h5{
-	line-height: 2pt;
+	line-height: 70%;
+}
+.measures{
+	margin: 0px;
+	padding: 0px;
 }
 .serverResponseLabelError {
   color: red;

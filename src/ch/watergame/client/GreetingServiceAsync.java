@@ -38,6 +38,7 @@ public interface GreetingServiceAsync {
 	void executeMeasures(int[] measures, AsyncCallback<Void> callback);
 	void getRoundNR(AsyncCallback<Integer> callback);
 	void executeEvent(int playerID, AsyncCallback<String> callback);
+	void getCommonIndicator(AsyncCallback<Integer> callback);
 	
 
 }
