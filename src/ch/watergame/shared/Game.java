@@ -21,7 +21,7 @@ public class Game {
 		if (playerlist.size() == 0) {
 			GameField gameField1 = new GameField();
 			gameField1.setGameFieldforPlayer(1);
-			Player player = new Player(34, 34, 135, (((double)34/135)*100) ,68,68, 172, (( (double)68/172 )*100), 33,33,58,(((double)33/58)*100), 4000,500,1,250,250,250,250,250,250,250,250,250,gameField1, 500);
+			Player player = new Player(34, 34, 135, (((double)34/135)*100) ,68,68, 172, (( (double)68/172 )*100), 33,33,58,(((double)33/58)*100), 400,500,1,250,250,250,250,250,250,250,250,250,gameField1, 500);
 			playerlist.add(player);
 			
 		} else if (playerlist.size() == 1) {
@@ -92,6 +92,72 @@ public class Game {
 		player.setFish(player.getFish()- (nrOfFisch*FieldType.FISCH.getErtragRessourcen())-(nrOfFischBio*FieldType.FISHBIO.getErtragRessourcen()));
 	}
 	
+	public void halfLossLW(Player player){
+		GameField gameFieldGame = player.getGamefield();
+		int nrOfRice = gameFieldGame.getNrofRice();
+		int nrOfRiceBio = gameFieldGame.getNrofRiceBio();
+		int nrOfTee = gameFieldGame.getNrofTee();
+		int nrOfTeeBio= gameFieldGame.getNrofTeeBio();
+		int nrOfZucker = gameFieldGame.getNrofZucker();
+		int nrOfZuckerBio = gameFieldGame.getNrofZuckerBio();
+		int nrOfFisch = gameFieldGame.getNrofFisch();
+		int nrOfFischBio = gameFieldGame.getNrofFischBio();
+		System.out.println("VOR DER DèRRE 2: "+player.getRize());
+		System.out.println("Player ID: "+player.id);
+		int test = player.getRize()-(nrOfRice*FieldType.RICE.getErtragRessourcen())-(nrOfRiceBio*FieldType.RICEBIO.getErtragRessourcen());
+		int testGetRize = player.getRize();
+		int testRice = nrOfRice*FieldType.RICE.getErtragRessourcen();
+		int testRiceBio = nrOfRiceBio*FieldType.RICEBIO.getErtragRessourcen();
+		
+		System.out.println("TEST RICE: "+test+ " , getRize(): "+ testGetRize +" nrOfRice: "+ nrOfRice +", Ertrag Rice: "+FieldType.RICE.getErtragRessourcen()+", testRice: "+testRice+" , testRiceBio: "+testRiceBio );
+		System.out.println();
+		player.setRize(player.getRize()-(nrOfRice*(FieldType.RICE.getErtragRessourcen()/2))-(nrOfRiceBio*(FieldType.RICEBIO.getErtragRessourcen()/2)));
+		System.out.println("NACH DER DèRRE 2: "+player.getRize());
+		player.setThe(player.getThe()-(nrOfTee*(FieldType.TEE.getErtragRessourcen()/2))-(nrOfTeeBio*(FieldType.RICEBIO.getErtragRessourcen()/2)));
+		player.setSugar(player.getSugar()-(nrOfZucker*(FieldType.ZUCKER.getErtragRessourcen()/2))-(nrOfZuckerBio*(FieldType.ZUCKERBIO.getErtragRessourcen()/2)));
+		player.setFish(player.getFish()- (nrOfFisch*(FieldType.FISCH.getErtragRessourcen()/2))-(nrOfFischBio*(FieldType.FISHBIO.getErtragRessourcen()/2)));
+	}
+	
+	
+	public int deduceBudget(double percentage, Player player){
+		int oldBudget=player.getBudget();
+		System.out.println("Old Budget: "+oldBudget);
+		player.setBudget((int) (oldBudget-(oldBudget*percentage)));
+		System.out.println("New Budget: "+ player.getBudget());
+		return oldBudget-player.getBudget();
+		
+	}
+	
+	public int addBudget(double percentage, Player player){
+		int oldBudget=player.getBudget();
+		System.out.println("Old Budget: "+oldBudget);
+		player.setBudget((int) (oldBudget+(oldBudget*percentage)));
+		System.out.println("New Budget: "+ player.getBudget());
+		return player.getBudget()-oldBudget;
+	}
+	
+	public int deduceWirtschaftskraft(double percentage, Player player){
+		int oldWirtschaftskraft=player.getInitialIndicatorWirtschaft();
+		System.out.println("Old Wirtschaftskraft: "+oldWirtschaftskraft);
+		player.initialIndicatorWirtschaft = ((int) (oldWirtschaftskraft-(oldWirtschaftskraft*percentage)));
+		System.out.println("New Wirtschaftskraft: "+ player.getPercentualIndicatorWirtschaft());
+		return (int)((player.initialIndicatorWirtschaft-oldWirtschaftskraft)/player.getMaxWirtschaft());
+	}
+	
+	public void addUmweltIndikator(double percentage, Player player){
+		int oldUmweltIndikator = player.getInitialIndicatorUmwelt();
+		System.out.println("Old UmweltFreundlichkeit: "+oldUmweltIndikator);
+		player.initialIndicatorUmwelt = ((int)(oldUmweltIndikator+(oldUmweltIndikator*percentage)));
+		System.out.println("new UmweltFreundlichkeit: "+player.getUmweltfreundlichkeit());
+
+	}
+	public void addLebensquali(double percentage, Player player){
+		int oldLebensquali = player.getInitialIndicatorLebensquali();
+		System.out.println("oldLebensquali: "+oldLebensquali);
+		player.initialIndicatorLebensquali = ((int)(oldLebensquali+(oldLebensquali*percentage)));
+		System.out.println("new Lebensquali: "+player.getLebensQuali());
+
+	}
 	
 	public double getCommonIndicator(){
 		int counter = 0;

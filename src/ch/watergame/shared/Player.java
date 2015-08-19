@@ -27,6 +27,7 @@ public class Player {
 	int population;
 	int basepopulation;
 	int id;
+	boolean naturkatastrophenSchutz = false;
 	
 
 	//Landwirtschaft	

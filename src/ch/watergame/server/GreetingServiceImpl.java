@@ -384,7 +384,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 			calculateIndicatorLebensquali();
 			calculateIndicatorUmweltfreundlichkeit();
 			calculateIndicatorWirtschaftskraft();
-			calculatePopulation();
+			calculatePopulation();   
 		}
 
 		arrayList = getRessource(game.getPlayingPlayer());
@@ -395,13 +395,13 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	public void calculateNewBudget() {
 		int sum = 0;
 		Player player = game.playerlist.get(game.getPlayingPlayer() - 1);
-		FieldType[][] field = player.getGamefield().getGameField();
-		for (int row = 0; row < 11; row++) {
-			for (int col = 0; col < 15; col++) {
-				FieldType cell = field[row][col];
-				sum = sum + cell.getErtragBudget();
+			FieldType[][] field = player.getGamefield().getGameField();
+			for (int row = 0; row < 11; row++) {
+				for (int col = 0; col < 15; col++) {
+					FieldType cell = field[row][col];
+					sum = sum + cell.getErtragBudget();
+				}
 			}
-		}
 		player.setBudget(player.getBudget() + sum);
 
 	}
@@ -599,7 +599,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 				if (cell == FieldType.TEE) {
 					sumTEE = sumTEE + cell.getErtragRessourcen();
 				}
-				if (cell == FieldType.ZUCKER) {
+				if (cell == FieldType.ZUCKER&&player.getPercentualUmwelt()>10) {
 					sumZUCKER = sumZUCKER + cell.getErtragRessourcen();
 				}
 				if (cell == FieldType.FISCH) {
@@ -734,8 +734,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		if(tradeToExecute.exportGood.equals("Zucker")){
 			partnerA.setSugar(partnerA.getSugar()-tradeToExecute.exportAmount);
 			partnerB.setSugar(partnerB.getSugar()+tradeToExecute.exportAmount);
-
-
 		}
 		if(tradeToExecute.exportGood.equals("Fisch")){
 			partnerA.setFish(partnerA.getFish()-tradeToExecute.exportAmount);
@@ -822,8 +820,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	public String executeEvent(int playerID){
 		
 		Random rand = new Random();
+		//Test
+		int randomNum = 2;
 		//Min + (int)(Math.random() * ((Max - Min) + 1))
-	    int randomNum = 1;
 		//int randomNum = 1 + (int)(Math.random() * ((10 - 1) + 1));
 	    // Dürre: Kein Ertrag in der Landwirtschaft
 	    //Lebensqualität nimmt ab
@@ -836,34 +835,75 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	    //Dürre: Kein Ertrag, 
 	    //Budget: Beschädigte Häuser
 	    else if(randomNum == 2){
-	    	return "überschwemmung";
+	    	game.halfLossLW(player);
+	    	int lossBudget = game.deduceBudget(0.15, player);
+	    	return "überschwemmung Budget - "+Integer.toString(lossBudget);
+	    	
 	    }
 	    //Grundwasservergiftung
 	    //Keine: Erträge
 	    //Budget: 
 	    else if(randomNum == 3){
-	    	return "Grundwasservergiftung ";
+	    	if(player.getId()==2||player.getId()==3){
+	    		game.lossLW(player);
+	    		int lossBudget = game.deduceBudget(0.05, player);
+	    		return "Grund- und Trinkwasservergiftung ";
+	    	}else{
+	    		return null;
+	    	} 	
 	    }
 	    
 	    //Zyklone und dadurch bedingte Flutwellen, nur für Kalkuta
 	    else if(randomNum == 4){
-	    	return"Flutwelle";
+	    	if(player.getId()==4){
+	    		int lossBudget = game.deduceBudget(0.3, player);
+	    		int lossWirtschaft = game.deduceWirtschaftskraft(0.05, player);
+	    		return"Flutwelle";
+	    	}
+	    	else{
+	    		return null;
+	    	}
 	    }
 	    //Erdbeben 
 	    else if(randomNum == 5){
-	    	return "Erdbeben";
+	    	if(player.getId() == 1){
+	    		int lossBudget = game.deduceBudget(0.3, player);
+	    		int lossWirtschaft = game.deduceWirtschaftskraft(0.05, player);
+	    		return "Erdbeben";
+	    	}else{
+	    		return null;
+	    	}
 	    }
-	    //Verseuchtes Trinkwasse
+	    //Erdrutsch
 	    else if(randomNum ==6){
-	    	return"Trinkwasser";
+	    	if(player.getId() == 1){
+	    		int lossBudget = game.deduceBudget(0.3, player);
+	    		int lossWirtschaft = game.deduceWirtschaftskraft(0.05, player);//Begründung Tourismus: Ihre Wirtschaftskraft leidet unter den fehlenden TOuristen.
+	    		return"Erdrutsch";
+	    	}else{
+	    		return null;
+	    	}
 	    }
 	    else if(randomNum == 7){
+	    	if(player.getId()==2||player.getId()==3){
+	    		game.lossLW(player);
 	    	return "Grundwasserspiegel tief";
+	    	}else{
+	    		return null;
+	    	}
+	    }
+	    else if(randomNum == 8){
+	    	if(player.getId()==1){
+	    		game.addBudget(0.2, player);
+	    		return "finanzielleUnterstützung von Dehli";
+	    	}else{
+	    		return null;
+	    	}
 	    }
 	    else{
 	    	return null;
 	    }
-		
+	    
 	}
 	@Override
 	public int getCommonIndicator(){

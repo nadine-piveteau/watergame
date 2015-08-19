@@ -89,6 +89,8 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 		}
 		
 		for (Trade tradeToExecute:tradeList){
+			System.out.println("TRADE");
+			System.out.println(tradeToExecute.partnerAID);
 		greetingService.executeTradeContract(tradeToExecute, new AsyncCallback<Void>(){
 
 			@Override
