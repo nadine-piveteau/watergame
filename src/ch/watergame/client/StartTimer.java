@@ -20,7 +20,7 @@ public class StartTimer extends Timer {
 	public void run() {
 		greetingService.checkNrPlayer(new AsyncCallback<String>() {
 			public void onSuccess(String result) {
-				if (result.equals("2")) {
+				if (result.equals("4")) {
 					greetingService.isMyTurn(new AsyncCallback<TradeResult>() {
 
 						@Override
@@ -29,6 +29,7 @@ public class StartTimer extends Timer {
 
 						@Override
 						public void onSuccess(TradeResult result) {
+							System.out.println("IS MY TURN"+ result.myTurn);
 							if (result.myTurn == true) {
 								RootPanel.get("sendButtonContainer").clear();
 								RootPanel.get("instructionButtonContainer").clear();

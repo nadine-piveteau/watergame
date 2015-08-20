@@ -28,6 +28,8 @@ public class Player {
 	int basepopulation;
 	int id;
 	private boolean naturkatastrophenSchutz = false;
+	private final int grundbedarfProKopfLW = 2;
+	private final int grundbedarfProKopfIndustrie = 3;
 	
 
 	//Landwirtschaft	
@@ -345,6 +347,14 @@ else if(ressource.equals("Fisch")){
 
 	public void setNaturkatastrophenSchutz(boolean naturkatastrophenSchutz) {
 		this.naturkatastrophenSchutz = naturkatastrophenSchutz;
+	}
+
+	public int getGrundbedarfProKopfLW() {
+		return grundbedarfProKopfLW;
+	}
+
+	public int getGrundbedarfProKopfIndustrie() {
+		return grundbedarfProKopfIndustrie;
 	}
 	
 

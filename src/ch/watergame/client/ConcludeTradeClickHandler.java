@@ -307,31 +307,31 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 
 	void setRessourceValueLW(ArrayList<Integer>result, int populationInt) {
 		int rizeValueInt = result.get(5);
-		int rizeNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
+		waterGame.rizeNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
 		int theValueInt = result.get(6);
-		int theNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
+		waterGame.theNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
 		int sugarValueInt = result.get(7);
-		int sugarNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
+		waterGame.sugarNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
 		int fishValueInt = result.get(8);
-		int fishNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
-		waterGame.rizeValue = new Label("Reis: \t" + Integer.toString(rizeValueInt) + "/" + Integer.toString(rizeNeededInt));
-		waterGame.fishValue = new Label("Fisch: \t" + Integer.toString(fishValueInt) + "/" + Integer.toString(fishNeededInt));
-		waterGame.sugarValue = new Label("Zucker: \t" + Integer.toString(sugarValueInt) + "/" + Integer.toString(sugarNeededInt));
-		waterGame.teaValue = new Label("Tee: \t" + Integer.toString(theValueInt) + "/" + Integer.toString(theNeededInt));
+		waterGame.fishNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
+		waterGame.rizeValue = new Label("Reis: \t" + Integer.toString(rizeValueInt) + "/" + Integer.toString(waterGame.rizeNeededInt));
+		waterGame.fishValue = new Label("Fisch: \t" + Integer.toString(fishValueInt) + "/" + Integer.toString(waterGame.fishNeededInt));
+		waterGame.sugarValue = new Label("Zucker: \t" + Integer.toString(sugarValueInt) + "/" + Integer.toString(waterGame.sugarNeededInt));
+		waterGame.teaValue = new Label("Tee: \t" + Integer.toString(theValueInt) + "/" + Integer.toString(waterGame.theNeededInt));
 
 	}
 
 	void setRessourceValueIndustrie(ArrayList<Integer>result, int populationInt) {
 		int lederValueInt = result.get(9);
-		int lederNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
+		waterGame.lederNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
 		int textilValueInt = result.get(10);
-		int textilNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
+		waterGame.textilNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
 		int itValueInt = result.get(11);
-		int itNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
+		waterGame.itNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
 		int budgetInt = result.get(4);
-		waterGame.lederValue = new Label("Leder: \t" + Integer.toString(lederValueInt) + "/" + Integer.toString(lederNeededInt));
-		waterGame.textilValue = new Label("Textilien: \t" + Integer.toString(textilValueInt) + "/" + Integer.toString(textilNeededInt));
-		waterGame.itValue = new Label("IT: \t" + Integer.toString(itValueInt) + "/" + Integer.toString(itNeededInt));
+		waterGame.lederValue = new Label("Leder: \t" + Integer.toString(lederValueInt) + "/" + Integer.toString(waterGame.lederNeededInt));
+		waterGame.textilValue = new Label("Textilien: \t" + Integer.toString(textilValueInt) + "/" + Integer.toString(waterGame.textilNeededInt));
+		waterGame.itValue = new Label("IT: \t" + Integer.toString(itValueInt) + "/" + Integer.toString(waterGame.itNeededInt));
 	}
 
 	void setKnowHowValue(ArrayList<Integer>result) {

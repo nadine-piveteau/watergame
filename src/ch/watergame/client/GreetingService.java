@@ -38,6 +38,7 @@ public interface GreetingService extends RemoteService {
 	int getRoundNR();
 	String executeEvent(int playerID);
 	int getCommonIndicator();
+	void setNaturkatastrophenSchutz(int playerID, boolean b);
 
 
 }

@@ -16,7 +16,7 @@ public class ValidatorHandler implements ClickHandler {
 	WaterGame waterGame;
 	GreetingServiceAsync greetingService;
 	int counterRizeFields = 0;
-	int[] measures = new int[4];
+	int[] measures = {0,0,0};
 	boolean checkTrade1 = false;
 	boolean checkTrade2 = false;
 	boolean checkTrade3 = false;
@@ -619,6 +619,9 @@ public class ValidatorHandler implements ClickHandler {
 			@Override
 			public void onSuccess(Void result) {
 				System.out.println("Measures executed");
+				waterGame.activeNaturkatastrophen = false;
+				waterGame.activeReformen = false;
+				waterGame.activeUmweltschutz = false;
 			}
 		});
 
@@ -631,6 +634,7 @@ public class ValidatorHandler implements ClickHandler {
 
 			@Override
 			public void onSuccess(Void result) {
+				System.out.println("Switchtimer started! for player"+ waterGame.getPlayerID());
 				waterGame.startSwitchTimer();
 
 			}

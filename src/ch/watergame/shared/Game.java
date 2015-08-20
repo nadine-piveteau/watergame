@@ -7,7 +7,7 @@ import ch.watergame.shared.GameField.FieldType;
 
 public class Game {
 	public ArrayList<Player> playerlist = new ArrayList<Player>();
-	public final int MAXPLAYER = 2;
+	public final int MAXPLAYER = 4;
 	public int playingPlayer = 1;
 	private int spielWechsel = 0;
 	private int gameRound = 1;
@@ -30,12 +30,12 @@ public class Game {
 			Player player = new Player(60,60,150, (( (double)60/150)*100), 120,120,300,(((double)120/300)*100),40,40,100,(((double)40/100)*100),1000,1000,2,300,300,300,300,300,300,300,300,300, gameField2, 1000);
 			playerlist.add(player);
 
-		} else if (playerlist.size() == 3) {
+		} else if (playerlist.size() == 2) {
 			GameField gameField3 = new GameField();
 			gameField3.setGameFieldforPlayer(3);
 			Player player = new Player(40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40,1500,2000,3,500,500,500,500,500,500,500,500,500,gameField3, 2000);
 			playerlist.add(player);
-		} else if (playerlist.size() == 4) {
+		} else if (playerlist.size() == 3) {
 			GameField gameField4 = new GameField();
 			gameField4.setGameFieldforPlayer(4);
 			Player player = new Player(40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40,3000,4000,4,600,600,600,600,600,600,600,600,600,gameField4, 4000);

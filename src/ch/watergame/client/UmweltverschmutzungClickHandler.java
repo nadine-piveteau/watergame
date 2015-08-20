@@ -11,84 +11,75 @@ public class UmweltverschmutzungClickHandler implements ClickHandler {
 	GreetingServiceAsync greetingService;
 	ValidatorHandler validator;
 
-	
-	
-	public UmweltverschmutzungClickHandler(WaterGame waterGame, GreetingServiceAsync greetingService ) {
+	public UmweltverschmutzungClickHandler(WaterGame waterGame,
+			GreetingServiceAsync greetingService) {
 		super();
 		this.waterGame = waterGame;
 		this.greetingService = greetingService;
-		
-	}
 
+	}
 
 	@Override
 	public void onClick(ClickEvent event) {
-		if((waterGame.budgetValueInt-waterGame.preisReformen)>0){
+		if ((waterGame.budgetValueInt - waterGame.preisReformen) > 0) {
 
-		// TODO Auto-generated method stub
-		//checkbox nicht angewählt
-		if(waterGame.umweltSchutzButton.getValue()==false){
-			waterGame.activeUmweltschutz = false;
-			System.out.println("Keine Massnahmen");
-			greetingService.refreshBudget(waterGame.getPlayerID(),
-					waterGame.preisUmweltverschmutzung*(-1),
-					new AsyncCallback<String>() {
+			// TODO Auto-generated method stub
+			// checkbox nicht angewählt
+			if (waterGame.umweltSchutzButton.getValue() == false) {
+				waterGame.activeUmweltschutz = false;
+				System.out.println("Keine Massnahmen");
+				greetingService.refreshBudget(waterGame.getPlayerID(),
+						waterGame.preisUmweltverschmutzung * (-1),
+						new AsyncCallback<String>() {
 
-						@Override
-						public void onFailure(
-								Throwable caught) {
-							System.out
-									.println("Failed to refresh Budget");
-						}
+							@Override
+							public void onFailure(Throwable caught) {
+								System.out.println("Failed to refresh Budget");
+							}
 
-						@Override
-						public void onSuccess(
-								String result) {
-							waterGame.budgetPanel
-									.remove(waterGame.budgetValue);
-							waterGame.budgetValue = new Label(
-									result);
-							waterGame.budgetPanel
-									.add(waterGame.budgetValue);
-						}
+							@Override
+							public void onSuccess(String result) {
+								waterGame.budgetPanel
+										.remove(waterGame.budgetValue);
+								waterGame.budgetValue = new Label(result);
+								waterGame.budgetPanel
+										.add(waterGame.budgetValue);
+							}
 
-					});
-			
-		}
-		//checkbox angewählt
-		else{
-			if((Integer.parseInt(waterGame.budgetValue.toString())-waterGame.preisUmweltverschmutzung)>0){
+						});
 
-			waterGame.activeUmweltschutz = true;
-			System.out.println("Massnahmen");
-			greetingService.refreshBudget(waterGame.getPlayerID(),
-					waterGame.preisUmweltverschmutzung,
-					new AsyncCallback<String>() {
-
-						@Override
-						public void onFailure(
-								Throwable caught) {
-							System.out
-									.println("Failed to refresh Budget");
-						}
-
-						@Override
-						public void onSuccess(
-								String result) {
-							waterGame.budgetPanel
-									.remove(waterGame.budgetValue);
-							waterGame.budgetValue = new Label(
-									result);
-							waterGame.budgetPanel
-									.add(waterGame.budgetValue);
-						}
-
-					});
-			}else{
-				Window.alert("Du hast nicht genügend Ressourcen. ");
 			}
-		}
-		}else{
+			// checkbox angewählt
+			else {
+				if ((waterGame.budgetValueInt - waterGame.preisUmweltverschmutzung) > 0) {
+
+					waterGame.activeUmweltschutz = true;
+					System.out.println("Massnahmen");
+					greetingService.refreshBudget(waterGame.getPlayerID(),
+							waterGame.preisUmweltverschmutzung,
+							new AsyncCallback<String>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									System.out
+											.println("Failed to refresh Budget");
+								}
+
+								@Override
+								public void onSuccess(String result) {
+									waterGame.budgetPanel
+											.remove(waterGame.budgetValue);
+									waterGame.budgetValue = new Label(result);
+									waterGame.budgetPanel
+											.add(waterGame.budgetValue);
+								}
+
+							});
+				} else {
+					Window.alert("Du hast nicht genügend Ressourcen. ");
+				}
+			}
+		} else {
 			waterGame.umweltSchutzButton.setValue(false);
 			Window.alert("Du hast nicht genügend Ressourcen");
 		}

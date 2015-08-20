@@ -49,10 +49,30 @@ public class MyStartButtonHandler implements ClickHandler {
 			}
 
 			public void onSuccess(String result) {
+				
 				waterGame.setplayerID(Integer.parseInt(result.substring(0, 1)));
 				DialogBox waitingBox = new DialogBox();
 				waitingBox.setText(result.substring(1));
 				RootPanel.get("waitingBoxContainer").add(waitingBox);
+				Label name = null;
+				if(Integer.parseInt(result.substring(0, 1)) ==1){
+					name = new Label("Chamoli");
+				}else if(Integer.parseInt(result.substring(0, 1))  == 2){
+					name = new Label("Kampur");
+				}else if(Integer.parseInt(result.substring(0, 1)) ==3){
+					name = new Label("Varanasi");
+				}else if(Integer.parseInt(result.substring(0, 1))  ==4){
+					name = new Label("Kalkuta");
+				}
+				waterGame.roundPanel.add(waterGame.roundCounter);
+				waterGame.roundPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+				//roundPanel.setHeight("70px");
+				//roundPanel.setWidth("350px");
+				//fieldsAndRoundCounter.add(roundPanel);
+				waterGame.nameAndRoundPanel.add(name);
+				waterGame.nameAndRoundPanel.add(waterGame.roundPanel);
+				waterGame.nameAndRoundPanel. setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+				 
 				greetingService.getGameField(waterGame.getPlayerID(), new AsyncCallback<GameField>() {
 
 					@Override
@@ -455,10 +475,20 @@ public class MyStartButtonHandler implements ClickHandler {
 								tp.add(gridBildung, "Bildung", 40);
 								tp.setWidth("300px");
 								tp.setHeight("600px");
+								HorizontalPanel removeFieldButton = new HorizontalPanel();
+								Image removeField = new Image();
+								removeField.setUrl("remove.jpg");
+								removeField.setSize("50px", "50px");
+								RemoveClickHandler removeClickHandler = new RemoveClickHandler(greetingService, waterGame);
+								removeField.addClickHandler(removeClickHandler);
+								removeFieldButton.add(removeField);
+								removeFieldButton.setStyleName("panel");
 								waterGame.fieldsPanel.add(tp);
+								waterGame.fieldsPanel.add(removeFieldButton);
 								waterGame.fieldsPanel.setCellVerticalAlignment(tp, HasVerticalAlignment.ALIGN_TOP);
 								waterGame.fieldsPanel.setCellHorizontalAlignment(tp,HasHorizontalAlignment.ALIGN_CENTER);
-								waterGame.commonIndikatorPanel.setWidth("700px");
+								waterGame.commonIndikatorPanel.setWidth("800px");
+								
 								
 								
 								//waterGame.fieldsPanel.setCellVerticalAlignment(tp, HasVerticalAlignment.ALIGN_TOP);
@@ -532,7 +562,7 @@ public class MyStartButtonHandler implements ClickHandler {
 								waterGame.fieldsPanel.addStyleName("panel");
 								waterGame.tradePanel.addStyleName("panel");
 								waterGame.measuresPanel.addStyleName("panel");
-								waterGame.roundPanel.addStyleName("panel");
+								waterGame.nameAndRoundPanel.addStyleName("panel");
 								waterGame.commonIndikatorPanel.addStyleName("panel");
 								waterGame.validateButtonPanel.addStyleName("panel");
 							}
@@ -546,6 +576,7 @@ public class MyStartButtonHandler implements ClickHandler {
 			}
 		});
 		waterGame.t = new StartTimer(greetingService, waterGame);
+		System.out.println("Start Timer added to player"+ waterGame.getPlayerID());
 		waterGame.t.scheduleRepeating(500);
 	}
 
@@ -715,17 +746,17 @@ public class MyStartButtonHandler implements ClickHandler {
 
 	void setRessourceValueLW(ArrayList<Integer>result, int populationInt) {
 		int rizeValueInt = result.get(5);
-		int rizeNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
+		waterGame.rizeNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
 		int theValueInt = result.get(6);
-		int theNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
+		waterGame.theNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
 		int sugarValueInt = result.get(7);
-		int sugarNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
+		waterGame.sugarNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
 		int fishValueInt = result.get(8);
-		int fishNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
-		waterGame.rizeValue = new Label("Reis: \t" + Integer.toString(rizeValueInt) + "/" + Integer.toString(rizeNeededInt));
-		waterGame.fishValue = new Label("Fisch: \t" + Integer.toString(fishValueInt) + "/" + Integer.toString(fishNeededInt));
-		waterGame.sugarValue = new Label("Zucker: \t" + Integer.toString(sugarValueInt) + "/" + Integer.toString(sugarNeededInt));
-		waterGame.teaValue = new Label("Tee: \t" + Integer.toString(theValueInt) + "/" + Integer.toString(theNeededInt));
+		waterGame.fishNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
+		waterGame.rizeValue = new Label("Reis: \t" + Integer.toString(rizeValueInt) + "/" + Integer.toString(waterGame.rizeNeededInt));
+		waterGame.fishValue = new Label("Fisch: \t" + Integer.toString(fishValueInt) + "/" + Integer.toString(waterGame.fishNeededInt));
+		waterGame.sugarValue = new Label("Zucker: \t" + Integer.toString(sugarValueInt) + "/" + Integer.toString(waterGame.sugarNeededInt));
+		waterGame.teaValue = new Label("Tee: \t" + Integer.toString(theValueInt) + "/" + Integer.toString(waterGame.theNeededInt));
 		waterGame.rizeValueInteger = rizeValueInt;
 		waterGame.teaValueInteger = theValueInt;
 		waterGame.fishValueInteger = fishValueInt;
@@ -735,15 +766,15 @@ public class MyStartButtonHandler implements ClickHandler {
 
 	void setRessourceValueIndustrie(ArrayList<Integer>result, int populationInt) {
 		int lederValueInt = result.get(9);
-		int lederNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
+		waterGame.lederNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
 		int textilValueInt = result.get(10);
-		int textilNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
+		waterGame.textilNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
 		int itValueInt = result.get(11);
-		int itNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
+		waterGame.itNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
 		int budgetInt = result.get(4);
-		waterGame.lederValue = new Label("Leder: \t" + Integer.toString(lederValueInt) + "/" + Integer.toString(lederNeededInt));
-		waterGame.textilValue = new Label("Textilien: \t" + Integer.toString(textilValueInt) + "/" + Integer.toString(textilNeededInt));
-		waterGame.itValue = new Label("IT: \t" + Integer.toString(itValueInt) + "/" + Integer.toString(itNeededInt));
+		waterGame.lederValue = new Label("Leder: \t" + Integer.toString(lederValueInt) + "/" + Integer.toString(waterGame.lederNeededInt));
+		waterGame.textilValue = new Label("Textilien: \t" + Integer.toString(textilValueInt) + "/" + Integer.toString(waterGame.textilNeededInt));
+		waterGame.itValue = new Label("IT: \t" + Integer.toString(itValueInt) + "/" + Integer.toString(waterGame.itNeededInt));
 		waterGame.lederValueInteger = lederValueInt;
 		waterGame.textilValueInteger = lederValueInt;
 		waterGame.itValueInteger = itValueInt;

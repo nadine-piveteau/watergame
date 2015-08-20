@@ -90,6 +90,7 @@ public class WaterGame implements EntryPoint {
 		VerticalPanel populationPanel = new VerticalPanel();
 		VerticalPanel budgetPanel = new VerticalPanel();
 		VerticalPanel fieldsAndRoundCounter = new VerticalPanel();
+		HorizontalPanel nameAndRoundPanel = new HorizontalPanel();
 		
 
 		// indicators Label
@@ -220,6 +221,14 @@ public class WaterGame implements EntryPoint {
 		Image uniImage = new Image();
 		final int uniPrice = 100;
 		final int uniPriceRemove = -100;
+		//expected ressources
+		int rizeNeededInt;
+		int theNeededInt;
+		int sugarNeededInt;
+		int fishNeededInt;
+		int lederNeededInt;
+		int textilNeededInt;
+		int itNeededInt;
 		
 
 		// BOTTOM PANEL-----------------------------------------
@@ -282,6 +291,10 @@ public class WaterGame implements EntryPoint {
 		RootPanel.get("NotYourTurn").setVisible(false);
 		RootPanel.get("validateButtonContainer").setVisible(false);
 		
+	
+		
+		
+		RootPanel.get("name").add(nameAndRoundPanel);
 		// put Gamefield together
 				// Header Panel
 				putWirtschaftskraftPanel();
@@ -323,10 +336,7 @@ public class WaterGame implements EntryPoint {
 				fieldsPanel.setCellHorizontalAlignment(fieldsTitle, HasHorizontalAlignment.ALIGN_CENTER);
 				fieldsPanel.setSize("350px", "650px");
 				fieldsAndRoundCounter.add(fieldsPanel);
-				roundPanel.add(roundCounter);
-				roundPanel.setHeight("70px");
-				roundPanel.setWidth("350px");
-				fieldsAndRoundCounter.add(roundPanel);
+				
 				mainPanel.add(ressourcePanel);
 				mainPanel.add(ressourceTradePanel);
 				mainPanel.add(gamegridPanel);
