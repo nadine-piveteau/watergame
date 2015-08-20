@@ -218,26 +218,27 @@ public class MyStartButtonHandler implements ClickHandler {
 								System.out.println("Ladebalken: "+ Integer.toString(wirtschaftsIndicatorInt) );
 								waterGame.populationValue = new Label(Integer.toString(populationInt));
 								HTML wirtschaftsHTML = new HTML("<progress value=\"" +  Integer.toString(wirtschaftsIndicatorInt) + "\" max=\"100\">"
-										+  Integer.toString(wirtschaftsIndicatorInt) + "% </progress>");
-								Label percentageWirtschaft = new Label(wirtschaftsIndicatorInt+ "%");
+										+  Integer.toString(wirtschaftsIndicatorInt) + "</progress>");
+								Label percentageWirtschaft = new Label(Integer.toString(wirtschaftsIndicatorInt));
 								System.out.println("Integer.toString(wirtschaftsIndicatorInt): "+Integer.toString(wirtschaftsIndicatorInt));
 								waterGame.wirtschaftsKraftPanel.add(wirtschaftsHTML);
 								waterGame.wirtschaftsKraftPanel.add(percentageWirtschaft);
 								waterGame.wirtschaftsKraftPanel.setCellHorizontalAlignment(wirtschaftsHTML, HasHorizontalAlignment.ALIGN_CENTER);
 								HTML lebensQualiHTML = new HTML("<progress value=\"" +  Integer.toString(lebensqualiIndicatorInt) + "\" max=\"100\">"
-										+  Integer.toString(lebensqualiIndicatorInt) + "% </progress>");
-								Label percentageLebensquali = new Label(lebensqualiIndicatorInt+"%");
+										+  Integer.toString(lebensqualiIndicatorInt) + "</progress>");
+								Label percentageLebensquali = new Label(Integer.toString(lebensqualiIndicatorInt));
 								waterGame.lebensQualitaetPanel.add(lebensQualiHTML);
 								waterGame.lebensQualitaetPanel.add(percentageLebensquali);
 								waterGame.lebensQualitaetPanel.setCellHorizontalAlignment(lebensQualiHTML, HasHorizontalAlignment.ALIGN_CENTER);
 								HTML umweltHTML = new HTML("<progress value=\"" + Integer.toString(umweltIndicatorInt) + "\" max=\"100\">"
-										+ Integer.toString(umweltIndicatorInt) + "% </progress>");
-								Label percentageUmwelt = new Label(umweltIndicatorInt + "%");
+										+ Integer.toString(umweltIndicatorInt) + "</progress>");
+								Label percentageUmwelt = new Label(Integer.toString(umweltIndicatorInt));
 								waterGame.umweltFreundlichkeitPanel.add(umweltHTML);
 								waterGame.umweltFreundlichkeitPanel.add(percentageUmwelt);
 								waterGame.umweltFreundlichkeitPanel.setCellHorizontalAlignment(umweltHTML, HasHorizontalAlignment.ALIGN_CENTER);
 								
 								waterGame.budgetValue = new Label(Integer.toString(budgetInt));
+								waterGame.budgetValueInt = budgetInt;
 								
 								waterGame.ressourcePanel.setSpacing(0);
 								waterGame.ressourcePanel.add(waterGame.rizeValue);
@@ -501,8 +502,8 @@ public class MyStartButtonHandler implements ClickHandler {
 									public void onSuccess(Integer result) {
 										// TODO Auto-generated method stub
 										HTML commonIndicatorHTML = new HTML("<progress value=\"" +  result + "\" max=\"100\">"
-												+  result + "% </progress>");
-										Label percentage = new Label(Integer.toString(result)+"%");
+												+  result + "</progress>");
+										Label percentage = new Label(Integer.toString(result));
 										waterGame.commonIndikatorPanel.add(commonIndicatorHTML);
 										waterGame.commonIndikatorPanel.add(percentage);
 										waterGame.commonIndikatorPanel.setCellVerticalAlignment(waterGame.commonIndikatorLabel, HasVerticalAlignment.ALIGN_MIDDLE);
@@ -761,6 +762,7 @@ public class MyStartButtonHandler implements ClickHandler {
 	
 	void setBudgetValue(int budgetInt){
 		waterGame.budgetValue = new Label(Integer.toString(budgetInt)); 
+		waterGame.budgetValueInt = budgetInt;
 	}
 	
 	void fillBudgetPanel(){
@@ -771,36 +773,36 @@ public class MyStartButtonHandler implements ClickHandler {
 
 	void fillWirtschaftskraftPanel() {
 		HTML wirtschaftHTML = new HTML("<progress align=\"center\" value=\"" + waterGame.wirtschaftIndicatorValue + "\" max=\"100\">"
-				+ waterGame.wirtschaftIndicatorValue + "% </progress>");
+				+ waterGame.wirtschaftIndicatorValue + "</progress>");
 		waterGame.wirtschaftsKraftPanel.add(waterGame.wirtschaftLabel);
 		waterGame.wirtschaftsKraftPanel.setCellHorizontalAlignment(waterGame.wirtschaftLabel, HasHorizontalAlignment.ALIGN_CENTER);
 		waterGame.wirtschaftsKraftPanel.add(wirtschaftHTML);
 		waterGame.wirtschaftsKraftPanel.setCellHorizontalAlignment(wirtschaftHTML, HasHorizontalAlignment.ALIGN_CENTER);
-		waterGame.wirtschaftsKraftPanel.add(new Label(waterGame.wirtschaftIndicatorValue + " %"));
+		waterGame.wirtschaftsKraftPanel.add(new Label(waterGame.wirtschaftIndicatorValue));
 		;
 	}
 	
 	void fillLebensqualiPanel(){
 		HTML lebensQualiHTML = new HTML("<progress value=\"" + waterGame.lebensqualiIndicatorValue + "\" max=\"100\">"
-				+ waterGame.lebensqualiIndicatorValue + "% </progress>");
+				+ waterGame.lebensqualiIndicatorValue +"</progress>");
 		waterGame.lebensQualitaetPanel.add(waterGame.lebensqualitaetLabel);
 		waterGame.lebensQualitaetPanel.setCellHorizontalAlignment(waterGame.lebensqualitaetLabel,
 				HasHorizontalAlignment.ALIGN_CENTER);
 		waterGame.lebensQualitaetPanel.add(lebensQualiHTML);
 		waterGame.lebensQualitaetPanel.setCellHorizontalAlignment(lebensQualiHTML, HasHorizontalAlignment.ALIGN_CENTER);
-		waterGame.lebensQualitaetPanel.add(new Label(waterGame.lebensqualiIndicatorValue + " %"));
+		waterGame.lebensQualitaetPanel.add(new Label(waterGame.lebensqualiIndicatorValue));
 		
 	}
 	void fillUmweltPanel() {
 		HTML umweltHTML = new HTML("<progress value=\"" + waterGame.umweltIndicatorValue + "\" max=\"100\">"
-				+ waterGame.umweltIndicatorValue + "% </progress>");
+				+ waterGame.umweltIndicatorValue + "</progress>");
 		waterGame.umweltFreundlichkeitPanel.add(waterGame.umweltLabel);
 		waterGame.umweltFreundlichkeitPanel
 		.setCellHorizontalAlignment(waterGame.umweltLabel, HasHorizontalAlignment.ALIGN_CENTER);
 		waterGame.umweltFreundlichkeitPanel.add(waterGame.umweltLabel);
 		waterGame.umweltFreundlichkeitPanel.add(umweltHTML);
 		waterGame.umweltFreundlichkeitPanel.setCellHorizontalAlignment(umweltHTML, HasHorizontalAlignment.ALIGN_CENTER);
-		waterGame.umweltFreundlichkeitPanel.add(new Label(waterGame.umweltIndicatorValue + " %"));							
+		waterGame.umweltFreundlichkeitPanel.add(new Label(waterGame.umweltIndicatorValue));							
 	}
 	
 	void fillRessourcePanel(){
@@ -829,22 +831,24 @@ public class MyStartButtonHandler implements ClickHandler {
 
 		umweltSchutzpanel.add(waterGame.umweltSchutzLabel);
 		measuresTable.setWidget(0, 0, umweltSchutzpanel);
-		umweltSchutzpanel.addStyleName("measures");
+		//umweltSchutzpanel.addStyleName("measures");
 		//measuresTable.setWidget(0, 0, waterGame.umweltSchutzBeschreibung);
 		UmweltverschmutzungClickHandler umweltClick = new UmweltverschmutzungClickHandler(waterGame, greetingService);
 		waterGame.umweltSchutzButton.addClickHandler(umweltClick);
 		measuresTable.setWidget(0, 1, waterGame.umweltSchutzButton);
-		subventionenpanel.add(waterGame.subventionenLabel);
-		subventionenpanel.addStyleName("measures");
-		measuresTable.setWidget(1, 0, subventionenpanel);
-		//measuresTable.setWidget(1, 0, waterGame.subventionenBeschreibung);
-		measuresTable.setWidget(1, 1, waterGame.subventionenButton);
+		
 		measuresTable.setWidget(2, 0, waterGame.reformen);
 		//measuresTable.setWidget(2, 0, waterGame.reformenBeschreibung);
+		ReformenClickHandler reformClickHandler = new ReformenClickHandler(waterGame, greetingService);
+		waterGame.reformenButton.addClickHandler(reformClickHandler);
 		measuresTable.setWidget(2, 1, waterGame.reformenButton);
+		
 		measuresTable.setWidget(3, 0, waterGame.naturgefahrenSchutz);
 		//measuresTable.setWidget(3, 0, waterGame.naturkatastropheBeschreibung);
+		NKSchutzClickHandler nkClickhandler = new NKSchutzClickHandler(waterGame, greetingService);
+		waterGame.naturkatastropheButton.addClickHandler(nkClickhandler);
 		measuresTable.setWidget(3, 1, waterGame.naturkatastropheButton);
+		
 		waterGame.measuresPanel.addStyleName("measures");
 		waterGame.measuresPanel.add(waterGame.titleMeasures);
 

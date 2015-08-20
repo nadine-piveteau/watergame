@@ -118,13 +118,6 @@ public class ValidatorHandler implements ClickHandler {
 	}
 
 	public boolean checkTrade1() {
-		System.out.println("ExportAMountText1: "
-				+ waterGame.exportAmountText1.getText());
-		System.out.println("Export Good: "
-				+ waterGame.exportList1.getValue(waterGame.exportList1
-						.getSelectedIndex()));
-		System.out.println("Empty check: "
-				+ (waterGame.exportAmountText1.getText().equals("")));
 		if (!waterGame.exportAmountText1.getText().equals("")) {
 			int exportAmountRessource = Integer
 					.parseInt(waterGame.exportAmountText1.getText());
@@ -132,89 +125,65 @@ public class ValidatorHandler implements ClickHandler {
 					.getValue(waterGame.exportList1.getSelectedIndex());
 
 			if (exportAmountString.contains("Reis")) {
-				System.out.println("Export: REIS");
 				if ((this.rize - exportAmountRessource) >= 0) {
-					System.out.println("RIZE vorher: " + this.rize);
 					this.rize = this.rize - exportAmountRessource;
-					System.out.println("RIZE nacher: " + this.rize);
-					System.out.println("Trade Check : True");
 					return true;
 				} else {
-					System.out.println("Trade Check : False");
 					return false;
 				}
 			} else if (exportAmountString.contains("Tee")) {
 				System.out.println("Import: TEE");
 				if ((this.the - exportAmountRessource) >= 0) {
 					this.the = this.the - exportAmountRessource;
-					System.out.println("Trade Check : True");
 					return true;
 				} else {
-					System.out.println("Trade Check : False");
 					return false;
 				}
 			} else if (exportAmountString.contains("Fisch")) {
-				System.out.println("Import: FISCH");
 				if ((this.fish - exportAmountRessource) >= 0) {
 					this.fish = this.fish - exportAmountRessource;
-					System.out.println("Trade Check : True");
 					return true;
 				} else {
-					System.out.println("Trade Check : False");
 					return false;
 				}
 			} else if (exportAmountString.contains("Zucker")) {
-				System.out.println("Import: ZUCKER");
 				if ((this.sugar - exportAmountRessource) >= 0) {
 					this.sugar = this.sugar - exportAmountRessource;
-					System.out.println("Trade Check : True");
 					return true;
 				} else {
-					System.out.println("Trade Check : False");
 					return false;
 				}
 			} else if (exportAmountString.contains("Leder")) {
-				System.out.println("Import: LEDER");
 				if ((this.leder - exportAmountRessource) >= 0) {
 					this.leder = this.leder - exportAmountRessource;
-					System.out.println("Trade Check : True");
 					return true;
 				} else {
-					System.out.println("Trade Check : False");
 					return false;
 				}
 			} else if (exportAmountString.contains("Textilien")) {
-				System.out.println("Import: TEXTILIEN");
 				if ((this.textil - exportAmountRessource) >= 0) {
 					this.textil = this.textil - exportAmountRessource;
-					System.out.println("Trade Check : True");
 					return true;
 				} else {
-					System.out.println("Trade Check : False");
 					return false;
 				}
 			} else if (exportAmountString.contains("IT")) {
 				System.out.println("Import: IT");
 				if ((this.it - exportAmountRessource) >= 0) {
 					this.it = this.it - exportAmountRessource;
-					System.out.println("Trade Check : True");
 					return true;
 				} else {
-					System.out.println("Trade Check : False");
 					return false;
 				}
 			} else if (exportAmountString.contains("Wissen")) {
 				System.out.println("Import: WISSEN");
 				if ((this.knowhow - exportAmountRessource) >= 0) {
 					this.knowhow = this.knowhow - exportAmountRessource;
-					System.out.println("Trade Check : True");
 					return true;
 				} else {
-					System.out.println("Trade Check : False");
 					return false;
 				}
 			} else {
-				System.out.println("No export given.");
 				return true;
 			}
 		} else {
@@ -230,10 +199,7 @@ public class ValidatorHandler implements ClickHandler {
 					.getValue(waterGame.exportList2.getSelectedIndex());
 
 			if (exportAmountString.contains("Reis")) {
-				System.out.println("Export: REIS");
-				System.out.println("Reis vorher: " + this.rize);
-				System.out.println("Reis nacher: "
-						+ (this.rize - exportAmountRessource));
+				
 
 				if ((this.rize - exportAmountRessource) >= 0) {
 					this.rize = this.rize - exportAmountRessource;
@@ -267,54 +233,43 @@ public class ValidatorHandler implements ClickHandler {
 				System.out.println("Import: ZUCKER");
 				if ((this.sugar - exportAmountRessource) >= 0) {
 					this.sugar = this.sugar - exportAmountRessource;
-					System.out.println("Trade Check : True");
 					return true;
 				} else {
-					System.out.println("Trade Check : False");
 					return false;
 				}
 			} else if (exportAmountString.contains("Leder")) {
 				System.out.println("Import: LEDER");
 				if ((this.leder - exportAmountRessource) >= 0) {
 					this.leder = this.leder - exportAmountRessource;
-					System.out.println("Trade Check : True");
 					return true;
 				} else {
-					System.out.println("Trade Check : False");
 					return false;
 				}
 			} else if (exportAmountString.contains("Textilien")) {
 				System.out.println("Import: TEXTILIEN");
 				if ((this.textil - exportAmountRessource) >= 0) {
 					this.textil = this.textil - exportAmountRessource;
-					System.out.println("Trade Check : True");
 					return true;
 				} else {
-					System.out.println("Trade Check : False");
 					return false;
 				}
 			} else if (exportAmountString.contains("IT")) {
 				System.out.println("Import: IT");
 				if ((this.it - exportAmountRessource) >= 0) {
 					this.it = this.it - exportAmountRessource;
-					System.out.println("Trade Check : True");
 					return true;
 				} else {
-					System.out.println("Trade Check : False");
 					return false;
 				}
 			} else if (exportAmountString.contains("Wissen")) {
 				System.out.println("Import: WISSEN");
 				if ((this.knowhow - exportAmountRessource) >= 0) {
 					this.knowhow = this.knowhow - exportAmountRessource;
-					System.out.println("Trade Check : True");
 					return true;
 				} else {
-					System.out.println("Trade Check : False");
 					return false;
 				}
 			} else {
-				System.out.println("No export given.");
 				return true;
 
 			}
@@ -642,18 +597,14 @@ public class ValidatorHandler implements ClickHandler {
 			measures[0] = 1;
 		}
 		waterGame.umweltSchutzButton.setValue(false);
-		if (waterGame.activeSubventionen) {
-			measures[0] = 2;
-		}
-		waterGame.subventionenButton.setValue(false);
-
+		
 		if (waterGame.activeReformen) {
-			measures[0] = 3;
+			measures[0] = 2;
 		}
 		waterGame.reformenButton.setValue(false);
 
 		if (waterGame.activeNaturkatastrophen) {
-			measures[0] = 4;
+			measures[0] = 3;
 		}
 		waterGame.naturkatastropheButton.setValue(false);
 
@@ -684,17 +635,7 @@ public class ValidatorHandler implements ClickHandler {
 
 			}
 		});
-		/*
-		 * }else if(!checkTrade1){ Window.alert(
-		 * "Handel mit Spieler 1 nicht möglich. Du hast nicht genügend Ressourcen."
-		 * ); }else if(!checkTrade2){ Window.alert(
-		 * "Handel mit Spieler 2 nicht möglich. Du hast nicht genügend Ressourcen."
-		 * ); }else if(!checkTrade3){ Window.alert(
-		 * "Handel mit Spieler 3 nicht möglich. Du hast nicht genügend Ressourcen."
-		 * ); }else if(!checkTrade4){ Window.alert(
-		 * "Handel mit Spieler 4 nicht möglich. Du hast nicht genügend Ressourcen."
-		 * ); }
-		 */
+
 	}
 
 }

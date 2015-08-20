@@ -27,7 +27,7 @@ public class Player {
 	int population;
 	int basepopulation;
 	int id;
-	boolean naturkatastrophenSchutz = false;
+	private boolean naturkatastrophenSchutz = false;
 	
 
 	//Landwirtschaft	
@@ -337,6 +337,14 @@ else if(ressource.equals("Fisch")){
 	return 0;
 }
 
+	}
+
+	public boolean isNaturkatastrophenSchutz() {
+		return naturkatastrophenSchutz;
+	}
+
+	public void setNaturkatastrophenSchutz(boolean naturkatastrophenSchutz) {
+		this.naturkatastrophenSchutz = naturkatastrophenSchutz;
 	}
 	
 

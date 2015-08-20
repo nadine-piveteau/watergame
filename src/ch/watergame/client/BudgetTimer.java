@@ -27,6 +27,7 @@ public class BudgetTimer extends Timer{
 			@Override
 			public void onSuccess(ArrayList<Integer> result) {
 				int budgetInt = result.get(4);
+				wgame.budgetValueInt = budgetInt;
 				wgame.budgetValue = new Label (Integer.toString(budgetInt));
 				
 			}

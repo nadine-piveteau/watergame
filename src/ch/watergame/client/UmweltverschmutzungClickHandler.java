@@ -2,6 +2,7 @@ package ch.watergame.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 
@@ -22,7 +23,8 @@ public class UmweltverschmutzungClickHandler implements ClickHandler {
 
 	@Override
 	public void onClick(ClickEvent event) {
-		
+		if((waterGame.budgetValueInt-waterGame.preisReformen)>0){
+
 		// TODO Auto-generated method stub
 		//checkbox nicht angewählt
 		if(waterGame.umweltSchutzButton.getValue()==false){
@@ -55,6 +57,8 @@ public class UmweltverschmutzungClickHandler implements ClickHandler {
 		}
 		//checkbox angewählt
 		else{
+			if((Integer.parseInt(waterGame.budgetValue.toString())-waterGame.preisUmweltverschmutzung)>0){
+
 			waterGame.activeUmweltschutz = true;
 			System.out.println("Massnahmen");
 			greetingService.refreshBudget(waterGame.getPlayerID(),
@@ -80,8 +84,14 @@ public class UmweltverschmutzungClickHandler implements ClickHandler {
 						}
 
 					});
+			}else{
+				Window.alert("Du hast nicht genügend Ressourcen. ");
+			}
 		}
-	
+		}else{
+			waterGame.umweltSchutzButton.setValue(false);
+			Window.alert("Du hast nicht genügend Ressourcen");
+		}
 	}
 
 }

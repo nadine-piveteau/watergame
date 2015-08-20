@@ -494,10 +494,13 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 			countSiedlungCopy = countSiedlungCopy-expectedNrSiedlung;
 		}
 		
+		
 		//if not enough houses, remove 10%
 		if(countSiedlungCopy<0){
 			sum = sum - (sum/10);
 		}
+		
+		
 		
 		int newWirtschaftskraft = player.getInitialIndicatorWirtschaft() + (int)sum;
 		player.setWirtschaftsKraft(newWirtschaftskraft);
@@ -795,18 +798,13 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 		for(int measure:measures){
 			//Erhöht die Umweltfreundlichkeit um 10%
 			if( measure==1){
-				player.setUmweltfreundlichkeit(player.getPercentualUmwelt() + (player.getPercentualUmwelt()/10));
-
-			}
-			//Doppelt so viel Ertrag			
-			else if(measure ==2){
-				calculateRessource();
+				game.addLebensquali(0.15, player);
 			}
 			//erhöht die Lebensqualität um 10%
-			else if(measure == 3){
-				player.setLebensQuali(player.getLebensQuali() + (player.getLebensQuali()/10));
-			}else if(measure == 4){
-				//keine Naturkatastrophe
+			else if(measure == 2){
+				game.addLebensquali(0.15, player);
+			}else if(measure == 3){
+				game.setNaturkatastrophenSchutz(true, player);
 			}
 		}
 	}
@@ -827,6 +825,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	    // Dürre: Kein Ertrag in der Landwirtschaft
 	    //Lebensqualität nimmt ab
 	    Player player = game.playerlist.get(playerID-1);
+	    if(player.isNaturkatastrophenSchutz() == false){
 	    if(randomNum == 1){
 	    	game.lossLW(player);
 	    	return "Dürre";
@@ -902,6 +901,38 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 	    }
 	    else{
 	    	return null;
+	    }
+	    }else{
+	    	player.setNaturkatastrophenSchutz(false);
+	    	if(randomNum == 1){
+		    	return "Geschützt vor Dürre";
+		    }
+		    else if(randomNum == 2){
+		    	return "Geschützt vor Überschwemmung";
+		    }
+		    else if(randomNum == 3){
+		    		return "Geschützt vor Grund- und Trinkwasservergiftung ";
+		    }
+		    else if(randomNum == 4){
+		    		return"Geschützt vor Flutwelle";
+		    }
+		    //Erdbeben 
+		    else if(randomNum == 5){
+		    		return "Geschützt vor Erdbeben";
+		    }
+		    //Erdrutsch
+		    else if(randomNum ==6){
+		    		return"Geschützt vor Erdrutsch";
+		    }
+		    else if(randomNum == 7){
+		    	return "Geschützt vor Grundwasserspiegel tief";
+		    }
+		    else if(randomNum == 8){
+		    		return "Geschützt vor finanzielleUnterstützung von Dehli";
+		    }
+		    else{
+		    	return null;
+		    }
 	    }
 	    
 	}

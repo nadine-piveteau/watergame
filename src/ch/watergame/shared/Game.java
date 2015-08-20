@@ -90,6 +90,8 @@ public class Game {
 		player.setThe(player.getThe()-(nrOfTee*FieldType.TEE.getErtragRessourcen())-(nrOfTeeBio*FieldType.RICEBIO.getErtragRessourcen()));
 		player.setSugar(player.getSugar()-(nrOfZucker*FieldType.ZUCKER.getErtragRessourcen())-(nrOfZuckerBio*FieldType.ZUCKERBIO.getErtragRessourcen()));
 		player.setFish(player.getFish()- (nrOfFisch*FieldType.FISCH.getErtragRessourcen())-(nrOfFischBio*FieldType.FISHBIO.getErtragRessourcen()));
+		player.setBudget(player.getBudget() - (nrOfRice*(FieldType.RICE.getErtragBudget()))-(nrOfRiceBio*(FieldType.RICEBIO.getErtragBudget()))- (nrOfTee*(FieldType.TEE.getErtragBudget())) - (nrOfTeeBio*(FieldType.TEEBIO.getErtragBudget()))- (nrOfZucker*(FieldType.ZUCKER.getErtragBudget()))-(nrOfZuckerBio*(FieldType.ZUCKERBIO.getErtragBudget()))- (nrOfFisch*(FieldType.FISCH.getErtragBudget()))- (nrOfFischBio*(FieldType.FISHBIO.getErtragBudget())));
+
 	}
 	
 	public void halfLossLW(Player player){
@@ -116,6 +118,7 @@ public class Game {
 		player.setThe(player.getThe()-(nrOfTee*(FieldType.TEE.getErtragRessourcen()/2))-(nrOfTeeBio*(FieldType.RICEBIO.getErtragRessourcen()/2)));
 		player.setSugar(player.getSugar()-(nrOfZucker*(FieldType.ZUCKER.getErtragRessourcen()/2))-(nrOfZuckerBio*(FieldType.ZUCKERBIO.getErtragRessourcen()/2)));
 		player.setFish(player.getFish()- (nrOfFisch*(FieldType.FISCH.getErtragRessourcen()/2))-(nrOfFischBio*(FieldType.FISHBIO.getErtragRessourcen()/2)));
+		player.setBudget(player.getBudget() - (nrOfRice*(FieldType.RICE.getErtragBudget()/2))-(nrOfRiceBio*(FieldType.RICEBIO.getErtragBudget()/2))- (nrOfTee*(FieldType.TEE.getErtragBudget()/2)) - (nrOfTeeBio*(FieldType.TEEBIO.getErtragBudget()/2))- (nrOfZucker*(FieldType.ZUCKER.getErtragBudget()/2))-(nrOfZuckerBio*(FieldType.ZUCKERBIO.getErtragBudget()/2))- (nrOfFisch*(FieldType.FISCH.getErtragBudget()/2))- (nrOfFischBio*(FieldType.FISHBIO.getErtragBudget()/2)));
 	}
 	
 	
@@ -157,6 +160,10 @@ public class Game {
 		player.initialIndicatorLebensquali = ((int)(oldLebensquali+(oldLebensquali*percentage)));
 		System.out.println("new Lebensquali: "+player.getLebensQuali());
 
+	}
+	
+	public void setNaturkatastrophenSchutz(boolean isprotected, Player player){
+		player.setNaturkatastrophenSchutz(isprotected);
 	}
 	
 	public double getCommonIndicator(){

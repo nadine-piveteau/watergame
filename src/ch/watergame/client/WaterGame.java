@@ -95,6 +95,7 @@ public class WaterGame implements EntryPoint {
 		// indicators Label
 		Label budgetLabel = new Label("Budget");
 		Label budgetValue;
+		int budgetValueInt;
 		Label populationLabel = new Label("Bevoelkerung");
 		Label populationValue;
 		Label wirtschaftLabel = new Label("Wirtschaftskraft");
@@ -143,27 +144,22 @@ public class WaterGame implements EntryPoint {
 		ListBox exportList3;
 		ListBox exportList4;
 		// political measures field
-		Label titleMeasures = new Label("Politische Massnahmen");
-		HTML subventionenLabel = new HTML ("<h4><strong>Subventionen</strong><br>Preis: 800");
-		CheckBox subventionenButton = new CheckBox ();
-		//HTML subventionenBeschreibung = new HTML("<h5>Doppelter Ertrag pro Feld <br> Preis: XXXX<h5>");
-		HTML umweltSchutzLabel = new HTML("<h4><strong>Massnahmen gegen Umweltverschmutzung</strong><br>Preis: 800<h4>");
-		CheckBox umweltSchutzButton = new CheckBox ();
-		//HTML umweltSchutzBeschreibung = new HTML("<h5>Flusssäuberung, Energiesparmassnahmen<br> Preis: XXXX<h5>");
-		HTML reformen = new HTML("<h4>Politische Reformen<br>Preis: XXXX<h4>");
-		CheckBox reformenButton = new CheckBox ();
-		//HTML reformenBeschreibung = new HTML("<h5>Verbesserung des politischen Systems <br> Preis: XXXX<h5>");
-		HTML naturgefahrenSchutz = new HTML("<h4><strong>Schutz vor Naturkatastrophen</strong><br>Preis: 800<h4>");
-		CheckBox naturkatastropheButton = new CheckBox ();
-		//HTML naturkatastropheBeschreibung = new HTML("<h5>Schutzmassnahmen gegen die nächste Naturkatstrophe <br> Preis: XXXX<h5>");
-		int preisSubventionen = 800;
-		boolean activeSubventionen;
 		int preisUmweltverschmutzung= 800;
 		boolean activeUmweltschutz;
 		int preisReformen = 800;
 		boolean activeReformen;
 		int preisNaturkatastrophen = 800;
 		boolean activeNaturkatastrophen;
+		Label titleMeasures = new Label("Politische Massnahmen");
+		HTML umweltSchutzLabel = new HTML("<h4><strong>Massnahmen gegen Umweltverschmutzung</strong><br>Preis: "+  preisUmweltverschmutzung+"<h4>");
+		CheckBox umweltSchutzButton = new CheckBox ();
+		//HTML umweltSchutzBeschreibung = new HTML("<h5>Flusssäuberung, Energiesparmassnahmen<br> Preis: XXXX<h5>");
+		HTML reformen = new HTML("<h4>Politische Reformen<br>Preis: "+preisReformen+"<h4>");
+		CheckBox reformenButton = new CheckBox ();
+		//HTML reformenBeschreibung = new HTML("<h5>Verbesserung des politischen Systems <br> Preis: XXXX<h5>");
+		HTML naturgefahrenSchutz = new HTML("<h4><strong>Schutz vor Naturkatastrophen</strong><br>Preis: "+preisNaturkatastrophen+"<h4>");
+		CheckBox naturkatastropheButton = new CheckBox ();
+		//HTML naturkatastropheBeschreibung = new HTML("<h5>Schutzmassnahmen gegen die nächste Naturkatstrophe <br> Preis: XXXX<h5>");
 
  
 
