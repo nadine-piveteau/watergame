@@ -899,15 +899,15 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		System.out.println("PLAYER NATURKATASTROPHEN SCHUTZ: "+player.isNaturkatastrophenSchutz());
 		Random rand = new Random();
 		// Test
-		//int randomNum = 2;
+		int randomNum = 2;
 		// Min + (int)(Math.random() * ((Max - Min) + 1))
-		int randomNum = 1 + (int)(Math.random() * ((10 - 1) + 1));
+		//int randomNum = 1 + (int)(Math.random() * ((10 - 1) + 1));
 		// Dürre: Kein Ertrag in der Landwirtschaft
 		// Lebensqualität nimmt ab
 		if (player.isNaturkatastrophenSchutz() == false) {
 			if (randomNum == 1) {
 				game.lossLW(player);
-				return "Dürre";
+				return "<h2>Dürre</h2><br><h3>Eine Dürre lässt den Pegel des Flusses sinken. Aufgrund der anhaltenden Trockenheit hast du in dieser Runde keinen Ertrag in der Landwirtschaft.</h3>";
 			}
 			// Überschwemmung, MonsunRegen
 			// Dürre: Kein Ertrag,
@@ -915,8 +915,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			else if (randomNum == 2) {
 				game.halfLossLW(player);
 				int lossBudget = game.deduceBudget(0.15, player);
-				return "überschwemmung Budget - "
-						+ Integer.toString(lossBudget);
+				return "<h2>Dürre<h2><br><h3>Überschwemmungen durch heftige Monsunregen haben einen Teil der Ernte in deiner Stadt zerstört. Du erhältst in dieser Runde nur die Hälfte des Ertrages in der Landwirtschaft. Viele Häuser wurden beschädigt oder zerstört und müssen repariert werden. </h3>";
 
 			}
 			// Grundwasservergiftung
@@ -926,7 +925,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				if (player.getId() == 2 || player.getId() == 3) {
 					game.lossLW(player);
 					int lossBudget = game.deduceBudget(0.05, player);
-					return "Grund- und Trinkwasservergiftung ";
+					return "<h2>Grund- und Trinkwasservergiftung</h2><br><h3>Düngemittel und Abwässer haben das Grund- und Trinkwasser vergiftet. Deshalb erhältst du in dieser Runde keinen Ertrag in der Landwirtschaft. 5% des Budgets werden Benötigt, um das Wasser wieder zu säubern.</h3>"; 
 				} else {
 					return null;
 				}
@@ -938,7 +937,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 					int lossBudget = game.deduceBudget(0.3, player);
 					int lossWirtschaft = game.deduceWirtschaftskraft(0.05,
 							player);
-					return "Flutwelle";
+					return "<h2>Flutwelle</h2><br><h3>Ein Erdbeben im Indischen Ozean hat eine Flutwelle ausgelöst, die deine Stadt getroffen hat. 30% des Budgets wird benötigt, um den enormen Schaden zu beheben. Auch die Wirtschaftskraft leidet an den Folgen dieses Ereignisses. </h3>";
 				} else {
 					return null;
 				}
@@ -949,7 +948,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 					int lossBudget = game.deduceBudget(0.3, player);
 					int lossWirtschaft = game.deduceWirtschaftskraft(0.05,
 							player);
-					return "Erdbeben";
+					return "<h2>Erdbeben</h2><br><h3>Deine Stadt ist von einem heftigen Erdbeben im Himalaya-Gebirge  getroffen. 30% des Budgets wird benötigt, um den enormen Schaden zu beheben. Auch die Wirtschaftskraft leidet an den Folgen dieses Ereignisses.</h3>";
 				} else {
 					return null;
 				}
@@ -962,59 +961,59 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 							player);// Begründung Tourismus: Ihre
 									// Wirtschaftskraft leidet unter den
 									// fehlenden TOuristen.
-					return "Erdrutsch";
+					return "<h2>Erdrutsch</h2><br><h3>Heftige Monsunregenfälle haben Erdrutsche ausgelöst. Deine Stadt ist Betroffen. 30% des Budgets wird benötigt, um den enormen Schaden zu beheben. Auch die Wirtschaftskraft leidet an den Folgen dieses Ereignisses.</h3>";
 				} else {
 					return null;
 				}
 			} else if (randomNum == 7) {
 				if (player.getId() == 2 || player.getId() == 3) {
 					game.lossLW(player);
-					return "Grundwasserspiegel tief";
+					return "<h2>Zu tiefer Grundwasserspiegel</h2><br><h3>Durch die extensive Bewässerung deiner Landwirtschaftsfelder ist der Grundwasserspiegel so tief gesunken, dass du in dieser Runde keinen Landwirtschaftsertrag hast. Das Grundwasser muss sich eine Runde lang erholen. </h3>";
 				} else {
 					return null;
 				}
-			} else if (randomNum == 8) {
+			} /*else if (randomNum == 8) {
 				if (player.getId() == 1) {
 					game.addBudget(0.2, player);
 					return "finanzielleUnterstützung von Dehli";
 				} else {
 					return null;
 				}
-			} else {
+			}*/ else {
 				return null;
 			}
 		} else {
 			player.setNaturkatastrophenSchutz(false);
 			if (randomNum == 1) {
 				player.setNaturkatastrophenSchutz(false);
-				return "Geschützt vor Dürre";
+				return "<h2>Geschützt vor Dürre<h2><br><h3>Du hast in der letzten Runde Massnahmen ergriffen, um dich vor Naturkatastrophen zu Schützen. Deine angelegten Wasserreserven haben dir erlaubt eine Dürre ohne Ernteverlust in der Landwirtschaft zu überstehen. </h3>";
 			} else if (randomNum == 2) {
 				player.setNaturkatastrophenSchutz(false);
 				System.out.println(player.isNaturkatastrophenSchutz());
-				return "Geschützt vor Überschwemmung";
+				return "<h2>Geschützt vor Überschwemmung</h2><br><h3>Du hast in der letzten Runde Massnahmen ergriffen, um dich vor Naturkatastrophen zu Schützen. Die Hochwasserschutzmassnahmen haben deine Stadt vor grossen Schäden bewahrt. </h3>";
 			} else if (randomNum == 3) {
 				player.setNaturkatastrophenSchutz(false);
-				return "Geschützt vor Grund- und Trinkwasservergiftung ";
+				return "<h2>Geschützt vor Grund- und Trinkwasservergiftung</h2><br><h3>Dank des ausgeklügelten Trinkwasserreinigungssystems und der Kläranlagen in deiner Stadt, ist das Grund- und Trinkwasser trotz Abwässer und Düngemittelkonsum nicht vergiftet worden. </h3>";
 			} else if (randomNum == 4) {
 				player.setNaturkatastrophenSchutz(false);
-				return "Geschützt vor Flutwelle";
+				return "<h2>Geschützt vor Flutwelle</h2><br><h3>Die präventiven Naturkatastrophenschutzmassnahmen, die du in der letzten Runde ergriffen hast, haben dich vor einer Flutwelle geschützt. Ein Erdbeben im indischen Ozean war die Ursache. </h3>";
 			}
 			// Erdbeben
 			else if (randomNum == 5) {
 				player.setNaturkatastrophenSchutz(false);
-				return "Geschützt vor Erdbeben";
+				return "<h2>Geschützt vor Erdbeben</h2><br><h3>Die präventiven Naturkatastrophenschutzmassnahmen, die du in der letzten Runde ergriffen hast, haben dich vor einem Erbeben im Himalaya-Gebirge geschützt.</h3>";
 			}
 			// Erdrutsch
 			else if (randomNum == 6) {
 				player.setNaturkatastrophenSchutz(false);
-				return "Geschützt vor Erdrutsch";
+				return "<h2>Geschützt vor Erdrutsch</h2><br><h3>Die präventiven Naturkatastrophenschutzmassnahmen, die du in der letzten Runde ergriffen hast, haben dich vor einem Erdrutsch geschützt, der durch schwere Monsunregenfällen ausgelöst wurde.</h3>";
 			} else if (randomNum == 7) {
 				player.setNaturkatastrophenSchutz(false);
-				return "Geschützt vor Grundwasserspiegel tief";
-			} else if (randomNum == 8) {
+				return "<h2>Geschützt vor zu tiefem Grundwasserspiegel</h2><br><h3>Du hast in der letzten Runde Massnahmen ergriffen, um dich vor Naturkatastrophen zu Schützen. Die nachhaltige Nutzung des Grundwassers hat verhindert, dass der Grundwasserspiegel zu tief sinkt. </h3>";
+			} /*else if (randomNum == 8) {
 				player.setNaturkatastrophenSchutz(false);
 				return "Geschützt vor finanzielleUnterstützung von Dehli";
-			} else {
+			} */else {
 				return null;
 			}
 		}

@@ -160,15 +160,14 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 			@Override
 			public void onSuccess(String result) {
 				// TODO Auto-generated method stub
-				System.out.println("Event : "+ result );
 				//Window.alert(result);
 				DialogBox alertEvent = new DialogBox();
 				VerticalPanel contentAlertMessage = new VerticalPanel();
-				Label message = new Label(result);
+				HTML message = new HTML(result);
 				OkEventAlertClickHandler okClickHandler = new OkEventAlertClickHandler(alertEvent);
 				Button okAlertMessageButton = new Button("OK");
 				okAlertMessageButton.addClickHandler(okClickHandler);
-				contentAlertMessage.add(message);
+				contentAlertMessage.add(message);;
 				contentAlertMessage.add(okAlertMessageButton);
 				contentAlertMessage.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 				alertEvent.add(contentAlertMessage);

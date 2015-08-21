@@ -152,7 +152,7 @@ public class SwitchTimer extends Timer {
 											// Window.alert(result);
 											DialogBox alertEvent = new DialogBox();
 											VerticalPanel contentAlertMessage = new VerticalPanel();
-											Label message = new Label(result);
+											HTML message = new HTML(result);
 											OkEventAlertClickHandler okClickHandler = new OkEventAlertClickHandler(
 													alertEvent);
 											Button okAlertMessageButton = new Button(

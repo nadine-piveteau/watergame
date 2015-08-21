@@ -9,6 +9,7 @@ import ch.watergame.shared.Trade;
 import ch.watergame.shared.TradeResult;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
 
 /**
  * The async counterpart of <code>GreetingService</code>.
