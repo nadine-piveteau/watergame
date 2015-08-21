@@ -200,15 +200,27 @@ public class WaterGame implements EntryPoint {
 		Image fischImage = new Image();
 		final int fischPrice = 60;
 		final int fischPriceRemove = -60;
+		Image fischBioImage = new Image();
+		final int fischBioPrice = 60;
+		final int fischBioPriceRemove = -60;
 		Image lederImage = new Image();
 		final int lederPrice = 80;
 		final int lederPriceRemove = -80;
+		Image lederBioImage = new Image();
+		final int lederBioPrice = 80;
+		final int lederBioPriceRemove = -80;
 		Image textilImage = new Image();
 		final int textilPrice = 80;
 		final int textilPriceRemove = -80;
+		Image textilBioImage = new Image();
+		final int textilBioPrice = 80;
+		final int textilBioPriceRemove = -80;
 		Image itImage = new Image();
 		final int itPrice = 90;
 		final int itPriceRemove = -90;
+		Image itBioImage = new Image();
+		final int itBioPrice = 90;
+		final int itBioPriceRemove = -90;
 		Image siedlungImage = new Image();
 		final int siedlungPrice = 50;
 		final int siedlungPriceRemove = -50;
@@ -221,6 +233,7 @@ public class WaterGame implements EntryPoint {
 		Image uniImage = new Image();
 		final int uniPrice = 100;
 		final int uniPriceRemove = -100;
+		Image infoLogo = new Image("infoLogo.jpg");
 		//expected ressources
 		int rizeNeededInt;
 		int theNeededInt;
@@ -285,6 +298,7 @@ public class WaterGame implements EntryPoint {
 	public void onModuleLoad() {
 		//just for testing
 		//RootPanel.get().add(instructionButton);
+		infoLogo.setSize("25px", "25px");
 		
 		RootPanel.get("tradeContainer").setVisible(false);
 		RootPanel.get("gamefield").setVisible(false);

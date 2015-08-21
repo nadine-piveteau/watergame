@@ -64,6 +64,7 @@ public class SwitchTimer extends Timer {
 
 			@Override
 			public void onSuccess(TradeResult result) {
+//				System.out.println("SWITCHTIMER RESULT:MYTURN: "+result.myTurn);
 				if (result.myTurn == true) {
 
 					RootPanel.get("NotYourTurn").setVisible(false);

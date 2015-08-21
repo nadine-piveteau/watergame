@@ -106,6 +106,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public String checkNrPlayer() {
+		System.out.println("Player : " + getPlayerID());
 		int nrPlayer = game.playerlist.size();
 		String nrPlayerString = Integer.toString(nrPlayer);
 		return nrPlayerString;
@@ -898,9 +899,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		System.out.println("PLAYER NATURKATASTROPHEN SCHUTZ: "+player.isNaturkatastrophenSchutz());
 		Random rand = new Random();
 		// Test
-		int randomNum = 2;
+		//int randomNum = 2;
 		// Min + (int)(Math.random() * ((Max - Min) + 1))
-		// int randomNum = 1 + (int)(Math.random() * ((10 - 1) + 1));
+		int randomNum = 1 + (int)(Math.random() * ((10 - 1) + 1));
 		// Dürre: Kein Ertrag in der Landwirtschaft
 		// Lebensqualität nimmt ab
 		if (player.isNaturkatastrophenSchutz() == false) {

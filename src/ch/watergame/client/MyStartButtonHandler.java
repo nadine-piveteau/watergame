@@ -378,17 +378,38 @@ public class MyStartButtonHandler implements ClickHandler {
 									setIconsBildung();
 									gridLW = new Grid(4,3);
 									gridLW.setWidget(0, 0, waterGame.rizeImage);
-									gridLW.setWidget(0, 1, new HTML("<b>Reis:<b>"));
-									gridLW.setWidget(0,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									gridLW.setWidget(0, 1, new HTML("<b>Reis<b>"));
+									Image infoRiceLogo = new Image("infoLogo.jpg");
+									infoRiceLogo.setSize("25px", "25px");
+									InfoClickHandler riceINfoHandler = new InfoClickHandler(new HTML("<strong><i>Reisfeld beackern:</i><br><strong>Preis: "+waterGame.rizeBioPrice+"<br>Reisertrag pro Runde: "+FieldType.RICE.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.RICE.getErtragBudget()+"<br>Wirtschaftskraft: <span style=\"color:green;\"> +++ </span><br>Lebensqualität: <span style=\"color:blue;\"> 0 </span><br>Umweltfreundlichkeit: <span style=\"color:red;\"> -- </span>"));
+									infoRiceLogo.addClickHandler(riceINfoHandler);
+									gridLW.setWidget(0,2,infoRiceLogo);
+									//gridLW.setWidget(0,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 									gridLW.setWidget(1, 0, waterGame.rizeBioImage);
-									gridLW.setWidget(1, 1, new HTML("<b>Bio-Reis:<b>"));
-									gridLW.setWidget(1,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									gridLW.setWidget(1, 1, new HTML("<b>Bioreis<b>"));
+									InfoClickHandler riceBioINfoHandler = new InfoClickHandler(new HTML("<strong><i>Bioreisfeld beackern:</i> <br>Das Reisfeld wird auf biologische Produktion umgestellt. Innovative und nachhaltige Beackerungstechniken erlauben den Wasserbedarf zu senken. Die Umwelt wird verschont, indem vollständig auf Pflanzenschutzmittel und Kunstdünger verzichtet wird. Dieses Feld kann nur auf Reisfeldern gesetzt werden.</strong><br>Preis: "+waterGame.rizeBioPrice+" <br>Reisertrag pro Runde: "+FieldType.RICEBIO.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.RICEBIO.getErtragBudget()+"<br>Wirtschaftskraft:<span style=\"color:green;\"> + </span> <br>Lebensqualität:<span style=\"color:green;\"> + </span> <br>Umweltfreundlichkeit: <span style=\"color:green;\"> + </span>"));
+									Image infoRiceBioLogo = new Image("infoLogo.jpg");
+									infoRiceBioLogo.setSize("25px", "25px");
+									infoRiceBioLogo.addClickHandler(riceBioINfoHandler);
+									gridLW.setWidget(1,2, infoRiceBioLogo);
+									//gridLW.setWidget(1,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 									gridLW.setWidget(2, 0, waterGame.teeImage);
-									gridLW.setWidget(2, 1, new HTML("<b>Tee:<b>"));
-									gridLW.setWidget(2,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									gridLW.setWidget(2, 1, new HTML("<b>Tee<b>"));
+									Image infoTeeLogo = new Image("infoLogo.jpg");
+									infoTeeLogo.setSize("25px", "25px");
+									InfoClickHandler teeInfoHandler = new InfoClickHandler(new HTML("<strong><i>Teefeld beackern:</i></strong><br>Preis: "+waterGame.teePrice+" <br>Teeertrag pro Runde: "+FieldType.TEE.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.TEE.getErtragBudget()+"<br>Wirtschaftskraft:<span style=\"color:green;\"> + </span> <br>Lebensqualität:<span style=\"color:blue;\"> 0 </span> <br>Umweltfreundlichkeit: <span style=\"color:red;\"> - </span>"));
+									infoTeeLogo.addClickHandler(teeInfoHandler);
+									gridLW.setWidget(2,2, infoTeeLogo);
+									//gridLW.setWidget(2,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 									gridLW.setWidget(3, 0, waterGame.teeBioImage);
-									gridLW.setWidget(3, 1, new HTML("<b>Bio-Tee:<b>"));
-									gridLW.setWidget(3,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									gridLW.setWidget(3, 1, new HTML("<b>Biotee<b>"));
+									Image infoTeeBioLogo = new Image("infoLogo.jpg");
+									infoTeeBioLogo.setSize("25px", "25px");
+									InfoClickHandler teeBioInfoHandler = new InfoClickHandler(new HTML("<strong><i>Bioteefeld beackern:</i><br>Das Teefeld wird auf biologische Produktion umgestellt. Innovative und nachhaltige Beackerungstechniken erlauben den Wasserbedarf zu senken. Die Umwelt wird verschont, indem vollständig auf Pflanzenschutzmittel und Kunstdünger verzichtet wird. Dieses Feld kann nur auf Teefeldern gesetzt werden.</strong><br>Preis: "+waterGame.teeBioPrice+" <br>Teeertrag pro Runde: "+FieldType.TEEBIO.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.TEEBIO.getErtragBudget()+"<br>Wirtschaftskraft: <span style=\"color:green;\"> + </span><br>Lebensqualität: <span style=\"color:green;\"> + </span><br>Umweltfreundlichkeit: <span style=\"color:green;\"> + </span>"));
+									infoTeeBioLogo.addClickHandler(teeBioInfoHandler);
+									gridLW.setWidget(3,2, infoTeeBioLogo);
+
+									//gridLW.setWidget(3,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 									gridIndustrie = new Grid(1,3);
 									gridIndustrie.setWidget(0, 0, new HTML("	Kein Industriezweig vorhanden.	"));
 									
@@ -396,22 +417,43 @@ public class MyStartButtonHandler implements ClickHandler {
 								if (waterGame.playerID == 2) {
 									setIconSIEDLUNG();
 									setIconLEDER();
+									setIconLEDERBIO();
 									setIconZUCKER();
 									setIconZUCKEREBIO();
 									setIconsBildung();
 									gridLW = new Grid(2,3);
 									gridLW.setWidget(0, 0, waterGame.zuckerImage);
 									gridLW.setWidget(0, 1, new HTML("<b>Zucker:<b>"));
-									gridLW.setWidget(0,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									Image infoZuckerLogo = new Image("infoLogo.jpg");
+									infoZuckerLogo.setSize("25px", "25px");
+									InfoClickHandler zuckerInfoHandler = new InfoClickHandler(new HTML("<strong><i>Zuckerfeld beackern:</i><br></strong><br>Preis: "+waterGame.zuckrePrice+" <br>Zucker Ertrag pro Runde: "+FieldType.ZUCKER.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.ZUCKER.getErtragBudget()+"<br>Wirtschaftskraft: <span style=\"color:green;\"> +++ </span><br>Lebensqualität: <span style=\"color:blue;\"> 0 </span><br>Umweltfreundlichkeit: <span style=\"color:red;\"> -- </span>"));
+									infoZuckerLogo.addClickHandler(zuckerInfoHandler);
+									gridLW.setWidget(0,2,infoZuckerLogo);
+									//gridLW.setWidget(0,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 									gridLW.setWidget(1, 0, waterGame.zuckerBioImage);
-									gridLW.setWidget(1, 1, new HTML("<b>Bio-Zucker:<b>"));
-									gridLW.setWidget(1,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
-									
-									gridIndustrie = new Grid(1,3);
+									gridLW.setWidget(1, 1, new HTML("<b>Biozucker:<b>"));
+									Image infoZuckerBioLogo = new Image("infoLogo.jpg");
+									infoZuckerBioLogo.setSize("25px", "25px");
+									InfoClickHandler zuckerBioInfoHandler = new InfoClickHandler(new HTML("<strong><i>Biozuckerfeld beackern:</i><br>Das Zuckerfeld wird auf biologische Produktion umgestellt. Innovative und nachhaltige Beackerungstechniken erlauben den Wasserbedarf zu senken. Die Umwelt wird verschont, indem vollständig auf Pflanzenschutzmittel und Kunstdünger verzichtet wird. Dieses Feld kann nur auf Teefeldern gesetzt werden.<br></strong><br>Preis: "+waterGame.zuckreBioPrice+" <br>Biozucker Wrtrag pro Runde: "+FieldType.ZUCKERBIO.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.ZUCKERBIO.getErtragBudget()+"<br>Wirtschaftskraft: <span style=\"color:green;\"> + </span><br>Lebensqualität: <span style=\"color:green;\"> + </span><br>Umweltfreundlichkeit: <span style=\"color:green;\"> + </span>"));
+									infoZuckerBioLogo.addClickHandler(zuckerBioInfoHandler);
+									gridLW.setWidget(1,2,infoZuckerBioLogo);
+									//gridLW.setWidget(1,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									gridIndustrie = new Grid(2,3);
 									gridIndustrie.setWidget(0, 0, waterGame.lederImage);
-									gridIndustrie.setWidget(0, 1, new HTML("<b>Leder-gerberei:<b>"));
-									gridIndustrie.setWidget(0, 2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
-									
+									gridIndustrie.setWidget(0, 1, new HTML("<b>Leder:<b>"));
+									Image infoLederLogo = new Image("infoLogo.jpg");
+									infoLederLogo.setSize("25px", "25px");
+									InfoClickHandler lederInfoHandler = new InfoClickHandler(new HTML("<strong><i>Ledergerberei:</i><br></strong><br>Preis: "+waterGame.lederPrice+" <br>Biozucker Wrtrag pro Runde: "+FieldType.LEDER.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.LEDER.getErtragBudget()+"<br>Wirtschaftskraft: <span style=\"color:green;\"> +++++ </span><br>Lebensqualität: <span style=\"color:blue;\"> 0 </span><br>Umweltfreundlichkeit: <span style=\"color:red;\"> ----- </span>"));
+									infoLederLogo.addClickHandler(lederInfoHandler);
+									gridIndustrie.setWidget(0, 2, infoLederLogo);
+									//gridIndustrie.setWidget(0, 2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskraft: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									gridIndustrie.setWidget(1, 0, waterGame.lederBioImage);
+									gridIndustrie.setWidget(1, 1, new HTML("<b>Nachhaltiger Leder<b>"));
+									Image infoLederBioLogo = new Image("infoLogo.jpg");
+									infoLederBioLogo.setSize("25px", "25px");
+									InfoClickHandler lederBioInfoHandler = new InfoClickHandler(new HTML("<strong><i>Nachhaltige Lederproduktion:</i><br>Die Lederproduktion wird nachhaltig. Das Leder wird auf umweltverträglicher und chemikalienarmer Art behandelt. Eine Kläranlage sorgt dafür, dass die Sauberkeit des Flusses aufrechterhalten bleibt. Soziale und faire Arbeitsbedingungen werden sichergestellt. <br></strong><br>Preis: "+waterGame.lederPrice+" <br>Biozucker Wrtrag pro Runde: "+FieldType.LEDER.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.LEDER.getErtragBudget()+"<br>Wirtschaftskraft: <span style=\"color:green;\"> ++ </span><br>Lebensqualität: <span style=\"color:green;\"> ++ </span><br>Umweltfreundlichkeit: <span style=\"color:green;\"> ++ </span>"));
+									infoLederBioLogo.addClickHandler(lederBioInfoHandler);
+									//gridIndustrie.setWidget(1, 2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskraft: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 								}
 								if (waterGame.playerID == 3) {
 									setIconSIEDLUNG();
@@ -420,38 +462,113 @@ public class MyStartButtonHandler implements ClickHandler {
 									setIconRICE();
 									setIconRICEBIO();
 									setIconTEXTIL();
+									setIconTEXTILBIO();
 									setIconsBildung();
 									gridLW = new Grid(4,3);
 									gridLW.setWidget(0, 0, waterGame.rizeImage);
 									gridLW.setWidget(0, 1, new HTML("<b>Reis:<b>"));
-									gridLW.setWidget(0,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									Image infoRiceLogo = new Image("infoLogo.jpg");
+									infoRiceLogo.setSize("25px", "25px");
+									InfoClickHandler riceINfoHandler = new InfoClickHandler(new HTML("<strong><i>Reisfeld beackern:</i><br><strong>Preis: "+waterGame.rizeBioPrice+"<br>Reisertrag pro Runde: "+FieldType.RICE.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.RICE.getErtragBudget()+"<br>Wirtschaftskraft: <span style=\"color:green;\"> +++ </span><br>Lebensqualität: <span style=\"color:blue;\"> 0 </span><br>Umweltfreundlichkeit: <span style=\"color:red;\"> -- </span>"));
+									infoRiceLogo.addClickHandler(riceINfoHandler);
+									gridLW.setWidget(0,2,infoRiceLogo); 
+									//gridLW.setWidget(0,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 									gridLW.setWidget(1, 0, waterGame.rizeBioImage);
 									gridLW.setWidget(1, 1, new HTML("<b>Bio-Reis:<b>"));
-									gridLW.setWidget(1,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									InfoClickHandler riceBioINfoHandler = new InfoClickHandler(new HTML("<strong><i>Bioreisfeld beackern:</i> <br>Das Reisfeld wird auf biologische Produktion umgestellt. Innovative und nachhaltige Beackerungstechniken erlauben den Wasserbedarf zu senken. Die Umwelt wird verschont, indem vollständig auf Pflanzenschutzmittel und Kunstdünger verzichtet wird. Dieses Feld kann nur auf Reisfeldern gesetzt werden.</strong><br>Preis: "+waterGame.rizeBioPrice+" <br>Reisertrag pro Runde: "+FieldType.RICEBIO.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.RICEBIO.getErtragBudget()+"<br>Wirtschaftskraft:<span style=\"color:green;\"> + </span> <br>Lebensqualität:<span style=\"color:green;\"> + </span> <br>Umweltfreundlichkeit: <span style=\"color:green;\"> + </span>"));
+									Image infoRiceBioLogo = new Image("infoLogo.jpg");
+									infoRiceBioLogo.setSize("25px", "25px");
+									infoRiceBioLogo.addClickHandler(riceBioINfoHandler);
+									gridLW.setWidget(1,2,infoRiceBioLogo);
+									//gridLW.setWidget(1,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 									gridLW.setWidget(2, 0, waterGame.teeImage);
 									gridLW.setWidget(2, 1, new HTML("<b>Tee:<b>"));
-									gridLW.setWidget(2,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									Image infoTeeLogo = new Image("infoLogo.jpg");
+									infoTeeLogo.setSize("25px", "25px");
+									InfoClickHandler teeInfoHandler = new InfoClickHandler(new HTML("<strong><i>Teefeld beackern:</i></strong><br>Preis: "+waterGame.teePrice+" <br>Teeertrag pro Runde: "+FieldType.TEE.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.TEE.getErtragBudget()+"<br>Wirtschaftskraft:<span style=\"color:green;\"> + </span> <br>Lebensqualität:<span style=\"color:blue;\"> 0 </span> <br>Umweltfreundlichkeit: <span style=\"color:red;\"> - </span>"));
+									infoTeeLogo.addClickHandler(teeInfoHandler);
+									gridLW.setWidget(2,2,infoTeeLogo);
+									//gridLW.setWidget(2,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 									gridLW.setWidget(3, 0, waterGame.teeBioImage);
 									gridLW.setWidget(3, 1, new HTML("<b>Bio-Tee:<b>"));
-									gridLW.setWidget(3,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
-									gridIndustrie = new Grid(1,3);
+									Image infoTeeBioLogo = new Image("infoLogo.jpg");
+									infoTeeBioLogo.setSize("25px", "25px");
+									InfoClickHandler teeBioInfoHandler = new InfoClickHandler(new HTML("<strong><i>Bioteefeld beackern:</i><br>Das Teefeld wird auf biologische Produktion umgestellt. Innovative und nachhaltige Beackerungstechniken erlauben den Wasserbedarf zu senken. Die Umwelt wird verschont, indem vollständig auf Pflanzenschutzmittel und Kunstdünger verzichtet wird. Dieses Feld kann nur auf Teefeldern gesetzt werden.</strong><br>Preis: "+waterGame.teeBioPrice+" <br>Teeertrag pro Runde: "+FieldType.TEEBIO.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.TEEBIO.getErtragBudget()+"<br>Wirtschaftskraft: <span style=\"color:green;\"> + </span><br>Lebensqualität: <span style=\"color:green;\"> + </span><br>Umweltfreundlichkeit: <span style=\"color:green;\"> + </span>"));
+									infoTeeBioLogo.addClickHandler(teeBioInfoHandler);
+									gridLW.setWidget(3,2,infoTeeBioLogo);
+									//gridLW.setWidget(3,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									gridIndustrie = new Grid(2,3);
 									gridIndustrie.setWidget(0, 0, waterGame.textilImage);
-									gridIndustrie.setWidget(0, 1, new HTML("<b>Textil-industrie<b>"));
-									gridIndustrie.setWidget(0,1,new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									gridIndustrie.setWidget(0, 1, new HTML("<b>Textilien<b>"));
+									Image infoTextilLogo = new Image("infoLogo.jpg");
+									infoTextilLogo.setSize("25px", "25px");
+									InfoClickHandler textilInfoHandler = new InfoClickHandler(new HTML("<strong><i>Textilindustrie:</i></strong><br>Preis: "+waterGame.textilPrice+" <br>Textilienertrag pro Runde: "+FieldType.TEXTIL.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.TEXTIL.getErtragBudget()+"<br>Wirtschaftskraft:<span style=\"color:green;\"> +++++ </span> <br>Lebensqualität:<span style=\"color:green;\"> + </span> <br>Umweltfreundlichkeit: <span style=\"color:red;\"> --- </span>"));
+									infoTextilLogo.addClickHandler(textilInfoHandler);
+									//gridIndustrie.setWidget(0,2,new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									gridIndustrie.setWidget(1, 0, waterGame.textilBioImage);
+									gridIndustrie.setWidget(1, 1, new HTML("<b>Nachhaltige Textilien<b>"));
+									Image infoTextilBioLogo = new Image("infoLogo.jpg");
+									infoTextilBioLogo.setSize("25px", "25px");
+									InfoClickHandler textilBioInfoHandler = new InfoClickHandler(new HTML("<strong><i>Nachhaltige Textilproduktion:</i><br>Die Textilproduktion wird nachhaltig. Die Textilien werden auf umweltverträglicher und giftfreier Art gefertigt. Eine Kläranlage sorgt dafür, dass die Sauberkeit des Flusses aufrechterhalten bleibt. Soziale und faire Arbeitsbedingungen werden sichergestellt. </strong><br>Preis: "+waterGame.textilPrice+" <br>Textilienertrag pro Runde: "+FieldType.TEXTIL.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.TEXTIL.getErtragBudget()+"<br>Wirtschaftskraft:<span style=\"color:green;\"> + </span> <br>Lebensqualität:<span style=\"color:green;\"> + </span> <br>Umweltfreundlichkeit: <span style=\"color:green;\"> ++ </span>"));
+									infoTextilBioLogo.addClickHandler(textilBioInfoHandler);
+									//gridIndustrie.setWidget(1,2,new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 								}
 								if (waterGame.playerID == 4) {
 									setIconSIEDLUNG();
 									setIconFISCH();
+									setIconFISCHBIO();
 									setIconIT();
+									setIconITBIO();
 									setIconsBildung();
-									gridLW = new Grid(1,3);
+									gridLW = new Grid(2,3);
+									//HorizontalPanel labelInfo1 = new HorizontalPanel();
+									HTML label1 = new HTML("<b>Fisch:<b>");
+									//labelInfo1.add(label1);
+									//labelInfo1.add(waterGame.infoLogo);
 									gridLW.setWidget(0, 0, waterGame.fischImage);
-									gridLW.setWidget(0, 1, new HTML("<b>Fisch:<b>"));
-									gridLW.setWidget(0,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));						
-									gridIndustrie = new Grid(1,3);
+									gridLW.setWidget(0, 1,label1);
+									Image infoFischLogo = new Image("infoLogo.jpg");
+									infoFischLogo.setSize("25px", "25px");
+									InfoClickHandler fischInfoHandler = new InfoClickHandler(new HTML("<strong><i>Fischfang:</i></strong><br>Preis: "+waterGame.fischPrice+" <br>Textilienertrag pro Runde: "+FieldType.FISCH.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.FISCH.getErtragBudget()+"<br>Wirtschaftskraft:<span style=\"color:green;\"> +++ </span> <br>Lebensqualität:<span style=\"color:blue;\"> 0 </span> <br>Umweltfreundlichkeit: <span style=\"color:red;\"> -- </span>"));
+									infoFischLogo.addClickHandler(fischInfoHandler);
+									gridLW.setWidget(0,2, infoFischLogo);
+									//gridLW.setWidget(0,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));						
+									
+									gridLW.setWidget(1, 0, waterGame.fischBioImage);
+									//HorizontalPanel labelInfo2 = new HorizontalPanel();
+									HTML label2 = new HTML("<b>Nachhaltige Fischerei:<b>");
+									//labelInfo2.add(label2);
+									//labelInfo2.add(waterGame.infoLogo);
+									gridLW.setWidget(1, 1,label2);
+									Image infoFischBioLogo = new Image("infoLogo.jpg");
+									infoFischBioLogo.setSize("25px", "25px");
+									//TEXT AUSFÜLLEN!!!!!!!!!!!!!!!!!!!
+									InfoClickHandler fischBioInfoHandler = new InfoClickHandler(new HTML("<strong><i>Nachaltiger Fischfang:</i><br>Die Fangmengen werden so reguliert, dass sich die Fischbestände sich wieder erholen können. Strenge Regelungen für umweltfreundliche und nachhaltige Fangmethoden sind vorgegeben. </strong><br>Preis: "+waterGame.fischBioPrice+" <br>Textilienertrag pro Runde: "+FieldType.FISHBIO.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.FISHBIO.getErtragBudget()+"<br>Wirtschaftskraft:<span style=\"color:green;\"> + </span> <br>Lebensqualität:<span style=\"color:green;\"> + </span> <br>Umweltfreundlichkeit: <span style=\"color:green;\"> + </span>"));
+									infoFischBioLogo.addClickHandler(fischBioInfoHandler);
+									gridLW.setWidget(1,2, infoFischBioLogo);
+									//gridLW.setWidget(1,2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));						
+									gridIndustrie = new Grid(2,3);
 									gridIndustrie.setWidget(0, 0, waterGame.itImage);
-									gridIndustrie.setWidget(0, 1, new HTML("<b>IT<b>"));
-									gridIndustrie.setWidget(0,1,new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									//HorizontalPanel labelInfo3 = new HorizontalPanel();
+									HTML label3 = new HTML("<b>IT<b>");
+									//labelInfo3.add(label3);
+									//labelInfo3.add(waterGame.infoLogo);
+									gridIndustrie.setWidget(0, 1, label3);
+									Image infoITLogo = new Image("infoLogo.jpg");
+									infoITLogo.setSize("25px", "25px");
+									InfoClickHandler itInfoHandler = new InfoClickHandler(new HTML("<strong><i>Informationstechnologie:</i></strong><br>Preis: "+waterGame.itPrice+" <br>Textilienertrag pro Runde: "+FieldType.IT.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.IT.getErtragBudget()+"<br>Wirtschaftskraft:<span style=\"color:green;\"> ++++++ </span> <br>Lebensqualität:<span style=\"color:green;\"> + </span> <br>Umweltfreundlichkeit: <span style=\"color:red;\"> --- </span>"));
+									infoITLogo.addClickHandler(itInfoHandler);
+									gridIndustrie.setWidget(0,2, infoITLogo);
+									//gridIndustrie.setWidget(0,2,new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
+									gridIndustrie.setWidget(1, 0, waterGame.itBioImage);
+									gridIndustrie.setWidget(1, 1, new HTML("<b>Green IT<b>"));
+									Image infoITBioLogo = new Image("infoLogo.jpg");
+									infoITBioLogo.setSize("25px", "25px");
+									//TEXT AUSFÜLLEN!!!!!!!!!!!!!!!!!!!
+									InfoClickHandler itBioInfoHandler = new InfoClickHandler(new HTML("<strong><i>Green IT:</i>In der Herstellung werden die Schadstoff-Emissionen, Energie- und Materialverbrauch reduziert. Soziale und faire Arbeitsbedingungen werden sichergestellt. </strong><br>Preis: "+waterGame.itBioPrice+" <br>Textilienertrag pro Runde: "+FieldType.ITBIO.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.ITBIO.getErtragBudget()+"<br>Wirtschaftskraft:<span style=\"color:green;\"> +++ </span> <br>Lebensqualität:<span style=\"color:green;\"> + </span> <br>Umweltfreundlichkeit: <span style=\"color:green;\"> + </span>"));
+									infoITBioLogo.addClickHandler(itBioInfoHandler);
+									gridIndustrie.setWidget(1,2,infoITBioLogo);
+									//gridIndustrie.setWidget(1,2,new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 									
 								}
 								// fill in fieldsPanel
@@ -562,7 +679,6 @@ public class MyStartButtonHandler implements ClickHandler {
 								waterGame.fieldsPanel.addStyleName("panel");
 								waterGame.tradePanel.addStyleName("panel");
 								waterGame.measuresPanel.addStyleName("panel");
-								waterGame.nameAndRoundPanel.addStyleName("panel");
 								waterGame.commonIndikatorPanel.addStyleName("panel");
 								waterGame.validateButtonPanel.addStyleName("panel");
 							}
@@ -642,6 +758,14 @@ public class MyStartButtonHandler implements ClickHandler {
 		IconHandler iconhandlerFISCH = new IconHandler(greetingService, waterGame, fischImageString, waterGame.fischPrice, waterGame.fischPriceRemove, 0);
 		waterGame.fischImage.addClickHandler(iconhandlerFISCH);
 	}
+	
+	private void setIconFISCHBIO() {
+		String fischBIOImageString = "fischbio.jpg";
+		waterGame.fischBioImage.setUrl(fischBIOImageString);
+		waterGame.fischBioImage.setSize("50px", "50px");
+		IconHandler iconhandlerFISCHBIO = new IconHandler(greetingService, waterGame, fischBIOImageString, waterGame.fischBioPrice, waterGame.fischBioPriceRemove, 0);
+		waterGame.fischBioImage.addClickHandler(iconhandlerFISCHBIO);
+	}
 
 	private void setIconTEXTIL() {
 		String textilImageString = "textil.JPG";
@@ -651,6 +775,14 @@ public class MyStartButtonHandler implements ClickHandler {
 				waterGame.textilPriceRemove, 0);
 		waterGame.textilImage.addClickHandler(iconhandlerTEXTIL);
 	}
+	private void setIconTEXTILBIO() {
+		String textilBioImageString = "textilbio.jpg";
+		waterGame.textilBioImage.setUrl(textilBioImageString);
+		waterGame.textilBioImage.setSize("50px", "50px");
+		IconHandler iconhandlerTEXTILBIO = new IconHandler(greetingService, waterGame, textilBioImageString, waterGame.textilBioPrice,
+				waterGame.textilBioPriceRemove, 0);
+		waterGame.textilBioImage.addClickHandler(iconhandlerTEXTILBIO);
+	}
 
 	private void setIconLEDER() {
 		String lederImageString = "leder.JPG";
@@ -659,6 +791,13 @@ public class MyStartButtonHandler implements ClickHandler {
 		IconHandler iconhandlerLEDER = new IconHandler(greetingService, waterGame, lederImageString, waterGame.lederPrice, waterGame.lederPriceRemove, 0);
 		waterGame.lederImage.addClickHandler(iconhandlerLEDER);
 	}
+	private void setIconLEDERBIO() {
+		String lederBioImageString = "lederbio.jpg";
+		waterGame.lederBioImage.setUrl(lederBioImageString);
+		waterGame.lederBioImage.setSize("50px", "50px");
+		IconHandler iconhandlerLEDERBIO = new IconHandler(greetingService, waterGame, lederBioImageString, waterGame.lederBioPrice, waterGame.lederBioPriceRemove, 0);
+		waterGame.lederBioImage.addClickHandler(iconhandlerLEDERBIO);
+	}
 
 	private void setIconIT() {
 		String itImageString = "it.jpg";
@@ -666,6 +805,13 @@ public class MyStartButtonHandler implements ClickHandler {
 		waterGame.itImage.setSize("50px", "50px");
 		IconHandler iconhandlerIT = new IconHandler(greetingService, waterGame, itImageString, waterGame.itPrice, waterGame.itPriceRemove, 0);
 		waterGame.itImage.addClickHandler(iconhandlerIT);
+	}
+	private void setIconITBIO() {
+		String itBioImageString = "itbio.jog.jpg";
+		waterGame.itBioImage.setUrl(itBioImageString);
+		waterGame.itBioImage.setSize("50px", "50px");
+		IconHandler iconhandlerITBIO = new IconHandler(greetingService, waterGame, itBioImageString, waterGame.itBioPrice, waterGame.itBioPriceRemove, 0);
+		waterGame.itBioImage.addClickHandler(iconhandlerITBIO);
 	}
 
 	private void setIconSIEDLUNG() {
