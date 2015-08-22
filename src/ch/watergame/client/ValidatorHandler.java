@@ -636,6 +636,7 @@ public class ValidatorHandler implements ClickHandler {
 			public void onSuccess(Void result) {
 				System.out.println("Switchtimer started! for player"+ waterGame.getPlayerID());
 				waterGame.startSwitchTimer();
+				waterGame.startEndTimer();
 
 			}
 		});

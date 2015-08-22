@@ -7,7 +7,7 @@ import ch.watergame.shared.GameField.FieldType;
 
 public class Game {
 	public ArrayList<Player> playerlist = new ArrayList<Player>();
-	public final int MAXPLAYER = 2;
+	public final int MAXPLAYER = 4;
 	public int playingPlayer = 1;
 	private int spielWechsel = 0;
 	private int gameRound = 1;
@@ -59,6 +59,10 @@ public class Game {
 	public int getGameRound(){
 		setGameRound();
 		return this.gameRound;
+	}
+	
+	public int getNrOfSpielwechsel(){
+		return this.spielWechsel;
 	}
 	
 	public void setGameRound(){

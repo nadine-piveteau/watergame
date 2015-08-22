@@ -125,6 +125,8 @@ public class SwitchTimer extends Timer {
 						RootPanel.get("gamefield").setVisible(false);
 						RootPanel.get("validateButtonContainer").setVisible(
 								false);
+						RootPanel.get("WIN").setVisible(false);
+						RootPanel.get("GAMEOVER").setVisible(false);
 
 					} else {
 
@@ -132,6 +134,8 @@ public class SwitchTimer extends Timer {
 						RootPanel.get("gamefield").setVisible(true);
 						RootPanel.get("validateButtonContainer").setVisible(
 								true);
+						RootPanel.get("WIN").setVisible(false);
+						RootPanel.get("GAMEOVER").setVisible(false);
 						// Zufallsereigniss hier aufrufen
 						System.out.println("BEFORE EVENT EXECUTED");
 						greetingService.executeEvent(waterGame.playerID,

@@ -70,6 +70,9 @@ public class WaterGame implements EntryPoint {
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
 
+		final int WINNINGINDIKATOR = 50;
+	
+	
 	// initial page
 		final Button startButton = new Button("Spiel starten");
 		final Button instructionButton = new Button("Spielanleitung");
@@ -97,13 +100,13 @@ public class WaterGame implements EntryPoint {
 		Label budgetLabel = new Label("Budget");
 		Label budgetValue;
 		int budgetValueInt;
-		Label populationLabel = new Label("Bevoelkerung");
+		Label populationLabel = new Label("Bevölkerung");
 		Label populationValue;
 		Label wirtschaftLabel = new Label("Wirtschaftskraft");
 		Label wirtschaftsValue;
-		Label lebensqualitaetLabel = new Label("Lebensqualitaet");
+		Label lebensqualitaetLabel = new Label("Lebensqualität");
 		Label lebensqualitaetValue;
-		Label umweltLabel = new Label("Umweltfreundlichkeit");
+		Label umweltLabel = new Label("Reinheitsgrad des Flusses");
 		Label umweltValue;
 		final int grundbedarfProKopfLW = 2;
 		final int grundbedarfProKopfIndustrie = 3;
@@ -151,11 +154,11 @@ public class WaterGame implements EntryPoint {
 		boolean activeReformen;
 		int preisNaturkatastrophen = 800;
 		boolean activeNaturkatastrophen;
-		Label titleMeasures = new Label("Politische Massnahmen");
+		Label titleMeasures = new Label("Massnahmen");
 		HTML umweltSchutzLabel = new HTML("<h4><strong>Massnahmen gegen Umweltverschmutzung</strong><br>Preis: "+  preisUmweltverschmutzung+"<h4>");
 		CheckBox umweltSchutzButton = new CheckBox ();
 		//HTML umweltSchutzBeschreibung = new HTML("<h5>Flusssäuberung, Energiesparmassnahmen<br> Preis: XXXX<h5>");
-		HTML reformen = new HTML("<h4>Politische Reformen<br>Preis: "+preisReformen+"<h4>");
+		HTML reformen = new HTML("<h4>Demokratiefördernde Massnahmen<br>Preis: "+preisReformen+"<h4>");
 		CheckBox reformenButton = new CheckBox ();
 		//HTML reformenBeschreibung = new HTML("<h5>Verbesserung des politischen Systems <br> Preis: XXXX<h5>");
 		HTML naturgefahrenSchutz = new HTML("<h4><strong>Schutz vor Naturkatastrophen</strong><br>Preis: "+preisNaturkatastrophen+"<h4>");
@@ -290,6 +293,7 @@ public class WaterGame implements EntryPoint {
 		 */
 		Timer t;
 		Timer t2;
+		Timer t3;
 		public int playerID;
 	
 	/**
@@ -299,6 +303,8 @@ public class WaterGame implements EntryPoint {
 		//just for testing
 		//RootPanel.get().add(instructionButton);
 		infoLogo.setSize("25px", "25px");
+		RootPanel.get("WIN").setVisible(false);
+		RootPanel.get("GAMEOVER").setVisible(false);
 		
 		RootPanel.get("tradeContainer").setVisible(false);
 		RootPanel.get("gamefield").setVisible(false);
@@ -431,6 +437,11 @@ public class WaterGame implements EntryPoint {
 	public void startSwitchTimer() {
 		t2 = new SwitchTimer(greetingService, this);
 		t2.scheduleRepeating(500);
+	}
+	
+	public void startEndTimer(){
+		t3 = new EndTimer(greetingService, this);
+		t3.scheduleRepeating(500);
 	}
 
 	// set Panel for Lebensqualitaet Indicator

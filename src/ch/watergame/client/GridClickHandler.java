@@ -34,7 +34,7 @@ public class GridClickHandler implements ClickHandler {
 	@Override
 	public void onClick(ClickEvent event) {
 		if (WaterGame.getSelectedImage().contains("bio")) {
-			Window.alert("No upgrade possible.");
+			Window.alert("Dieses Feld ist hier nicht möglich.");
 		} else {
 			final Image insertImage = new Image();
 			this.imgString = WaterGame.getSelectedImage();
@@ -139,9 +139,9 @@ public class GridClickHandler implements ClickHandler {
 
 												});
 									}
-										else if(result.equals("Your city has not enough Knowledge.")){
+										else if(result.equals("Deine Stadt verfügt über nicht genügend wissen.")){
 											Window.alert(result);
-										}else if(result.equals("Game Over...")){
+										}else if(result.equals("Du hast nicht genügend Budget.")){
 											Window.alert(result);
 										}
 

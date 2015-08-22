@@ -58,7 +58,7 @@ public class MyStartButtonHandler implements ClickHandler {
 				if(Integer.parseInt(result.substring(0, 1)) ==1){
 					name = new Label("Chamoli");
 				}else if(Integer.parseInt(result.substring(0, 1))  == 2){
-					name = new Label("Kampur");
+					name = new Label("Kanpur");
 				}else if(Integer.parseInt(result.substring(0, 1)) ==3){
 					name = new Label("Varanasi");
 				}else if(Integer.parseInt(result.substring(0, 1))  ==4){

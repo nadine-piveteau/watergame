@@ -143,6 +143,10 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 		RootPanel.get("gamefield").setVisible(true);
 		RootPanel.get("validateButtonContainer").setVisible(true);
 		RootPanel.get("tradeContainer").setVisible(false);
+		RootPanel.get("WIN").setVisible(false);
+		RootPanel.get("GAMEOVER").setVisible(false);
+
+
 		
 		RootPanel.get("tradeContainer").setVisible(false);
 		RootPanel.get("gamefield").setVisible(true);

@@ -20,7 +20,7 @@ public class StartTimer extends Timer {
 	public void run() {
 		greetingService.checkNrPlayer(new AsyncCallback<String>() {
 			public void onSuccess(String result) {
-				if (result.equals("2")) {
+				if (result.equals("4")) {
 					greetingService.isMyTurn(new AsyncCallback<TradeResult>() {
 
 						@Override
@@ -49,6 +49,8 @@ public class StartTimer extends Timer {
 								RootPanel.get("NotYourTurn").setVisible(false);
 								System.out.println("Switchtimer has been added to player     "+wgame.getPlayerID());
 								wgame.startSwitchTimer();
+								wgame.startEndTimer();
+								
 							}
 						}
 

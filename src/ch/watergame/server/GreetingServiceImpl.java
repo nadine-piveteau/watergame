@@ -260,10 +260,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		int budget = getBudget(playerID) - rizePrice;
 		int knowledgeNew = getKnowHow(playerID) - amountknowledge;
 		if (budget >= 0 && knowledgeNew < 0) {
-			message = "Your city has not enough Knowledge.";
+			message = "Deine Stadt verfügt über nicht genügend wissen.";
 			return message;
 		} else if (budget < 0) {
-			message = "Game Over...";
+			message = "Du hast nicht genügend Budget.";
 			return message;
 		} else {
 			return "OK";
@@ -899,9 +899,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		System.out.println("PLAYER NATURKATASTROPHEN SCHUTZ: "+player.isNaturkatastrophenSchutz());
 		Random rand = new Random();
 		// Test
-		int randomNum = 2;
+		//int randomNum = 2;
 		// Min + (int)(Math.random() * ((Max - Min) + 1))
-		//int randomNum = 1 + (int)(Math.random() * ((10 - 1) + 1));
+		int randomNum = 1 + (int)(Math.random() * ((30 - 1) + 1));
 		// Dürre: Kein Ertrag in der Landwirtschaft
 		// Lebensqualität nimmt ab
 		if (player.isNaturkatastrophenSchutz() == false) {
@@ -1024,6 +1024,13 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	public int getCommonIndicator() {
 		int indicator = (int) game.getCommonIndicator();
 		return indicator;
+	}
+	@Override
+	public ArrayList<Integer> getNrOfSpielwechsel(){
+		ArrayList<Integer> result = new ArrayList<Integer>(2);
+		result.add(game.getNrOfSpielwechsel());
+		result.add((int)game.getCommonIndicator());
+		return result;
 	}
 
 }
