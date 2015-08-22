@@ -70,7 +70,12 @@ h1 {
 .serverResponseLabelError {
   color: red;
 }
-
+.selectedImage{
+	   border-style: groove;
+	border-color: #cecece;
+	border-radius:10px;
+	background-color:#333333;
+}
 .panel{
 	border-style: groove;
 	border-color: #cecece;
@@ -81,6 +86,7 @@ h1 {
 	margin-right: 5px;
 	margin-left: 5px;
 }
+
 .gridpanel{
 	border-style: solid;
 	border-color:grey;
@@ -171,3 +177,5 @@ progress.progress_bar{
 	 opacity: 1.0;
     filter: alpha(opacity=100); /* For IE8 and earlier */
 }
+
+

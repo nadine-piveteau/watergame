@@ -38,7 +38,6 @@ public class GridClickHandler implements ClickHandler {
 		} else {
 			final Image insertImage = new Image();
 			this.imgString = WaterGame.getSelectedImage();
-			System.out.println("GridHandler: " + imgString);
 			insertImage.setSize("40px", "40px");
 			insertImage.setUrl(imgString);
 			GridClickHandler insertedImageGridHandler = new GridClickHandler(
@@ -50,7 +49,6 @@ public class GridClickHandler implements ClickHandler {
 				UpgradeClickHandler upgradehandler = new UpgradeClickHandler(
 						"rizeFieldbio.jpeg", greetingService, game, row, col);
 				FieldDoubleClickHandler doubleclick = new FieldDoubleClickHandler(row, col, "transparent_graphic.png", game, greetingService);
-				System.out.println("DoubleClickHandler was added.");
 				insertImage.addDoubleClickHandler(doubleclick);
 				insertImage.addClickHandler(upgradehandler);
 				// insertImage.addClickHandler(insertedImageGridHandler);
@@ -92,7 +90,6 @@ public class GridClickHandler implements ClickHandler {
 								public void onSuccess(String result) {
 									if (result.equals("OK")) {
 										game.grid.setWidget(row, col, insertImage);
-										System.out.println(insertImage +" was set into the gamefield");
 
 										greetingService.setFieldintoGameField(
 												userID, row, col, imgString,

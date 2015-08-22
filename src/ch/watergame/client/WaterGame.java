@@ -182,61 +182,83 @@ public class WaterGame implements EntryPoint {
 		Label bildungLabel = new Label("Bildung");
 		Image lwImage = new Image();
 		Image industrieImage = new Image();
+		VerticalPanel rizePanel = new VerticalPanel();
 		Image rizeImage = new Image();
 		final int rizePrice = 60;
 		final int removeRizePrice = -60;
+		VerticalPanel rizeBioPanel = new VerticalPanel();
 		Image rizeBioImage = new Image();
 		final int rizeBioPrice = 60;
 		final int removeRizeBioPrice = -60;
+		VerticalPanel teePanel = new VerticalPanel();
 		Image teeImage = new Image();
 		final int teePrice = 60;
 		final int teePriceRemove = -60;
+		VerticalPanel teeBioPanel = new VerticalPanel();
 		Image teeBioImage = new Image();
 		final int teeBioPrice = 60;
 		final int teeBioPriceRemove = -60;
+		VerticalPanel zuckerPanel = new VerticalPanel();
 		Image zuckerImage = new Image();
 		final int zuckrePrice = 60;
 		final int zuckerPriceRemove = -60;
+		VerticalPanel zuckerBioPanel = new VerticalPanel();
 		Image zuckerBioImage = new Image();
 		final int zuckreBioPrice = 60;
 		final int zuckerBioPriceRemove = -60;	
+		VerticalPanel fischPanel = new VerticalPanel();
 		Image fischImage = new Image();
 		final int fischPrice = 60;
 		final int fischPriceRemove = -60;
+		VerticalPanel fischBioPanel = new VerticalPanel();
 		Image fischBioImage = new Image();
 		final int fischBioPrice = 60;
 		final int fischBioPriceRemove = -60;
+		VerticalPanel lederPanel = new VerticalPanel();
 		Image lederImage = new Image();
 		final int lederPrice = 80;
 		final int lederPriceRemove = -80;
+		VerticalPanel lederBioPanel = new VerticalPanel();
 		Image lederBioImage = new Image();
 		final int lederBioPrice = 80;
 		final int lederBioPriceRemove = -80;
+		VerticalPanel textilPanel = new VerticalPanel();
 		Image textilImage = new Image();
 		final int textilPrice = 80;
 		final int textilPriceRemove = -80;
+		VerticalPanel textilBioPanel = new VerticalPanel();
 		Image textilBioImage = new Image();
 		final int textilBioPrice = 80;
 		final int textilBioPriceRemove = -80;
+		VerticalPanel itPanel = new VerticalPanel();
 		Image itImage = new Image();
 		final int itPrice = 90;
 		final int itPriceRemove = -90;
+		VerticalPanel itBioPanel = new VerticalPanel();
 		Image itBioImage = new Image();
 		final int itBioPrice = 90;
 		final int itBioPriceRemove = -90;
+		VerticalPanel siedlungPanel = new VerticalPanel();
 		Image siedlungImage = new Image();
 		final int siedlungPrice = 50;
 		final int siedlungPriceRemove = -50;
+		VerticalPanel unterstufePanel = new VerticalPanel();
 		Image unterStufeImage = new Image();
 		final int unterStufePrice = 50;
 		final int unterStufePriceRemove = -50;
+		VerticalPanel oberstufePanel = new VerticalPanel();
 		Image oberStufeImage = new Image();
 		final int oberStufePrice = 75;
 		final int oberStufeRemove = -75;
+		VerticalPanel uniPanel = new VerticalPanel();
 		Image uniImage = new Image();
 		final int uniPrice = 100;
 		final int uniPriceRemove = -100;
 		Image infoLogo = new Image("infoLogo.jpg");
+		public Grid gridLW;
+		public Grid gridIndustrie;
+		public Grid gridBildung = new Grid(3,3);
+		
 		//expected ressources
 		int rizeNeededInt;
 		int theNeededInt;
@@ -295,6 +317,9 @@ public class WaterGame implements EntryPoint {
 		Timer t2;
 		Timer t3;
 		public int playerID;
+
+
+		public HTML rizeHTML;
 	
 	/**
 	 * This is the entry point method.
