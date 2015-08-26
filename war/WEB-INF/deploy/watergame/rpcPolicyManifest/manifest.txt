@@ -1,2 +1,3 @@
 # Module watergame
 # RPC service class, partial path of RPC policy file
+ch.watergame.client.GreetingService, EBA89998558D091ED559C71F6FDBF763.gwt.rpc

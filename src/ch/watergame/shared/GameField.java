@@ -112,7 +112,7 @@ public class GameField implements Serializable {
 	}
 
 	void setGameFieldforPlayer(int playerId) {
-		if (playerId == 1) {
+		if (playerId == 0) {
 			// fill nationalpark
 			for (int row = 0; row < 7; row++) {
 				for (int col = 8; col < 15; col++) {
@@ -126,7 +126,7 @@ public class GameField implements Serializable {
 			gameField[2][6] = FieldType.RICE;
 			gameField[3][7] = FieldType.UNTERSTUFE;
 		}
-		if (playerId == 2) {
+		if (playerId == 1) {
 			gameField[6][6] = FieldType.SIEDLUNG;
 			gameField[6][7] = FieldType.SIEDLUNG;
 			gameField[6][8] = FieldType.SIEDLUNG;
@@ -149,7 +149,7 @@ public class GameField implements Serializable {
 
 		}
 		
-		if(playerId==3){
+		if(playerId==2){
 			gameField[6][6] = FieldType.SIEDLUNG;
 			gameField[6][7] = FieldType.SIEDLUNG;
 			gameField[6][8] = FieldType.SIEDLUNG;
@@ -171,7 +171,7 @@ public class GameField implements Serializable {
 
 
 		}
-		if(playerId==4){
+		if(playerId==3){
 			gameField[3][4] = FieldType.TEMPEL;
 			gameField[3][5] = FieldType.TEMPEL;
 			gameField[3][6] = FieldType.TEMPEL;

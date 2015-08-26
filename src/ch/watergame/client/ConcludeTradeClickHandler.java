@@ -78,7 +78,7 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 		System.out.println("Nr of Trades to accept: "+ selectedCheckboxes.size() + " / "+ tradeList.size() );
 		
 		if(!checkTrades()){
-			Window.alert("Trade not possible. You don't have enough ressources.");
+			Window.alert("Handel nicht möglich. Du hast nicht genügend Ressourcen.");
 			copyRessources();
 			for(CheckBox checkbox: selectedCheckboxes){
 				checkbox.setValue(false);
@@ -152,7 +152,6 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 		RootPanel.get("gamefield").setVisible(true);
 		RootPanel.get("validateButtonContainer").setVisible(true);
 		//Zufallsereigniss hier aufrufen
-		System.out.println("BEFORE EVENT EXECUTED");
 		greetingService.executeEvent(waterGame.playerID, new AsyncCallback<String>() {
 			
 			@Override
@@ -918,31 +917,6 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 				measuresTable.setWidget(3, 1, waterGame.naturkatastropheButton);
 				waterGame.measuresPanel.add(waterGame.titleMeasures);
 				waterGame.measuresPanel.add(measuresTable);
-		/*
-				HorizontalPanel hp1 = new HorizontalPanel();
-				hp1.add(waterGame.umweltSchutzLabel);
-				hp1.add(waterGame.umweltSchutzButton);
-				waterGame.measuresPanel.add(hp1);
-				waterGame.measuresPanel.add(waterGame.umweltSchutzBeschreibung);
-				// Subventionen
-				HorizontalPanel hp2 = new HorizontalPanel();
-				hp2.add(waterGame.subventionenLabel);
-				hp2.add(waterGame.subventionenButton);
-				waterGame.measuresPanel.add(hp2);
-				waterGame.measuresPanel.add(waterGame.subventionenBeschreibung);
-				//Reformen
-				HorizontalPanel hp3 = new HorizontalPanel();
-				hp3.add(waterGame.reformen);
-				hp3.add(waterGame.reformenButton);
-				waterGame.measuresPanel.add(hp3);
-				waterGame.measuresPanel.add(waterGame.reformenBeschreibung);
-				//Naturkatastrophen
-				HorizontalPanel hp4 = new HorizontalPanel();
-				hp4.add(waterGame.naturgefahrenSchutz);
-				hp4.add(waterGame.naturkatastropheButton);
-				waterGame.measuresPanel.add(hp3);
-				waterGame.measuresPanel.add(waterGame.naturkatastropheBeschreibung);
-				*/
 		
 
 	}

@@ -20,7 +20,8 @@ public class StartTimer extends Timer {
 	public void run() {
 		greetingService.checkNrPlayer(new AsyncCallback<String>() {
 			public void onSuccess(String result) {
-				if (result.equals("2")) {
+				System.out.println("CHECK RESULT NUMBER OF PLAYER!!");
+				if (result.equals("4")) {
 					greetingService.isMyTurn(new AsyncCallback<TradeResult>() {
 
 						@Override

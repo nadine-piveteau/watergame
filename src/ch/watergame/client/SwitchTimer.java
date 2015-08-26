@@ -48,7 +48,10 @@ public class SwitchTimer extends Timer {
 				// TODO Auto-generated method stub
 				waterGame.gameRound = result;
 				waterGame.roundPanel.clear();
-				waterGame.roundCounter = new Label(result + ". Runde");
+				waterGame.roundCounter = new HTML(result + ". Runde");
+				waterGame.roundCounter.addStyleName("roundCounter");
+				waterGame.roundCounter.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+
 				waterGame.roundPanel.add(waterGame.roundCounter);
 
 			}

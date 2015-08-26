@@ -41,36 +41,44 @@ public class MyStartButtonHandler implements ClickHandler {
 
 	@Override
 	public void onClick(ClickEvent event) {
+		RootPanel.get("sendButtonContainer").setVisible(false);
+		RootPanel.get("instructionButtonContainer").setVisible(false);
 		greetingService.startGame(new AsyncCallback<String>() {
 			public void onFailure(Throwable caught) {
 				System.out.println("Failed");
 			}
 
 			public void onSuccess(String result) {
-				
 				waterGame.setplayerID(Integer.parseInt(result.substring(0, 1)));
+				System.out.println("RESULT AFTER STARTGAME:"+result);
 				DialogBox waitingBox = new DialogBox();
 				waitingBox.setText(result.substring(1));
 				RootPanel.get("waitingBoxContainer").add(waitingBox);
-				Label name = null;
-				if(Integer.parseInt(result.substring(0, 1)) ==1){
-					name = new Label("Chamoli");
-				}else if(Integer.parseInt(result.substring(0, 1))  == 2){
-					name = new Label("Kanpur");
-				}else if(Integer.parseInt(result.substring(0, 1)) ==3){
-					name = new Label("Varanasi");
-				}else if(Integer.parseInt(result.substring(0, 1))  ==4){
-					name = new Label("Kalkuta");
+				HTML name = null;
+				System.out.println( "STRING RETURNED "+result.substring(0, 1));
+				if(Integer.parseInt(result.substring(0, 1)) ==0){
+					name = new HTML("Chamoli     ");
+				}else if(Integer.parseInt(result.substring(0, 1))  == 1){
+					name = new HTML("Kanpur     ");
+				}else if(Integer.parseInt(result.substring(0, 1)) ==2){
+					name = new HTML("Varanasi     ");					
+				}else if(Integer.parseInt(result.substring(0, 1))  ==3){
+					name = new HTML("Kalkuta     ");
 				}
+				name.setStyleName("nameCity");
+				name.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+				waterGame.roundCounter.setStyleName("roundCounter");
 				waterGame.roundPanel.add(waterGame.roundCounter);
+				waterGame.roundPanel.setWidth("100%");
 				waterGame.roundPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 				//roundPanel.setHeight("70px");
 				//roundPanel.setWidth("350px");
 				//fieldsAndRoundCounter.add(roundPanel);
 				waterGame.nameAndRoundPanel.add(name);
 				waterGame.nameAndRoundPanel.add(waterGame.roundPanel);
-				waterGame.nameAndRoundPanel. setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-				 
+				waterGame.nameAndRoundPanel.setWidth("100%");
+				waterGame.nameAndRoundPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+				System.out.println("GET GAMFIELD: "+waterGame.getPlayerID());
 				greetingService.getGameField(waterGame.getPlayerID(), new AsyncCallback<GameField>() {
 
 					@Override
@@ -269,12 +277,24 @@ public class MyStartButtonHandler implements ClickHandler {
 								waterGame.ressourcePanel.add(waterGame.knowhowValue);
 								waterGame.ressourcePanel.setCellHorizontalAlignment(waterGame.budgetValue, HasHorizontalAlignment.ALIGN_LEFT);
 								
-								
-								waterGame.tradePanel.add(new Label("Trade"));
+								Grid tradeGrid = new Grid(9,2);
+								waterGame.tradePanel.add(new Label("Handel"));
 								HorizontalPanel smallTradeFieldPanel1 = new HorizontalPanel();
+								HorizontalPanel smallTradeFieldPanel1a = new HorizontalPanel();
+								HorizontalPanel smallTradeFieldPanel1b= new HorizontalPanel();
+
 								HorizontalPanel smallTradeFieldPanel2 = new HorizontalPanel();
+								HorizontalPanel smallTradeFieldPanel2a = new HorizontalPanel();
+								HorizontalPanel smallTradeFieldPanel2b = new HorizontalPanel();
+
 								HorizontalPanel smallTradeFieldPanel3 = new HorizontalPanel();
+								HorizontalPanel smallTradeFieldPanel3a = new HorizontalPanel();
+								HorizontalPanel smallTradeFieldPanel3b = new HorizontalPanel();
+
 								HorizontalPanel smallTradeFieldPanel4 = new HorizontalPanel();
+								HorizontalPanel smallTradeFieldPanel4a = new HorizontalPanel();
+								HorizontalPanel smallTradeFieldPanel4b= new HorizontalPanel();
+
 								waterGame.importAmountText1 = new TextBox();
 								waterGame.importAmountText1.setSize("65px", "15px");
 								waterGame.importList1 = new ListBox();
@@ -283,10 +303,16 @@ public class MyStartButtonHandler implements ClickHandler {
 								waterGame.exportAmountText1.setSize("65px", "15px");
 								waterGame.exportList1 = new ListBox();
 								setListBox(waterGame.exportList1);
+								/*
 								smallTradeFieldPanel1.add(waterGame.importAmountText1);
 								smallTradeFieldPanel1.add(waterGame.importList1);
 								smallTradeFieldPanel1.add(waterGame.exportAmountText1);
 								smallTradeFieldPanel1.add(waterGame.exportList1);
+								*/
+								smallTradeFieldPanel1a.add(waterGame.importAmountText1);
+								smallTradeFieldPanel1a.add(waterGame.importList1);
+								smallTradeFieldPanel1b.add(waterGame.exportAmountText1);
+								smallTradeFieldPanel1b.add(waterGame.exportList1);
 								waterGame.importAmountText2 = new TextBox();
 								waterGame.importAmountText2.setSize("65px", "15px");
 								waterGame.importList2 = new ListBox();
@@ -295,10 +321,10 @@ public class MyStartButtonHandler implements ClickHandler {
 								waterGame.exportAmountText2.setSize("65px", "15px");
 								waterGame.exportList2 = new ListBox();
 								setListBox(waterGame.exportList2);
-								smallTradeFieldPanel2.add(waterGame.importAmountText2);
-								smallTradeFieldPanel2.add(waterGame.importList2);
-								smallTradeFieldPanel2.add(waterGame.exportAmountText2);
-								smallTradeFieldPanel2.add(waterGame.exportList2);
+								smallTradeFieldPanel2a.add(waterGame.importAmountText2);
+								smallTradeFieldPanel2a.add(waterGame.importList2);
+								smallTradeFieldPanel2b.add(waterGame.exportAmountText2);
+								smallTradeFieldPanel2b.add(waterGame.exportList2);
 								waterGame.importAmountText3 = new TextBox();
 								waterGame.importAmountText3.setSize("65px", "15px");
 								waterGame.importList3 = new ListBox();
@@ -307,10 +333,10 @@ public class MyStartButtonHandler implements ClickHandler {
 								waterGame.exportAmountText3.setSize("65px", "15px");
 								waterGame.exportList3 = new ListBox();
 								setListBox(waterGame.exportList3);
-								smallTradeFieldPanel3.add(waterGame.importAmountText3);
-								smallTradeFieldPanel3.add(waterGame.importList3);
-								smallTradeFieldPanel3.add(waterGame.exportAmountText3);
-								smallTradeFieldPanel3.add(waterGame.exportList3);
+								smallTradeFieldPanel3a.add(waterGame.importAmountText3);
+								smallTradeFieldPanel3a.add(waterGame.importList3);
+								smallTradeFieldPanel3b.add(waterGame.exportAmountText3);
+								smallTradeFieldPanel3b.add(waterGame.exportList3);
 								waterGame.importAmountText4 = new TextBox();
 								waterGame.importAmountText4.setSize("65px", "15px");
 								waterGame.importList4 = new ListBox();
@@ -319,40 +345,106 @@ public class MyStartButtonHandler implements ClickHandler {
 								waterGame.exportAmountText4.setSize("65px", "15px");
 								waterGame.exportList4 = new ListBox();
 								setListBox(waterGame.exportList4);
-								smallTradeFieldPanel4.add(waterGame.importAmountText4);
-								smallTradeFieldPanel4.add(waterGame.importList4);
-								smallTradeFieldPanel4.add(waterGame.exportAmountText4);
-								smallTradeFieldPanel4.add(waterGame.exportList4);
-								if (waterGame.getPlayerID() == 1) {
+								smallTradeFieldPanel4a.add(waterGame.importAmountText4);
+								smallTradeFieldPanel4a.add(waterGame.importList4);
+								smallTradeFieldPanel4b.add(waterGame.exportAmountText4);
+								smallTradeFieldPanel4b.add(waterGame.exportList4);
+								if (waterGame.getPlayerID() == 0) {
+									tradeGrid.setWidget(0, 0, waterGame.tradePlayer2);
+									tradeGrid.setWidget(1, 0, new HTML("Import"));
+									tradeGrid.setWidget(1, 1, new HTML("Export"));
+									tradeGrid.setWidget(2, 0, smallTradeFieldPanel2a);
+									tradeGrid.setWidget(2, 1, smallTradeFieldPanel2b);
+									tradeGrid.setWidget(3, 0, waterGame.tradePlayer3);
+									tradeGrid.setWidget(4, 0, new HTML("Import"));
+									tradeGrid.setWidget(4, 1, new HTML("Export"));
+									tradeGrid.setWidget(5, 0, smallTradeFieldPanel3a);
+									tradeGrid.setWidget(5, 1, smallTradeFieldPanel3b);
+									tradeGrid.setWidget(6, 0, waterGame.tradePlayer4);
+									tradeGrid.setWidget(7, 0, new HTML("Import"));
+									tradeGrid.setWidget(7, 1, new HTML("Export"));
+									tradeGrid.setWidget(8, 0, smallTradeFieldPanel4a);
+									tradeGrid.setWidget(8, 1, smallTradeFieldPanel4b);
+/*
 									waterGame.tradePanel.add(waterGame.tradePlayer2);
 									waterGame.tradePanel.add(smallTradeFieldPanel2);
 									waterGame.tradePanel.add(waterGame.tradePlayer3);
 									waterGame.tradePanel.add(smallTradeFieldPanel3);
 									waterGame.tradePanel.add(waterGame.tradePlayer4);
-									waterGame.tradePanel.add(smallTradeFieldPanel4);
+									waterGame.tradePanel.add(smallTradeFieldPanel4);*/
+								} else if (waterGame.getPlayerID() == 1) {
+									tradeGrid.setWidget(0, 0, waterGame.tradePlayer1);
+									tradeGrid.setWidget(1, 0, new HTML("Import"));
+									tradeGrid.setWidget(1, 1, new HTML("Export"));
+									tradeGrid.setWidget(2, 0, smallTradeFieldPanel1a);
+									tradeGrid.setWidget(2, 1, smallTradeFieldPanel1b);
+									tradeGrid.setWidget(3, 0, waterGame.tradePlayer3);
+									tradeGrid.setWidget(4, 0, new HTML("Import"));
+									tradeGrid.setWidget(4, 1, new HTML("Export"));
+									tradeGrid.setWidget(5, 0, smallTradeFieldPanel3a);
+									tradeGrid.setWidget(5, 1, smallTradeFieldPanel3b);
+									tradeGrid.setWidget(6, 0, waterGame.tradePlayer4);
+									tradeGrid.setWidget(7, 0, new HTML("Import"));
+									tradeGrid.setWidget(7, 1, new HTML("Export"));
+									tradeGrid.setWidget(8, 0, smallTradeFieldPanel4a);
+									tradeGrid.setWidget(8, 1, smallTradeFieldPanel4b);
+									
+									/*
+									waterGame.tradePanel.add(waterGame.tradePlayer1);
+									waterGame.tradePanel.add(smallTradeFieldPanel1);
+									waterGame.tradePanel.add(waterGame.tradePlayer3);
+									waterGame.tradePanel.add(smallTradeFieldPanel3);
+									waterGame.tradePanel.add(waterGame.tradePlayer4);
+									waterGame.tradePanel.add(smallTradeFieldPanel4);*/
 								} else if (waterGame.getPlayerID() == 2) {
+									tradeGrid.setWidget(0, 0, waterGame.tradePlayer1);
+									tradeGrid.setWidget(1, 0, new HTML("Import"));
+									tradeGrid.setWidget(1, 1, new HTML("Export"));
+									tradeGrid.setWidget(2, 0, smallTradeFieldPanel1a);
+									tradeGrid.setWidget(2, 1, smallTradeFieldPanel1b);
+									tradeGrid.setWidget(3, 0, waterGame.tradePlayer2);
+									tradeGrid.setWidget(4, 0, new HTML("Import"));
+									tradeGrid.setWidget(4, 1, new HTML("Export"));
+									tradeGrid.setWidget(5, 0, smallTradeFieldPanel2a);
+									tradeGrid.setWidget(5, 1, smallTradeFieldPanel2b);
+									tradeGrid.setWidget(6, 0, waterGame.tradePlayer4);
+									tradeGrid.setWidget(7, 0, new HTML("Import"));
+									tradeGrid.setWidget(7, 1, new HTML("Export"));
+									tradeGrid.setWidget(8, 0, smallTradeFieldPanel4a);
+									tradeGrid.setWidget(8, 1, smallTradeFieldPanel4b);
+									/*
 									waterGame.tradePanel.add(waterGame.tradePlayer1);
 									waterGame.tradePanel.add(smallTradeFieldPanel1);
-									waterGame.tradePanel.add(waterGame.tradePlayer3);
-									waterGame.tradePanel.add(smallTradeFieldPanel3);
+									waterGame.tradePanel.add(waterGame.tradePlayer2);
+									waterGame.tradePanel.add(smallTradeFieldPanel2);
 									waterGame.tradePanel.add(waterGame.tradePlayer4);
-									waterGame.tradePanel.add(smallTradeFieldPanel4);
+									waterGame.tradePanel.add(smallTradeFieldPanel4);*/
+									
 								} else if (waterGame.getPlayerID() == 3) {
-									waterGame.tradePanel.add(waterGame.tradePlayer1);
-									waterGame.tradePanel.add(smallTradeFieldPanel1);
-									waterGame.tradePanel.add(waterGame.tradePlayer2);
-									waterGame.tradePanel.add(smallTradeFieldPanel2);
-									waterGame.tradePanel.add(waterGame.tradePlayer4);
-									waterGame.tradePanel.add(smallTradeFieldPanel4);
-								} else if (waterGame.getPlayerID() == 4) {
+									tradeGrid.setWidget(0, 0, waterGame.tradePlayer1);
+									tradeGrid.setWidget(1, 0, new HTML("Import"));
+									tradeGrid.setWidget(1, 1, new HTML("Export"));
+									tradeGrid.setWidget(2, 0, smallTradeFieldPanel1a);
+									tradeGrid.setWidget(2, 1, smallTradeFieldPanel1b);
+									tradeGrid.setWidget(3, 0, waterGame.tradePlayer2);
+									tradeGrid.setWidget(4, 0, new HTML("Import"));
+									tradeGrid.setWidget(4, 1, new HTML("Export"));
+									tradeGrid.setWidget(5, 0, smallTradeFieldPanel2a);
+									tradeGrid.setWidget(5, 1, smallTradeFieldPanel2b);
+									tradeGrid.setWidget(6, 0, waterGame.tradePlayer3);
+									tradeGrid.setWidget(7, 0, new HTML("Import"));
+									tradeGrid.setWidget(7, 1, new HTML("Export"));
+									tradeGrid.setWidget(8, 0, smallTradeFieldPanel3a);
+									tradeGrid.setWidget(8, 1, smallTradeFieldPanel3b);
+									/*
 									waterGame.tradePanel.add(waterGame.tradePlayer1);
 									waterGame.tradePanel.add(smallTradeFieldPanel1);
 									waterGame.tradePanel.add(waterGame.tradePlayer2);
 									waterGame.tradePanel.add(smallTradeFieldPanel2);
 									waterGame.tradePanel.add(waterGame.tradePlayer3);
-									waterGame.tradePanel.add(smallTradeFieldPanel3);
+									waterGame.tradePanel.add(smallTradeFieldPanel3);*/
 								}
-								
+								waterGame.tradePanel.add(tradeGrid);
 								waterGame.ressourceTradePanel.add(waterGame.ressourcePanel);
 								waterGame.ressourceTradePanel.add(waterGame.tradePanel);
 								waterGame.ressourceTradePanel.add(waterGame.measuresPanel);
@@ -367,7 +459,7 @@ public class MyStartButtonHandler implements ClickHandler {
 								
 								
 								// Add icons to FliedschoiceList and provide function to
-								if (waterGame.playerID == 1) {
+								if (waterGame.playerID == 0) {
 									setIconSIEDLUNG();
 									setIconTEE();
 									setIconTEEBIO();
@@ -376,7 +468,7 @@ public class MyStartButtonHandler implements ClickHandler {
 									setIconsBildung();
 									waterGame.gridLW = new Grid(4,3);
 									waterGame.gridLW.setWidget(0, 0, waterGame.rizePanel);
-									waterGame.rizeHTML = new HTML("Reis");
+									waterGame.rizeHTML = new HTML("<b>Reis<b>");
 									waterGame.gridLW.setWidget(0, 1, waterGame.rizeHTML);
 									Image infoRiceLogo = new Image("infoLogo.jpg");
 									infoRiceLogo.setSize("25px", "25px");
@@ -413,7 +505,7 @@ public class MyStartButtonHandler implements ClickHandler {
 									waterGame.gridIndustrie.setWidget(0, 0, new HTML("	Kein Industriezweig vorhanden.	"));
 									
 								}
-								if (waterGame.playerID == 2) {
+								if (waterGame.playerID == 1) {
 									setIconSIEDLUNG();
 									setIconLEDER();
 									setIconLEDERBIO();
@@ -454,7 +546,7 @@ public class MyStartButtonHandler implements ClickHandler {
 									infoLederBioLogo.addClickHandler(lederBioInfoHandler);
 									//gridIndustrie.setWidget(1, 2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskraft: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 								}
-								if (waterGame.playerID == 3) {
+								if (waterGame.playerID == 2) {
 									setIconSIEDLUNG();
 									setIconTEE();
 									setIconTEEBIO();
@@ -512,7 +604,7 @@ public class MyStartButtonHandler implements ClickHandler {
 									infoTextilBioLogo.addClickHandler(textilBioInfoHandler);
 									//gridIndustrie.setWidget(1,2,new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 								}
-								if (waterGame.playerID == 4) {
+								if (waterGame.playerID == 3) {
 									setIconSIEDLUNG();
 									setIconFISCH();
 									setIconFISCHBIO();

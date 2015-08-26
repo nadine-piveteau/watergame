@@ -7,8 +7,8 @@ import ch.watergame.shared.GameField.FieldType;
 
 public class Game {
 	public ArrayList<Player> playerlist = new ArrayList<Player>();
-	public final int MAXPLAYER = 2;
-	public int playingPlayer = 1;
+	public final int MAXPLAYER = 4;
+	public int playingPlayer = 0;
 	private int spielWechsel = 0;
 	private int gameRound = 1;
 	private int eventNumber;
@@ -20,25 +20,25 @@ public class Game {
 	public void addPlayer() {
 		if (playerlist.size() == 0) {
 			GameField gameField1 = new GameField();
-			gameField1.setGameFieldforPlayer(1);
+			gameField1.setGameFieldforPlayer(0);
 			Player player = new Player(34, 34, 135, (((double)34/135)*100) ,68,68, 172, (( (double)68/172 )*100), 33,33,58,(((double)33/58)*100), 400,500,1,250,250,250,250,250,250,250,250,250,gameField1, 500);
 			playerlist.add(player);
 			
 		} else if (playerlist.size() == 1) {
 			GameField gameField2 = new GameField();
-			gameField2.setGameFieldforPlayer(2);
-			Player player = new Player(60,60,150, (( (double)60/150)*100), 120,120,300,(((double)120/300)*100),40,40,100,(((double)40/100)*100),1000,700,2,300,300,300,300,300,300,300,300,300, gameField2, 1000);
+			gameField2.setGameFieldforPlayer(1);
+			Player player = new Player(60,60,150, (( (double)60/150)*100), 120,120,300,(((double)120/300)*100),40,40,100,(((double)40/100)*100),400,700,2,300,300,300,300,300,300,300,300,300, gameField2, 1000);
 			playerlist.add(player);
 
 		} else if (playerlist.size() == 2) {
 			GameField gameField3 = new GameField();
-			gameField3.setGameFieldforPlayer(3);
-			Player player = new Player(164, 164, 410, (( (double)164/410)*100),32,32,82,(( (double)32/82)*100), 131,131,328, (( (double)131/328)*100),1000,1500,3,500,500,500,500,500,500,500,500,500,gameField3, 2000);
+			gameField3.setGameFieldforPlayer(2);
+			Player player = new Player(164, 164, 410, (( (double)164/410)*100),32,32,82,(( (double)32/82)*100), 131,131,328, (( (double)131/328)*100),400,1500,3,500,500,500,500,500,500,500,500,500,gameField3, 2000);
 			playerlist.add(player);
 		} else if (playerlist.size() == 3) {
 			GameField gameField4 = new GameField();
-			gameField4.setGameFieldforPlayer(4);
-			Player player = new Player(196, 196, 496, (( (double)196/496)*100), 32,32,82,(( (double)32/82)*100), 131,131,328, (( (double)131/328)*100),1500,4000,4,600,600,600,600,600,600,600,600,600,gameField4, 4000);
+			gameField4.setGameFieldforPlayer(3);
+			Player player = new Player(196, 196, 496, (( (double)196/496)*100), 32,32,82,(( (double)32/82)*100), 131,131,328, (( (double)131/328)*100),400,4000,4,600,600,600,600,600,600,600,600,600,gameField4, 4000);
 			playerlist.add(player);
 		}
 	}

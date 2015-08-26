@@ -24,7 +24,9 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
-	Game game = new Game();
+	ArrayList<Game> gameList = new ArrayList<Game>();
+	int totalNrofPlayer = 0;
+	Game runningGame;
 
 	public String greetServer(String input) throws IllegalArgumentException {
 		// Verify that the input is valid.
@@ -64,21 +66,32 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				.replaceAll(">", "&gt;");
 	}
 
+
 	@Override
 	public String startGame() {
-		String message;
-		game.addPlayer();
-		int numberOfPlayer = game.getPlayerlistSize();
-		int maxPlayer = game.getMaxPlayer();
-		System.out.println("MAX PLAYER: "+maxPlayer);
-		System.out.println("NUMBER OF PLAYER: "+numberOfPlayer);
 
-		// create session and store userid
+		final int MAXNUMBEROFPLAYER = 4;
+		String message;
+		if (totalNrofPlayer % MAXNUMBEROFPLAYER == 0) {
+			runningGame = new Game();
+			gameList.add(runningGame);
+			System.out.println("SIZE GAMELIST: " + gameList.size());
+		}
+		
+		runningGame.addPlayer();
+		totalNrofPlayer += 1;
+		System.out.println("TOTAL NR OF PLAYER IN IF: " + totalNrofPlayer);
+
 		HttpServletRequest request = this.getThreadLocalRequest();
 		HttpSession session = request.getSession(true);
-		session.setAttribute("UserID", numberOfPlayer);
-		System.out.println("USERID :"+session.getAttribute("UserID"));
-		if (numberOfPlayer < maxPlayer) {
+		session.setAttribute("GameID", gameList.size() - 1);
+		//USerID gehen von 0-3
+		session.setAttribute("UserID", runningGame.getPlayerlistSize() - 1);
+		System.out.println("GAMEID: " + session.getAttribute("GameID"));
+		//int numberOfPlayer = totalNrofPlayer % 4;
+		//numberOfPlayer von 0-3
+		int numberOfPlayer = runningGame.getPlayerlistSize()-1;
+		if (numberOfPlayer < MAXNUMBEROFPLAYER) {
 			message = "Bitte warten";
 			String nr = Integer.toString(numberOfPlayer);
 			return nr.concat(message);
@@ -96,16 +109,25 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		HttpServletRequest request = this.getThreadLocalRequest();
 		// dont create a new one -> false
 		HttpSession session = request.getSession(true);
-		if (session == null||session.getAttribute("UserID") == null)
+		System.out.println("SESSION ID: " + session.getAttribute("UserID"));
+
+		if (session == null || session.getAttribute("UserID") == null)
 			return null;
 
 		// session and userid is available, looks like user is logged in.
 		Integer userId = (Integer) session.getAttribute("UserID");
-		//System.out.println("USERID: "+Integer.toString(userId));
+		// System.out.println("USERID: "+Integer.toString(userId));
 		return userId.toString();
 	}
 
 	public String checkNrPlayer() {
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		System.out.println("GameID" + session.getAttribute("GameID"));
+		int i = (int) session.getAttribute("GameID");
+		System.out.println("i: " + i);
+		System.out.println(gameList.size());
+		Game game = gameList.get(i);
 		System.out.println("Player : " + getPlayerID());
 		int nrPlayer = game.playerlist.size();
 		String nrPlayerString = Integer.toString(nrPlayer);
@@ -114,14 +136,19 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	public TradeResult isMyTurn() {
 		TradeResult trade = new TradeResult();
-		//System.out.println("game.getPlayingPlayer = "+game.getPlayingPlayer());
-		//System.out.println("this.getPalyerID = "+Integer.parseInt(this.getPlayerID()));
+		// System.out.println("game.getPlayingPlayer = "+game.getPlayingPlayer());
+		// System.out.println("this.getPalyerID = "+Integer.parseInt(this.getPlayerID()));
 
-		//System.out.println("IS MY TURN TRADE.MY TURN = "+(game.getPlayingPlayer() == Integer.parseInt(this.getPlayerID())));
-		if (game.getPlayingPlayer() == Integer.parseInt(this.getPlayerID())) {
+		// System.out.println("IS MY TURN TRADE.MY TURN = "+(game.getPlayingPlayer()
+		// == Integer.parseInt(this.getPlayerID())));
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		System.out.println("GETPLAYER ID: " + getPlayerID() + "\tPlayingPlayer: " + game.getPlayingPlayer());
+		if (game.getPlayingPlayer() == Integer.parseInt(getPlayerID())) {
 			trade.myTurn = true;
-			Player playingPlayer = game.playerlist
-					.get(game.getPlayingPlayer() - 1);
+			Player playingPlayer = game.playerlist.get(game.getPlayingPlayer());
 			trade.tradeContractResult = playingPlayer.getTradePartner();
 			return trade;
 		} else {
@@ -131,10 +158,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public void setNextPlayer() {
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
 		if (game.getPlayingPlayer() < game.MAXPLAYER) {
 			game.setNextPlayer(game.getPlayingPlayer() + 1);
 		} else {
-			game.setNextPlayer(1);
+			game.setNextPlayer(0);
 		}
 	}
 
@@ -177,86 +208,147 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public int getIndicatorWirtschaft(int playerID) {
-		int indicator = game.playerlist.get(playerID - 1)
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		int indicator = game.playerlist.get(playerID)
 				.getPercentualIndicatorWirtschaft();
 
 		return indicator;
 	}
 
 	public int getIndicatorLebensquali(int playerID) {
-		int indicator = game.playerlist.get(playerID - 1)
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		int indicator = game.playerlist.get(playerID)
 				.getPercentualLebensquali();
 		return indicator;
 	}
 
 	public int getIndicatorUmwelt(int playerID) {
-		int indicator = game.playerlist.get(playerID - 1).getPercentualUmwelt();
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		int indicator = game.playerlist.get(playerID).getPercentualUmwelt();
 		return indicator;
 	}
 
 	public int getRize(int playerID) {
-		int rize = game.playerlist.get(playerID - 1).getRize();
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		int rize = game.playerlist.get(playerID).getRize();
 		return rize;
 	}
 
 	public int getThe(int playerID) {
-		int the = game.playerlist.get(playerID - 1).getThe();
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		int the = game.playerlist.get(playerID).getThe();
 		return the;
 	}
 
 	public int getSugar(int playerID) {
-		int sugar = game.playerlist.get(playerID - 1).getSugar();
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		int sugar = game.playerlist.get(playerID).getSugar();
 		return sugar;
 	}
 
 	public int getFish(int playerID) {
-		int fish = game.playerlist.get(playerID - 1).getFish();
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		int fish = game.playerlist.get(playerID).getFish();
 		return fish;
 	}
 
 	public int getLeder(int playerID) {
-		int leder = game.playerlist.get(playerID - 1).getLeder();
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		int leder = game.playerlist.get(playerID).getLeder();
 		return leder;
 	}
 
 	public int getTextil(int playerID) {
-		int textil = game.playerlist.get(playerID - 1).getTextil();
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		int textil = game.playerlist.get(playerID).getTextil();
 		return textil;
 	}
 
 	public int getIT(int playerID) {
-		int it = game.playerlist.get(playerID - 1).getIt();
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		int it = game.playerlist.get(playerID).getIt();
 		return it;
 	}
 
 	public int getKnowHow(int playerID) {
-		int know = game.playerlist.get(playerID - 1).getKnowhow();
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		int know = game.playerlist.get(playerID).getKnowhow();
 		return know;
 	}
 
 	public int getPopulation(int playerID) {
-		int pop = game.playerlist.get(playerID - 1).getPopulation();
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		int pop = game.playerlist.get(playerID).getPopulation();
 		return pop;
 	}
 
 	public int getBudget(int playerID) {
-		int budget = game.playerlist.get(playerID - 1).getBudget();
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		int budget = game.playerlist.get(playerID).getBudget();
 		return budget;
 	}
 
 	public void setBudget(int playerID, int budget) {
-		game.playerlist.get(playerID - 1).setBudget(budget);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		game.playerlist.get(playerID).setBudget(budget);
 
 	}
 
 	public void setKnowHow(int playerID, int amountknowhow) {
-		game.playerlist.get(playerID - 1).setKnowhow(amountknowhow);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		game.playerlist.get(playerID).setKnowhow(amountknowhow);
 	}
 
 	@Override
 	public String checkBudgetAndKnowledge(int playerID, int rizePrice,
 			int amountknowledge) {
 		String message;
+		System.out.println("PlayerID in CheckBudgetAndKnowledge: "+playerID);
 		int budget = getBudget(playerID) - rizePrice;
 		int knowledgeNew = getKnowHow(playerID) - amountknowledge;
 		if (budget >= 0 && knowledgeNew < 0) {
@@ -272,20 +364,24 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public String refreshBudget(int playerID, int rizePrice) {
-		System.out.println("OLD BUDGET: "+getBudget(playerID));
+		System.out.println("OLD BUDGET: " + getBudget(playerID));
 		int budget = getBudget(playerID) - rizePrice;
 		setBudget(playerID, budget);
 		String budgetString = Integer.toString(budget);
-		System.out.println("NEW BUDGET: "+ budgetString);
+		System.out.println("NEW BUDGET: " + budgetString);
 		return budgetString;
 
 	}
-	
-	@Override 
-	public void setNaturkatastrophenSchutz(int playerID, boolean isProtected){
-		Player player = game.playerlist.get(playerID - 1);
+
+	@Override
+	public void setNaturkatastrophenSchutz(int playerID, boolean isProtected) {
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		Player player = game.playerlist.get(playerID);
 		player.setNaturkatastrophenSchutz(isProtected);
-		
+
 	}
 
 	@Override
@@ -302,14 +398,26 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public GameField getGameField(int playerID) {
-		GameField gamefield = game.playerlist.get(playerID - 1).getGamefield();
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		System.out.println("Size PlayerList: "+game.playerlist.size());
+		System.out.println("PlayerID: "+playerID);
+		GameField gamefield = game.playerlist.get(playerID).getGamefield();
 
 		return gamefield;
 	}
 
 	@Override
 	public void setFieldintoGameField(int playerID, int row, int col, String img) {
-		GameField gamefield = game.playerlist.get(playerID - 1).getGamefield();
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		//GameField gamefield = game.playerlist.get(playerID - 1).getGamefield();
+		GameField gamefield = game.playerlist.get(playerID ).getGamefield();
+
 		if (img.equals("fisch.jpg"))
 			gamefield.getGameField()[row][col] = FieldType.FISCH;
 		if (img.equals("rizeField.jpeg"))
@@ -352,8 +460,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public ArrayList<Integer> updateAndGetRessources() {
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
 		ArrayList<Integer> arrayList = new ArrayList<Integer>();
-		if (game.getPlayingPlayer() == 1) {
+		if (game.getPlayingPlayer() == 0) {
 			calculateNewWissen();
 			calculateNewBudget();
 			calculateRessource();
@@ -362,7 +474,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			calculateIndicatorWirtschaftskraft();
 			calculatePopulation();
 		}
-		if (game.getPlayingPlayer() == 2) {
+		if (game.getPlayingPlayer() == 1) {
 			// include influence of player 1
 
 			calculateIndicatorUmweltfreundlichkeit(0);
@@ -376,7 +488,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			calculateIndicatorWirtschaftskraft();
 			calculatePopulation();
 		}
-		if (game.getPlayingPlayer() == 3) {
+		if (game.getPlayingPlayer() == 2) {
 			// include influence of player 1
 
 			calculateIndicatorUmweltfreundlichkeit(0);
@@ -394,7 +506,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			calculateIndicatorWirtschaftskraft();
 			calculatePopulation();
 		}
-		if (game.getPlayingPlayer() == 4) {
+		if (game.getPlayingPlayer() == 3) {
 			// include influence of player 1
 
 			calculateIndicatorUmweltfreundlichkeit(0);
@@ -421,7 +533,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	public void calculateNewBudget() {
 		int sum = 0;
-		Player player = game.playerlist.get(game.getPlayingPlayer() - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		Player player = game.playerlist.get(game.getPlayingPlayer() );
 		FieldType[][] field = player.getGamefield().getGameField();
 		for (int row = 0; row < 11; row++) {
 			for (int col = 0; col < 15; col++) {
@@ -435,6 +551,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	public void calculateNewBudget(int otherPlayer) {
 		int sum = 0;
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
 		Player player = game.playerlist.get(otherPlayer);
 		FieldType[][] field = player.getGamefield().getGameField();
 		for (int row = 0; row < 11; row++) {
@@ -449,7 +569,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	public void calculateNewWissen() {
 		int sum = 0;
-		Player player = game.playerlist.get(game.getPlayingPlayer() - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		Player player = game.playerlist.get(game.getPlayingPlayer() );
 		FieldType[][] field = player.getGamefield().getGameField();
 		for (int row = 0; row < 7; row++) {
 			for (int col = 0; col < 15; col++) {
@@ -462,6 +586,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	public void calculateNewWissen(int otherPlayer) {
 		int sum = 0;
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
 		Player player = game.playerlist.get(otherPlayer);
 		FieldType[][] field = player.getGamefield().getGameField();
 		for (int row = 0; row < 7; row++) {
@@ -475,7 +603,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	public void calculateIndicatorLebensquali() {
 		int sum = 0;
-		Player player = game.playerlist.get(game.getPlayingPlayer() - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i );
+		Player player = game.playerlist.get(game.getPlayingPlayer());
 		FieldType[][] field = player.getGamefield().getGameField();
 		for (int row = 0; row < 11; row++) {
 			for (int col = 0; col < 15; col++) {
@@ -500,8 +632,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	public void calculateIndicatorWirtschaftskraft() {
 		double sum = 0;
-
-		Player player = game.playerlist.get(game.getPlayingPlayer() - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i );
+		Player player = game.playerlist.get(game.getPlayingPlayer() );
 		FieldType[][] field = player.getGamefield().getGameField();
 		for (int row = 0; row < 11; row++) {
 			for (int col = 0; col < 15; col++) {
@@ -583,7 +718,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	public void calculateIndicatorUmweltfreundlichkeit() {
 		int sum = 0;
-		Player player = game.playerlist.get(game.getPlayingPlayer() - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i );
+		Player player = game.playerlist.get(game.getPlayingPlayer() );
 		FieldType[][] field = player.getGamefield().getGameField();
 		for (int row = 0; row < 11; row++) {
 			for (int col = 0; col < 15; col++) {
@@ -607,7 +746,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	public void calculateIndicatorUmweltfreundlichkeit(int otherPlayer) {
 		int sum = 0;
-		Player playingPlayer = game.playerlist.get(game.getPlayingPlayer() - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i );
+		Player playingPlayer = game.playerlist.get(game.getPlayingPlayer());
 		Player player = game.playerlist.get(otherPlayer);
 		FieldType[][] field = player.getGamefield().getGameField();
 		for (int row = 0; row < 11; row++) {
@@ -632,7 +775,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	public void calculatePopulation() {
 		int sum = 0;
-		Player player = game.playerlist.get(game.getPlayingPlayer() - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i );
+		Player player = game.playerlist.get(game.getPlayingPlayer());
 		FieldType[][] field = player.getGamefield().getGameField();
 		for (int row = 0; row < 11; row++) {
 			for (int col = 0; col < 15; col++) {
@@ -645,6 +792,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	public void calculatePopulation(int otherPlayer) {
 		int sum = 0;
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
 		Player player = game.playerlist.get(otherPlayer);
 		FieldType[][] field = player.getGamefield().getGameField();
 		for (int row = 0; row < 11; row++) {
@@ -658,6 +809,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public void calculateRessource() {
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
 		int sumRICE = 0;
 		int sumTEE = 0;
 		int sumZUCKER = 0;
@@ -665,7 +820,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		int sumLEDER = 0;
 		int sumTEXTIL = 0;
 		int sumIT = 0;
-		Player player = game.playerlist.get(game.getPlayingPlayer() - 1);
+		Player player = game.playerlist.get(game.getPlayingPlayer());
 		FieldType[][] field = player.getGamefield().getGameField();
 		for (int row = 0; row < 11; row++) {
 			for (int col = 0; col < 15; col++) {
@@ -704,6 +859,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public void calculateRessource(int otherPlayer) {
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
 		int sumRICE = 0;
 		int sumTEE = 0;
 		int sumZUCKER = 0;
@@ -750,23 +909,35 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public void createTradeContract(Trade trade) {
-		Player partnerB = game.playerlist.get(trade.partnerBID - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		Player partnerB = game.playerlist.get(trade.partnerBID);
 		partnerB.addTradeContract(trade);
 	}
 
 	@Override
 	public void removeALLTradeContract() {
-		Player partnerB = game.playerlist.get(game.getPlayingPlayer() - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		Player partnerB = game.playerlist.get(game.getPlayingPlayer());
 		for (Trade trade : partnerB.getTradePartner()) {
-			Player partnerA = game.playerlist.get((trade.partnerAID - 1));
+			Player partnerA = game.playerlist.get((trade.partnerAID));
 			partnerB.removeTradeContract();
 		}
 	}
 
 	@Override
 	public void executeTradeContract(Trade tradeToExecute) {
-		Player partnerA = game.playerlist.get(tradeToExecute.partnerAID - 1);
-		Player partnerB = game.playerlist.get(tradeToExecute.partnerBID - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		Player partnerA = game.playerlist.get(tradeToExecute.partnerAID);
+		Player partnerB = game.playerlist.get(tradeToExecute.partnerBID);
 		// IMPORT EXECUTED
 		if (tradeToExecute.importGood.equals("Reis")) {
 			partnerA.setRize(partnerA.getRize() + tradeToExecute.importAmount);
@@ -835,8 +1006,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public boolean checkTrade(Trade trade) {
-		Player tradePartnerA = game.playerlist.get(trade.partnerAID - 1);
-		Player tradePartnerB = game.playerlist.get(trade.partnerBID - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		Player tradePartnerA = game.playerlist.get(trade.partnerAID);
+		Player tradePartnerB = game.playerlist.get(trade.partnerBID);
 		int resourceA = tradePartnerA.getRessource(trade.exportGood);
 		int resourceB = tradePartnerB.getRessource(trade.importGood);
 		if ((resourceA - trade.exportAmount) >= 0
@@ -849,7 +1024,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public boolean checkTradePartnerA(Trade trade) {
-		Player tradePartner = game.playerlist.get(trade.partnerAID - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		Player tradePartner = game.playerlist.get(trade.partnerAID);
 		int resourceA = tradePartner.getRessource(trade.exportGood);
 		if ((resourceA - trade.exportAmount) >= 0) {
 			return true;
@@ -860,7 +1039,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public boolean checkTradePartnerB(Trade trade) {
-		Player tradePartner = game.playerlist.get(trade.partnerBID - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		Player tradePartner = game.playerlist.get(trade.partnerBID);
 		int resourceA = tradePartner.getRessource(trade.exportGood);
 		if ((resourceA - trade.importAmount) >= 0) {
 			return true;
@@ -871,10 +1054,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public void executeMeasures(int[] measures) {
-		Player player = game.playerlist.get(game.playingPlayer - 1);
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		Player player = game.playerlist.get(game.playingPlayer);
 		for (int measure : measures) {
 			// Erhöht die Umweltfreundlichkeit um 10%
-			System.out.println("Measure = "+ measure);
+			System.out.println("Measure = " + measure);
 			if (measure == 1) {
 				game.addLebensquali(0.15, player);
 			}
@@ -885,23 +1072,32 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				game.setNaturkatastrophenSchutz(true, player);
 			}
 		}
-	
+
 	}
 
 	@Override
 	public int getRoundNR() {
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
 		return game.getGameRound();
 	}
 
 	@Override
 	public String executeEvent(int playerID) {
-		Player player = game.playerlist.get(playerID - 1);
-		System.out.println("PLAYER NATURKATASTROPHEN SCHUTZ: "+player.isNaturkatastrophenSchutz());
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		Player player = game.playerlist.get(playerID);
+		System.out.println("PLAYER NATURKATASTROPHEN SCHUTZ: "
+				+ player.isNaturkatastrophenSchutz());
 		Random rand = new Random();
 		// Test
-		//int randomNum = 2;
+		// int randomNum = 2;
 		// Min + (int)(Math.random() * ((Max - Min) + 1))
-		int randomNum = 1 + (int)(Math.random() * ((30 - 1) + 1));
+		int randomNum = 1 + (int) (Math.random() * ((30 - 1) + 1));
 		// Dürre: Kein Ertrag in der Landwirtschaft
 		// Lebensqualität nimmt ab
 		if (player.isNaturkatastrophenSchutz() == false) {
@@ -925,7 +1121,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				if (player.getId() == 2 || player.getId() == 3) {
 					game.lossLW(player);
 					int lossBudget = game.deduceBudget(0.05, player);
-					return "<h2>Grund- und Trinkwasservergiftung</h2><br><h3>Düngemittel und Abwässer haben das Grund- und Trinkwasser vergiftet. Deshalb erhältst du in dieser Runde keinen Ertrag in der Landwirtschaft. 5% des Budgets werden Benötigt, um das Wasser wieder zu säubern.</h3>"; 
+					return "<h2>Grund- und Trinkwasservergiftung</h2><br><h3>Düngemittel und Abwässer haben das Grund- und Trinkwasser vergiftet. Deshalb erhältst du in dieser Runde keinen Ertrag in der Landwirtschaft. 5% des Budgets werden Benötigt, um das Wasser wieder zu säubern.</h3>";
 				} else {
 					return null;
 				}
@@ -972,14 +1168,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				} else {
 					return null;
 				}
-			} /*else if (randomNum == 8) {
-				if (player.getId() == 1) {
-					game.addBudget(0.2, player);
-					return "finanzielleUnterstützung von Dehli";
-				} else {
-					return null;
-				}
-			}*/ else {
+			} /*
+			 * else if (randomNum == 8) { if (player.getId() == 1) {
+			 * game.addBudget(0.2, player); return
+			 * "finanzielleUnterstützung von Dehli"; } else { return null; } }
+			 */else {
 				return null;
 			}
 		} else {
@@ -1010,10 +1203,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			} else if (randomNum == 7) {
 				player.setNaturkatastrophenSchutz(false);
 				return "<h2>Geschützt vor zu tiefem Grundwasserspiegel</h2><br><h3>Du hast in der letzten Runde Massnahmen ergriffen, um dich vor Naturkatastrophen zu Schützen. Die nachhaltige Nutzung des Grundwassers hat verhindert, dass der Grundwasserspiegel zu tief sinkt. </h3>";
-			} /*else if (randomNum == 8) {
-				player.setNaturkatastrophenSchutz(false);
-				return "Geschützt vor finanzielleUnterstützung von Dehli";
-			} */else {
+			} /*
+			 * else if (randomNum == 8) {
+			 * player.setNaturkatastrophenSchutz(false); return
+			 * "Geschützt vor finanzielleUnterstützung von Dehli"; }
+			 */else {
 				return null;
 			}
 		}
@@ -1022,14 +1216,23 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public int getCommonIndicator() {
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
 		int indicator = (int) game.getCommonIndicator();
 		return indicator;
 	}
+
 	@Override
-	public ArrayList<Integer> getNrOfSpielwechsel(){
+	public ArrayList<Integer> getNrOfSpielwechsel() {
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
 		ArrayList<Integer> result = new ArrayList<Integer>(2);
 		result.add(game.getNrOfSpielwechsel());
-		result.add((int)game.getCommonIndicator());
+		result.add((int) game.getCommonIndicator());
 		return result;
 	}
 

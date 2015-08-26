@@ -70,7 +70,7 @@ public class ValidatorHandler implements ClickHandler {
 		String importGood = waterGame.exportList1.getItemText(importGoodIndex);
 		int exportGoodIndex = waterGame.exportList1.getSelectedIndex();
 		String exportGood = waterGame.exportList1.getItemText(exportGoodIndex);
-		Trade trade = new Trade(waterGame.getPlayerID(), 1, importAmount,
+		Trade trade = new Trade(waterGame.getPlayerID(), 0, importAmount,
 				importGood, exportAmount, exportGood);
 		return trade;
 	}
@@ -84,7 +84,7 @@ public class ValidatorHandler implements ClickHandler {
 		String importGood = waterGame.exportList2.getItemText(importGoodIndex);
 		int exportGoodIndex = waterGame.exportList2.getSelectedIndex();
 		String exportGood = waterGame.exportList2.getItemText(exportGoodIndex);
-		Trade trade = new Trade(waterGame.getPlayerID(), 2, importAmount,
+		Trade trade = new Trade(waterGame.getPlayerID(), 1, importAmount,
 				importGood, exportAmount, exportGood);
 		return trade;
 	}
@@ -98,7 +98,7 @@ public class ValidatorHandler implements ClickHandler {
 		String importGood = waterGame.exportList3.getItemText(importGoodIndex);
 		int exportGoodIndex = waterGame.exportList3.getSelectedIndex();
 		String exportGood = waterGame.exportList3.getItemText(exportGoodIndex);
-		Trade trade = new Trade(waterGame.getPlayerID(), 3, importAmount,
+		Trade trade = new Trade(waterGame.getPlayerID(), 2, importAmount,
 				importGood, exportAmount, exportGood);
 		return trade;
 	}
@@ -112,7 +112,7 @@ public class ValidatorHandler implements ClickHandler {
 		String importGood = waterGame.exportList4.getItemText(importGoodIndex);
 		int exportGoodIndex = waterGame.exportList4.getSelectedIndex();
 		String exportGood = waterGame.exportList4.getItemText(exportGoodIndex);
-		Trade trade = new Trade(waterGame.getPlayerID(), 4, importAmount,
+		Trade trade = new Trade(waterGame.getPlayerID(), 3, importAmount,
 				importGood, exportAmount, exportGood);
 		return trade;
 	}

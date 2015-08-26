@@ -93,7 +93,7 @@ public class WaterGame implements EntryPoint {
 		VerticalPanel populationPanel = new VerticalPanel();
 		VerticalPanel budgetPanel = new VerticalPanel();
 		VerticalPanel fieldsAndRoundCounter = new VerticalPanel();
-		HorizontalPanel nameAndRoundPanel = new HorizontalPanel();
+		VerticalPanel nameAndRoundPanel = new VerticalPanel();
 		
 
 		// indicators Label
@@ -124,10 +124,10 @@ public class WaterGame implements EntryPoint {
 		HorizontalPanel exportPanel = new HorizontalPanel();
 		// Ressourcen Panel
 		Label ressourceTitle = new Label("Ressourcenstand");
-		HTML tradePlayer1 = new HTML("<p><h4>Spieler 1</h4></p>");
-		HTML tradePlayer2 = new HTML("<p><h4>Spieler 2</h4></p>");
-		HTML tradePlayer3 = new HTML("<p><h4>Spieler 3</h4></p>");
-		HTML tradePlayer4 = new HTML("<p><h4>Spieler 4</h4></p>");
+		HTML tradePlayer1 = new HTML("<strong>Spieler 1</strong>");
+		HTML tradePlayer2 = new HTML("<strong>Spieler 2</strong>");
+		HTML tradePlayer3 = new HTML("<strong>Spieler 3</strong>");
+		HTML tradePlayer4 = new HTML("<strong>Spieler 4</strong>");
 		HTML importTitle = new HTML("<p><h5>Import                         </h5></p>");
 		HTML exportTitle = new HTML("<p><h5>Export</h5></p>");
 		// Trade field
@@ -155,13 +155,13 @@ public class WaterGame implements EntryPoint {
 		int preisNaturkatastrophen = 800;
 		boolean activeNaturkatastrophen;
 		Label titleMeasures = new Label("Massnahmen");
-		HTML umweltSchutzLabel = new HTML("<h4><strong>Massnahmen gegen Umweltverschmutzung</strong><br>Preis: "+  preisUmweltverschmutzung+"<h4>");
+		HTML umweltSchutzLabel = new HTML("<strong>Massnahmen gegen Umweltverschmutzung</strong><br>Preis: "+  preisUmweltverschmutzung);
 		CheckBox umweltSchutzButton = new CheckBox ();
 		//HTML umweltSchutzBeschreibung = new HTML("<h5>Flusssäuberung, Energiesparmassnahmen<br> Preis: XXXX<h5>");
-		HTML reformen = new HTML("<h4>Demokratiefördernde Massnahmen<br>Preis: "+preisReformen+"<h4>");
+		HTML reformen = new HTML("Demokratiefördernde Massnahmen<br>Preis: "+preisReformen);
 		CheckBox reformenButton = new CheckBox ();
 		//HTML reformenBeschreibung = new HTML("<h5>Verbesserung des politischen Systems <br> Preis: XXXX<h5>");
-		HTML naturgefahrenSchutz = new HTML("<h4><strong>Schutz vor Naturkatastrophen</strong><br>Preis: "+preisNaturkatastrophen+"<h4>");
+		HTML naturgefahrenSchutz = new HTML("<strong>Schutz vor Naturkatastrophen</strong><br>Preis: "+preisNaturkatastrophen);
 		CheckBox naturkatastropheButton = new CheckBox ();
 		//HTML naturkatastropheBeschreibung = new HTML("<h5>Schutzmassnahmen gegen die nächste Naturkatstrophe <br> Preis: XXXX<h5>");
 
@@ -306,7 +306,8 @@ public class WaterGame implements EntryPoint {
 		// RUNDEN ZÄhler!!!
 		int gameRound;
 		VerticalPanel roundPanel = new VerticalPanel();
-		Label roundCounter = new Label("1. Runde");
+		HTML roundCounter = new HTML("1. Runde");
+		
 		int eventNR;
 		
 		
@@ -328,6 +329,8 @@ public class WaterGame implements EntryPoint {
 		//just for testing
 		//RootPanel.get().add(instructionButton);
 		infoLogo.setSize("25px", "25px");
+		roundCounter.setStyleName("roundCounter");
+		roundCounter.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		RootPanel.get("WIN").setVisible(false);
 		RootPanel.get("GAMEOVER").setVisible(false);
 		

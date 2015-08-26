@@ -56,7 +56,7 @@ public class UpgradeClickHandler implements ClickHandler {
 		}
 		// für andere upgradeFelder
 		else if (WaterGame.selectedImage.contains("bio")) {
-			Window.alert("This upgrade is not possible here.");
+			Window.alert("Dieses Upgrade ist auf diesem Feld nicht möglich. ");
 			return;
 		}
 
@@ -161,9 +161,9 @@ public class UpgradeClickHandler implements ClickHandler {
 											});
 
 								}
-								else if(result.equals("Your city has not enough Knowledge.")){
+								else if(result.equals("Deine Stadt verfügt über nicht genügend wissen.")){
 									Window.alert(result);
-								}else if(result.equals("Game Over...")){
+								}else if(result.equals("Du hast nicht genügend Budget.")){
 									Window.alert(result);
 								}
 
