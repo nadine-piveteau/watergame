@@ -23,7 +23,7 @@ HTML message;
         int left = event.getClientX();
         int top = event.getClientY();
         pop.setWidth("200px");
-        pop.setPopupPosition(left-20, top-20);
+        pop.setPopupPosition(left-5, top-5);
         pop.show();
        /* pop.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
             public void setPosition(int offsetWidth, int offsetHeight) {

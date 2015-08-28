@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -40,8 +41,15 @@ public class EndTimer extends Timer {
 					RootPanel.get("waitingBoxContainer").setVisible(false);
 					RootPanel.get("tradeContainer").setVisible(false);
 					RootPanel.get("gamefield").setVisible(false);
-					RootPanel.get("validateButtonContainer").setVisible(false);
+					RootPanel.get("validateButtonContainer").setVisible(true);
 					RootPanel.get("NotYourTurn").setVisible(false);
+					RootPanel.get("validateButtonContainer").clear();
+
+					Button newGame = new Button("Neueus Spiel");
+					MyStartButtonHandler startButtonHandler = new MyStartButtonHandler(greetingService, wgame);
+					newGame.addClickHandler(startButtonHandler);
+					RootPanel.get("validateButtonContainer").add(newGame);
+					RootPanel.get("validateButtonContainer").setVisible(true);
 					cancel();
 				}else if(result.get(1)>=wgame.WINNINGINDIKATOR&&result.get(0)<=40){
 					RootPanel.get("WIN").setVisible(true);
@@ -51,8 +59,15 @@ public class EndTimer extends Timer {
 					RootPanel.get("waitingBoxContainer").setVisible(false);
 					RootPanel.get("tradeContainer").setVisible(false);
 					RootPanel.get("gamefield").setVisible(false);
-					RootPanel.get("validateButtonContainer").setVisible(false);
 					RootPanel.get("NotYourTurn").setVisible(false);
+					RootPanel.get("validateButtonContainer").clear();
+
+					Button newGame = new Button("Neueus Spiel");
+					MyStartButtonHandler startButtonHandler = new MyStartButtonHandler(greetingService, wgame);
+					newGame.addClickHandler(startButtonHandler);
+					RootPanel.get("validateButtonContainer").add(newGame);
+					RootPanel.get("validateButtonContainer").setVisible(true);
+
 					cancel();
 				}
 			}

@@ -70,13 +70,12 @@ public class WaterGame implements EntryPoint {
 	private final GreetingServiceAsync greetingService = GWT
 			.create(GreetingService.class);
 
-		final int WINNINGINDIKATOR = 50;
+		final int WINNINGINDIKATOR = 60;
 	
 	
 	// initial page
 		final Button startButton = new Button("Spiel starten");
 		final Button instructionButton = new Button("Spielanleitung");
-		final Button clientCheckButton = new Button("check Client");
 		
 		//TradeBox
 		public DialogBox tradeBox ;
@@ -158,7 +157,7 @@ public class WaterGame implements EntryPoint {
 		HTML umweltSchutzLabel = new HTML("<strong>Massnahmen gegen Umweltverschmutzung</strong><br>Preis: "+  preisUmweltverschmutzung);
 		CheckBox umweltSchutzButton = new CheckBox ();
 		//HTML umweltSchutzBeschreibung = new HTML("<h5>Flusssäuberung, Energiesparmassnahmen<br> Preis: XXXX<h5>");
-		HTML reformen = new HTML("Demokratiefördernde Massnahmen<br>Preis: "+preisReformen);
+		HTML reformen = new HTML("<strong>Demokratiefördernde Massnahmen</strong><br>Preis: "+preisReformen);
 		CheckBox reformenButton = new CheckBox ();
 		//HTML reformenBeschreibung = new HTML("<h5>Verbesserung des politischen Systems <br> Preis: XXXX<h5>");
 		HTML naturgefahrenSchutz = new HTML("<strong>Schutz vor Naturkatastrophen</strong><br>Preis: "+preisNaturkatastrophen);
@@ -398,8 +397,9 @@ public class WaterGame implements EntryPoint {
 				commonIndikatorPanel.setCellVerticalAlignment(commonIndikatorLabel, HasVerticalAlignment.ALIGN_MIDDLE);
 				commonIndikatorPanel.setCellHorizontalAlignment(commonIndikatorLabel, HasHorizontalAlignment.ALIGN_CENTER);
 
-				commonIndikatorPanel.setWidth("800px");
-				bottomPanel.add(commonIndikatorPanel);
+				commonIndikatorPanel.setWidth("300px");
+				//bottomPanel.add(commonIndikatorPanel);
+				fieldsAndRoundCounter.add(commonIndikatorPanel);
 				
 				validateButtonPanel.add(validateButton);
 				bottomPanel.add(validateButtonPanel);
@@ -408,7 +408,6 @@ public class WaterGame implements EntryPoint {
 				RootPanel.get("validateButtonContainer").add(bottomPanel);
 				RootPanel.get("gamefield").add(headerPanel);
 				RootPanel.get("gamefield").add(mainPanel);
-				RootPanel.get().add(clientCheckButton);
 			
 				RootPanel.get("sendButtonContainer").setVisible(true);
 				RootPanel.get("instructionButtonContainer").setVisible(true);
@@ -425,9 +424,6 @@ public class WaterGame implements EntryPoint {
 				MyStartButtonHandler handler = new MyStartButtonHandler(greetingService, this);
 				startButton.addClickHandler(handler);
 
-				// Add a handler to check Client
-				MyClientHandler clientHandler = new MyClientHandler();
-				clientCheckButton.addClickHandler(clientHandler);
 
 				// Add a Clickhandler to Validator Button
 				ValidatorHandler validatorHandler = new ValidatorHandler(this, greetingService);

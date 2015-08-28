@@ -84,6 +84,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		HttpServletRequest request = this.getThreadLocalRequest();
 		HttpSession session = request.getSession(true);
+		System.out.println("SIZE GAMELIST: "+gameList.size());
 		session.setAttribute("GameID", gameList.size() - 1);
 		//USerID gehen von 0-3
 		session.setAttribute("UserID", runningGame.getPlayerlistSize() - 1);
@@ -161,9 +162,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		HttpServletRequest request = this.getThreadLocalRequest();
 		HttpSession session = request.getSession(true);
 		int i = (int) session.getAttribute("GameID");
+		//int PlayerID = (int) session.getAttribute("UserID");
 		Game game = gameList.get(i);
-		if (game.getPlayingPlayer() < game.MAXPLAYER) {
-			game.setNextPlayer(game.getPlayingPlayer() + 1);
+		if ((game.getPlayingPlayer()+1) < game.MAXPLAYER) {
+		game.setNextPlayer(game.getPlayingPlayer()+ 1);
 		} else {
 			game.setNextPlayer(0);
 		}

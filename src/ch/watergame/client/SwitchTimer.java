@@ -88,7 +88,7 @@ public class SwitchTimer extends Timer {
 						tradeBoxContent.add(tradeBoxTitel);
 						for (Trade trade : result.tradeContractResult) {
 							HorizontalPanel tradeMessagePanel = new HorizontalPanel();
-							Label tradeMessage = new Label(trade.toString());
+							HTML tradeMessage = new HTML(trade.toString());
 							tradeMessagePanel.add(tradeMessage);
 							CheckBox jaButton = new CheckBox();
 							// Button neinButton = new Button("NEIN");

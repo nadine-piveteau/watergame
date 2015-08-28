@@ -44,8 +44,8 @@ public class Trade implements Serializable {
 	}
 
 	public String toString() {
-		return "Spieler " + partnerAID + " moechte mit dir handeln. Du gibst ihm " + importAmount + " Einheiten " + importGood + " und du gibst ihm "
-				+ exportAmount + " Einheiten " + " " + exportGood + ". \nWillst du den Handel ausführen?";
+		return "<p><strong>Spieler " + (partnerAID+1) + " möchte mit dir handeln:</strong><br>Export: " + importAmount + " Einheiten " + importGood + "<br>Import:  "
+				+ exportAmount + " Einheiten " + " " + exportGood + ". <br>Willst du den Handel ausführen?<p>";
 	}
 	
 }

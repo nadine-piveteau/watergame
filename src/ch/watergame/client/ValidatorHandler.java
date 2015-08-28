@@ -66,8 +66,8 @@ public class ValidatorHandler implements ClickHandler {
 				.getText());
 		int exportAmount = Integer.parseInt(waterGame.exportAmountText1
 				.getText());
-		int importGoodIndex = waterGame.exportList1.getSelectedIndex();
-		String importGood = waterGame.exportList1.getItemText(importGoodIndex);
+		int importGoodIndex = waterGame.importList1.getSelectedIndex();
+		String importGood = waterGame.importList1.getItemText(importGoodIndex);
 		int exportGoodIndex = waterGame.exportList1.getSelectedIndex();
 		String exportGood = waterGame.exportList1.getItemText(exportGoodIndex);
 		Trade trade = new Trade(waterGame.getPlayerID(), 0, importAmount,
@@ -80,8 +80,8 @@ public class ValidatorHandler implements ClickHandler {
 				.getText());
 		int exportAmount = Integer.parseInt(waterGame.exportAmountText2
 				.getText());
-		int importGoodIndex = waterGame.exportList2.getSelectedIndex();
-		String importGood = waterGame.exportList2.getItemText(importGoodIndex);
+		int importGoodIndex = waterGame.importList2.getSelectedIndex();
+		String importGood = waterGame.importList2.getItemText(importGoodIndex);
 		int exportGoodIndex = waterGame.exportList2.getSelectedIndex();
 		String exportGood = waterGame.exportList2.getItemText(exportGoodIndex);
 		Trade trade = new Trade(waterGame.getPlayerID(), 1, importAmount,
@@ -94,8 +94,8 @@ public class ValidatorHandler implements ClickHandler {
 				.getText());
 		int exportAmount = Integer.parseInt(waterGame.exportAmountText3
 				.getText());
-		int importGoodIndex = waterGame.exportList3.getSelectedIndex();
-		String importGood = waterGame.exportList3.getItemText(importGoodIndex);
+		int importGoodIndex = waterGame.importList3.getSelectedIndex();
+		String importGood = waterGame.importList3.getItemText(importGoodIndex);
 		int exportGoodIndex = waterGame.exportList3.getSelectedIndex();
 		String exportGood = waterGame.exportList3.getItemText(exportGoodIndex);
 		Trade trade = new Trade(waterGame.getPlayerID(), 2, importAmount,
@@ -108,8 +108,8 @@ public class ValidatorHandler implements ClickHandler {
 				.getText());
 		int exportAmount = Integer.parseInt(waterGame.exportAmountText4
 				.getText());
-		int importGoodIndex = waterGame.exportList4.getSelectedIndex();
-		String importGood = waterGame.exportList4.getItemText(importGoodIndex);
+		int importGoodIndex = waterGame.importList4.getSelectedIndex();
+		String importGood = waterGame.importList4.getItemText(importGoodIndex);
 		int exportGoodIndex = waterGame.exportList4.getSelectedIndex();
 		String exportGood = waterGame.exportList4.getItemText(exportGoodIndex);
 		Trade trade = new Trade(waterGame.getPlayerID(), 3, importAmount,
@@ -635,6 +635,8 @@ public class ValidatorHandler implements ClickHandler {
 			@Override
 			public void onSuccess(Void result) {
 				System.out.println("Switchtimer started! for player"+ waterGame.getPlayerID());
+				//SwitchTimer tx = new SwitchTimer(greetingService, waterGame);
+				//tx.scheduleRepeating(500);
 				waterGame.startSwitchTimer();
 				waterGame.startEndTimer();
 

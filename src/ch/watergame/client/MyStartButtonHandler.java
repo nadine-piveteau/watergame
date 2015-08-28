@@ -246,6 +246,7 @@ public class MyStartButtonHandler implements ClickHandler {
 								HTML wirtschaftsHTML = new HTML("<progress value=\"" +  Integer.toString(wirtschaftsIndicatorInt) + "\" max=\"100\">"
 										+  Integer.toString(wirtschaftsIndicatorInt) + "</progress>");
 								Label percentageWirtschaft = new Label(Integer.toString(wirtschaftsIndicatorInt));
+								percentageWirtschaft.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 								System.out.println("Integer.toString(wirtschaftsIndicatorInt): "+Integer.toString(wirtschaftsIndicatorInt));
 								waterGame.wirtschaftsKraftPanel.add(wirtschaftsHTML);
 								waterGame.wirtschaftsKraftPanel.add(percentageWirtschaft);
@@ -253,12 +254,14 @@ public class MyStartButtonHandler implements ClickHandler {
 								HTML lebensQualiHTML = new HTML("<progress value=\"" +  Integer.toString(lebensqualiIndicatorInt) + "\" max=\"100\">"
 										+  Integer.toString(lebensqualiIndicatorInt) + "</progress>");
 								Label percentageLebensquali = new Label(Integer.toString(lebensqualiIndicatorInt));
+								percentageLebensquali.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 								waterGame.lebensQualitaetPanel.add(lebensQualiHTML);
 								waterGame.lebensQualitaetPanel.add(percentageLebensquali);
 								waterGame.lebensQualitaetPanel.setCellHorizontalAlignment(lebensQualiHTML, HasHorizontalAlignment.ALIGN_CENTER);
 								HTML umweltHTML = new HTML("<progress value=\"" + Integer.toString(umweltIndicatorInt) + "\" max=\"100\">"
 										+ Integer.toString(umweltIndicatorInt) + "</progress>");
 								Label percentageUmwelt = new Label(Integer.toString(umweltIndicatorInt));
+								percentageUmwelt.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 								waterGame.umweltFreundlichkeitPanel.add(umweltHTML);
 								waterGame.umweltFreundlichkeitPanel.add(percentageUmwelt);
 								waterGame.umweltFreundlichkeitPanel.setCellHorizontalAlignment(umweltHTML, HasHorizontalAlignment.ALIGN_CENTER);
@@ -279,19 +282,15 @@ public class MyStartButtonHandler implements ClickHandler {
 								
 								Grid tradeGrid = new Grid(9,2);
 								waterGame.tradePanel.add(new Label("Handel"));
-								HorizontalPanel smallTradeFieldPanel1 = new HorizontalPanel();
 								HorizontalPanel smallTradeFieldPanel1a = new HorizontalPanel();
 								HorizontalPanel smallTradeFieldPanel1b= new HorizontalPanel();
 
-								HorizontalPanel smallTradeFieldPanel2 = new HorizontalPanel();
 								HorizontalPanel smallTradeFieldPanel2a = new HorizontalPanel();
 								HorizontalPanel smallTradeFieldPanel2b = new HorizontalPanel();
 
-								HorizontalPanel smallTradeFieldPanel3 = new HorizontalPanel();
 								HorizontalPanel smallTradeFieldPanel3a = new HorizontalPanel();
 								HorizontalPanel smallTradeFieldPanel3b = new HorizontalPanel();
 
-								HorizontalPanel smallTradeFieldPanel4 = new HorizontalPanel();
 								HorizontalPanel smallTradeFieldPanel4a = new HorizontalPanel();
 								HorizontalPanel smallTradeFieldPanel4b= new HorizontalPanel();
 
@@ -544,6 +543,7 @@ public class MyStartButtonHandler implements ClickHandler {
 									infoLederBioLogo.setSize("25px", "25px");
 									InfoClickHandler lederBioInfoHandler = new InfoClickHandler(new HTML("<strong><i>Nachhaltige Lederproduktion:</i><br>Die Lederproduktion wird nachhaltig. Das Leder wird auf umweltverträglicher und chemikalienarmer Art behandelt. Eine Kläranlage sorgt dafür, dass die Sauberkeit des Flusses aufrechterhalten bleibt. Soziale und faire Arbeitsbedingungen werden sichergestellt. <br></strong><br>Preis: "+waterGame.lederPrice+" <br>Biozucker Wrtrag pro Runde: "+FieldType.LEDER.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.LEDER.getErtragBudget()+"<br>Wirtschaftskraft: <span style=\"color:green;\"> ++ </span><br>Lebensqualität: <span style=\"color:green;\"> ++ </span><br>Umweltfreundlichkeit: <span style=\"color:green;\"> ++ </span>"));
 									infoLederBioLogo.addClickHandler(lederBioInfoHandler);
+									waterGame.gridIndustrie.setWidget(1, 2,infoLederBioLogo);
 									//gridIndustrie.setWidget(1, 2, new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskraft: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 								}
 								if (waterGame.playerID == 2) {
@@ -683,18 +683,25 @@ public class MyStartButtonHandler implements ClickHandler {
 								tp.setWidth("300px");
 								tp.setHeight("600px");
 								HorizontalPanel removeFieldButton = new HorizontalPanel();
+								HorizontalPanel removeImagePanel = new HorizontalPanel();
 								Image removeField = new Image();
 								removeField.setUrl("remove.jpg");
 								removeField.setSize("50px", "50px");
 								RemoveClickHandler removeClickHandler = new RemoveClickHandler(greetingService, waterGame);
 								removeField.addClickHandler(removeClickHandler);
-								removeFieldButton.add(removeField);
-								removeFieldButton.setStyleName("panel");
+								removeImagePanel.add(removeField);
+								removeImagePanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+								removeFieldButton.add(removeImagePanel);
+								removeFieldButton.setWidth("300px");
+								removeFieldButton.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+								//removeFieldButton.setStyleName("panel");
 								waterGame.fieldsPanel.add(tp);
 								waterGame.fieldsPanel.add(removeFieldButton);
 								waterGame.fieldsPanel.setCellVerticalAlignment(tp, HasVerticalAlignment.ALIGN_TOP);
 								waterGame.fieldsPanel.setCellHorizontalAlignment(tp,HasHorizontalAlignment.ALIGN_CENTER);
-								waterGame.commonIndikatorPanel.setWidth("800px");
+								//waterGame.fieldsAndRoundCounter.add(waterGame.fieldsPanel);
+								//waterGame.fieldsAndRoundCounter.add(waterGame.commonIndikatorPanel);
+								//waterGame.commonIndikatorPanel.setWidth("800px");
 								
 								
 								
@@ -757,7 +764,6 @@ public class MyStartButtonHandler implements ClickHandler {
 								// We can add style names to widgets
 								waterGame.startButton.addStyleName("startButton");
 								waterGame.instructionButton.addStyleName("startButton");
-								waterGame.clientCheckButton.addStyleName("startButton");
 								waterGame.validateButton.addStyleName("startButton");
 								waterGame.wirtschaftsKraftPanel.addStyleName("panel");
 								waterGame.lebensQualitaetPanel.addStyleName("panel");
@@ -1132,7 +1138,6 @@ public class MyStartButtonHandler implements ClickHandler {
 		//UmweltSchutz
 		Grid measuresTable = new Grid(4, 2);
 		VerticalPanel umweltSchutzpanel = new VerticalPanel();
-		VerticalPanel subventionenpanel = new VerticalPanel();
 
 		umweltSchutzpanel.add(waterGame.umweltSchutzLabel);
 		measuresTable.setWidget(0, 0, umweltSchutzpanel);
