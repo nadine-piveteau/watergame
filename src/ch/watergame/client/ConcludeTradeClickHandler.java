@@ -118,6 +118,7 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 
 			@Override
 			public void onSuccess(TradeResult result) {
+				waterGame.tradeBox.hide();
 				if (result.myTurn == true) {
 					greetingService.removeALLTradeContract(new AsyncCallback<Void>() {
 
@@ -130,28 +131,26 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 						@Override
 						public void onSuccess(Void result) {
 							// TODO Auto-generated method stub
+							RootPanel.get("gamefield").setVisible(true);
+							RootPanel.get("validateButtonContainer").setVisible(true);
+							//RootPanel.get("tradeContainer").setVisible(false);
+
+							RootPanel.get("WIN").setVisible(false);
+							RootPanel.get("GAMEOVER").setVisible(false);
+
+
 							
+							//RootPanel.get("tradeContainer").setVisible(false);
+							RootPanel.get("gamefield").setVisible(true);
+							RootPanel.get("validateButtonContainer").setVisible(true);
+							//Zufallsereigniss hier aufrufen
+						
 						}
 						
 					});
 				}
 			}
 		});
-		
-			
-		
-		RootPanel.get("gamefield").setVisible(true);
-		RootPanel.get("validateButtonContainer").setVisible(true);
-		RootPanel.get("tradeContainer").setVisible(false);
-		RootPanel.get("WIN").setVisible(false);
-		RootPanel.get("GAMEOVER").setVisible(false);
-
-
-		
-		RootPanel.get("tradeContainer").setVisible(false);
-		RootPanel.get("gamefield").setVisible(true);
-		RootPanel.get("validateButtonContainer").setVisible(true);
-		//Zufallsereigniss hier aufrufen
 		greetingService.executeEvent(waterGame.playerID, new AsyncCallback<String>() {
 			
 			@Override
@@ -164,6 +163,7 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 			public void onSuccess(String result) {
 				// TODO Auto-generated method stub
 				//Window.alert(result);
+				if(result!=null){
 				DialogBox alertEvent = new DialogBox();
 				VerticalPanel contentAlertMessage = new VerticalPanel();
 				HTML message = new HTML(result);
@@ -176,7 +176,7 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 				alertEvent.add(contentAlertMessage);
 				alertEvent.center();
 				alertEvent.show();
-				
+				}
 
 				greetingService.updateAndGetRessources(new AsyncCallback<ArrayList<Integer>>() {
 					
@@ -226,7 +226,7 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 								HTML commonIndicatorHTML = new HTML("<progress value=\"" +  result + "\" max=\"100\">"
 										+  result + "</progress>");
 								Label percentage = new Label(Integer.toString(result));
-
+								waterGame.commonIndikatorPanel.clear();
 								waterGame.commonIndikatorPanel.add(waterGame.commonIndikatorLabel);
 								waterGame.commonIndikatorPanel.add(commonIndicatorHTML);
 								waterGame.commonIndikatorPanel.add(percentage);
@@ -246,48 +246,12 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 				});
 			}
 		});
+			
+		
+		
 		waterGame.tradeBox.clear();
 		waterGame.tradeRessourceBox.clear();
 		RootPanel.get("tradeContainer").clear();
-		/*
-		greetingService.updateAndGetRessources(new AsyncCallback<ArrayList<Integer>>() {
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onSuccess(ArrayList<Integer> result) {
-				int populationInt = result.get(3);
-				
-				// clear wirtschaft/lebensquali/umwelt/population/resourcen Panel
-				clearPanels();
-				// set new Values for indicators, ressources, knohow and population
-				setIndicatorValue(result);
-				setRessourceValueLW(result, populationInt);
-				setRessourceValueIndustrie(result, populationInt);
-				setKnowHowValue(result);
-				setPopulationValue(populationInt);
-				setBudgetValue(result.get(4));
-				
-				
-				// fill the panels
-				fillWirtschaftskraftPanel(); 
-				fillLebensqualiPanel();
-				fillUmweltPanel();
-				fillPopulationPanel();
-				fillRessourcePanel();
-				fillBudgetPanel();
-				
-			}
-			
-			
-		});*/
-		
-		
-		
 	}
 	void clearPanels() {
 		waterGame.ressourcePanel.clear();

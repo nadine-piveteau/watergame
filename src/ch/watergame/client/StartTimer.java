@@ -34,20 +34,22 @@ public class StartTimer extends Timer {
 							if (result.myTurn == true) {
 								RootPanel.get("sendButtonContainer").clear();
 								RootPanel.get("instructionButtonContainer").clear();
-								RootPanel.get("waitingBoxContainer").clear();
+								//RootPanel.get("waitingBoxContainer").clear();
 								RootPanel.get("tradeContainer").setVisible(false);
 								RootPanel.get("gamefield").setVisible(true);
 								RootPanel.get("validateButtonContainer").setVisible(true);
-								RootPanel.get("NotYourTurn").setVisible(false);
+								//RootPanel.get("NotYourTurn").setVisible(false);
+								wgame.waitingBox.hide();
 
 							} else {
 								RootPanel.get("sendButtonContainer").clear();
 								RootPanel.get("instructionButtonContainer").clear();
-								RootPanel.get("waitingBoxContainer").clear();;
-								RootPanel.get("gamefield").setVisible(false);
+								//RootPanel.get("waitingBoxContainer").clear();;
+								RootPanel.get("gamefield").setVisible(true);
 								RootPanel.get("validateButtonContainer").setVisible(false);
-								RootPanel.get("NotYourTurn").setVisible(true);
-								RootPanel.get("NotYourTurn").setVisible(false);
+								//RootPanel.get("NotYourTurn").setVisible(true);
+								//RootPanel.get("NotYourTurn").setVisible(false);
+								wgame.waitingBox.show();
 								System.out.println("Switchtimer has been added to player     "+wgame.getPlayerID());
 								wgame.startSwitchTimer();
 								wgame.startEndTimer();

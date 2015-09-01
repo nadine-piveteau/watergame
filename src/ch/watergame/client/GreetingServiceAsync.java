@@ -42,6 +42,7 @@ public interface GreetingServiceAsync {
 	void getCommonIndicator(AsyncCallback<Integer> callback);
 	void setNaturkatastrophenSchutz(int playerID, boolean b, AsyncCallback<Void> callback);
 	void getNrOfSpielwechsel(AsyncCallback<ArrayList<Integer>> asyncCallback);
+	void getGameID(AsyncCallback<Integer> callback);
 	
 
 }

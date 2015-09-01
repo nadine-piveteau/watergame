@@ -41,6 +41,7 @@ public interface GreetingService extends RemoteService {
 	int getCommonIndicator();
 	void setNaturkatastrophenSchutz(int playerID, boolean b);
 	ArrayList<Integer> getNrOfSpielwechsel();
+	int getGameID();
 
 
 }

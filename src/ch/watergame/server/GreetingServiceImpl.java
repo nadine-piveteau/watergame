@@ -93,14 +93,16 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		//numberOfPlayer von 0-3
 		int numberOfPlayer = runningGame.getPlayerlistSize()-1;
 		if (numberOfPlayer < MAXNUMBEROFPLAYER) {
-			message = "Bitte warten";
+			message = "Bitte warten...";
 			String nr = Integer.toString(numberOfPlayer);
-			return nr.concat(message);
+			String gameID = Integer.toString(gameList.size());
+			return nr.concat(gameID).concat(message);
 		} else {
 			message = "Das Spiel kann beginnen!";
 			System.out.println(message);
 			String nr = Integer.toString(numberOfPlayer);
-			return nr.concat(message);
+			String gameID = Integer.toString(gameList.size());
+			return nr.concat(gameID).concat(message);
 		}
 	}
 
@@ -467,6 +469,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		int i = (int) session.getAttribute("GameID");
 		Game game = gameList.get(i);
 		ArrayList<Integer> arrayList = new ArrayList<Integer>();
+		//player
 		if (game.getPlayingPlayer() == 0) {
 			calculateNewWissen();
 			calculateNewBudget();
@@ -476,6 +479,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			calculateIndicatorWirtschaftskraft();
 			calculatePopulation();
 		}
+		//player
 		if (game.getPlayingPlayer() == 1) {
 			// include influence of player 1
 
@@ -837,7 +841,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 						&& player.getPercentualUmwelt() > 10) {
 					sumZUCKER = sumZUCKER + cell.getErtragRessourcen();
 				}
-				if (cell == FieldType.FISCH) {
+				// wenn umwelt >10% ist und f
+				if (cell == FieldType.FISCH && player.getPercentualUmwelt() > 10) {
 					sumFISCH = sumFISCH + cell.getErtragRessourcen();
 				}
 				if (cell == FieldType.LEDER) {
@@ -1113,7 +1118,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			else if (randomNum == 2) {
 				game.halfLossLW(player);
 				int lossBudget = game.deduceBudget(0.15, player);
-				return "<h2>Dürre<h2><br><h3>Überschwemmungen durch heftige Monsunregen haben einen Teil der Ernte in deiner Stadt zerstört. Du erhältst in dieser Runde nur die Hälfte des Ertrages in der Landwirtschaft. Viele Häuser wurden beschädigt oder zerstört und müssen repariert werden. </h3>";
+				return "<h2>Überschwemmung<h2><br><h3>Überschwemmungen durch heftige Monsunregen haben einen Teil der Ernte in deiner Stadt zerstört. Du erhältst in dieser Runde nur die Hälfte des Ertrages in der Landwirtschaft. Viele Häuser wurden beschädigt oder zerstört und müssen repariert werden. </h3>";
 
 			}
 			// Grundwasservergiftung
@@ -1236,6 +1241,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		result.add(game.getNrOfSpielwechsel());
 		result.add((int) game.getCommonIndicator());
 		return result;
+	}
+	
+	@Override 
+	public int getGameID(){
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		return i;
 	}
 
 }

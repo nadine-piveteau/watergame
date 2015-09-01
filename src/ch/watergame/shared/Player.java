@@ -1,4 +1,4 @@
-package ch.watergame.shared;
+	package ch.watergame.shared;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

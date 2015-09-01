@@ -21,24 +21,24 @@ public class Game {
 		if (playerlist.size() == 0) {
 			GameField gameField1 = new GameField();
 			gameField1.setGameFieldforPlayer(0);
-			Player player = new Player(34, 34, 135, (((double)34/135)*100) ,68,68, 172, (( (double)68/172 )*100), 33,33,58,(((double)33/58)*100), 400,500,1,250,250,250,250,200,200,150,150,150,gameField1, 400);
+			Player player = new Player(34, 34, 135, (((double)34/135)*100) ,68,68, 172, (( (double)68/172 )*100), 33,33,58,(((double)33/58)*100), 500,500,1,250,250,250,250,200,200,150,150,150,gameField1, 400);
 			playerlist.add(player);
 			
 		} else if (playerlist.size() == 1) {
 			GameField gameField2 = new GameField();
 			gameField2.setGameFieldforPlayer(1);
-			Player player = new Player(60,60,150, (( (double)60/150)*100), 120,120,300,(((double)120/300)*100),40,40,100,(((double)40/100)*100),400,700,2,650,650,650,650,300,300,450,450,450, gameField2, 400);
+			Player player = new Player(60,60,150, (( (double)60/150)*100), 120,120,300,(((double)120/300)*100),40,40,100,(((double)40/100)*100),700,1300,2,650,650,650,650,300,300,450,450,450, gameField2, 400);
 			playerlist.add(player);
 
 		} else if (playerlist.size() == 2) {
 			GameField gameField3 = new GameField();
 			gameField3.setGameFieldforPlayer(2);
-			Player player = new Player(164, 164, 410, (( (double)164/410)*100),32,32,82,(( (double)32/82)*100), 131,131,328, (( (double)131/328)*100),400,1500,3,500,500,500,500,300,300,300,300,300,gameField3, 400);
+			Player player = new Player(164, 164, 410, (( (double)164/410)*100),32,32,82,(( (double)32/82)*100), 131,131,328, (( (double)131/328)*100),800,1000,3,500,500,500,500,300,300,300,300,300,gameField3, 400);
 			playerlist.add(player);
 		} else if (playerlist.size() == 3) {
 			GameField gameField4 = new GameField();
 			gameField4.setGameFieldforPlayer(3);
-			Player player = new Player(196, 196, 496, (( (double)196/496)*100), 32,32,82,(( (double)32/82)*100), 131,131,328, (( (double)131/328)*100),400,4000,4,650,650,650,650,500,500,450,450,450,gameField4, 400	);
+			Player player = new Player(196, 196, 496, (( (double)196/496)*100), 32,32,82,(( (double)32/82)*100), 131,131,328, (( (double)131/328)*100),1500,1400,4,650,650,650,650,500,500,450,450,450,gameField4, 400	);
 			playerlist.add(player);
 		}
 	}

@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -71,6 +72,9 @@ public class WaterGame implements EntryPoint {
 			.create(GreetingService.class);
 
 		final int WINNINGINDIKATOR = 60;
+		int gameID;
+		PopupPanel waitingBox;
+		PopupPanel tradeBox;
 	
 	
 	// initial page
@@ -78,7 +82,7 @@ public class WaterGame implements EntryPoint {
 		final Button instructionButton = new Button("Spielanleitung");
 		
 		//TradeBox
-		public DialogBox tradeBox ;
+		//public DialogBox tradeBox ;
 		public DialogBox tradeRessourceBox;
 		public Label tradeBoxTitle;
 		public VerticalPanel tradeBoxContent = new VerticalPanel();
@@ -305,7 +309,7 @@ public class WaterGame implements EntryPoint {
 		// RUNDEN ZÄhler!!!
 		int gameRound;
 		VerticalPanel roundPanel = new VerticalPanel();
-		HTML roundCounter = new HTML("1. Runde");
+		HTML roundCounter = new HTML();
 		
 		int eventNR;
 		

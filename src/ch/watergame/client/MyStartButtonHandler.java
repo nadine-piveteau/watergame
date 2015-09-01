@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import ch.watergame.shared.GameField;
 import ch.watergame.shared.GameField.FieldType;
 
+import com.gargoylesoftware.htmlunit.javascript.host.Popup;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -19,6 +22,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.TabBar;
@@ -43,17 +47,28 @@ public class MyStartButtonHandler implements ClickHandler {
 	public void onClick(ClickEvent event) {
 		RootPanel.get("sendButtonContainer").setVisible(false);
 		RootPanel.get("instructionButtonContainer").setVisible(false);
+		RootPanel.get("gamefield").setVisible(true);
+		//RootPanel.get("gamefield").setStyleName("blocking");
 		greetingService.startGame(new AsyncCallback<String>() {
 			public void onFailure(Throwable caught) {
 				System.out.println("Failed");
 			}
 
 			public void onSuccess(String result) {
+				
 				waterGame.setplayerID(Integer.parseInt(result.substring(0, 1)));
+				waterGame.gameID = Integer.parseInt(result.substring(1,2));
 				System.out.println("RESULT AFTER STARTGAME:"+result);
-				DialogBox waitingBox = new DialogBox();
-				waitingBox.setText(result.substring(1));
-				RootPanel.get("waitingBoxContainer").add(waitingBox);
+				waterGame.waitingBox = new PopupPanel();
+				HTML waitingBoxText = new HTML(result.substring(2));
+				waitingBoxText.setStyleName("h1");
+				waterGame.waitingBox.add(waitingBoxText);
+				waterGame.waitingBox.setGlassEnabled(true);
+				//waitingBox.setPopupPosition(Window.getClientWidth()/2, Window.getClientHeight()/2);
+				waterGame.waitingBox.center();
+				waterGame.waitingBox.show();
+
+				//RootPanel.get("gamefield").add(waitingBox);
 				HTML name = null;
 				System.out.println( "STRING RETURNED "+result.substring(0, 1));
 				if(Integer.parseInt(result.substring(0, 1)) ==0){
@@ -67,6 +82,7 @@ public class MyStartButtonHandler implements ClickHandler {
 				}
 				name.setStyleName("nameCity");
 				name.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+				waterGame.roundCounter =  new HTML("Spiel "+waterGame.gameID+", 1. Runde");
 				waterGame.roundCounter.setStyleName("roundCounter");
 				waterGame.roundPanel.add(waterGame.roundCounter);
 				waterGame.roundPanel.setWidth("100%");
@@ -79,6 +95,7 @@ public class MyStartButtonHandler implements ClickHandler {
 				waterGame.nameAndRoundPanel.setWidth("100%");
 				waterGame.nameAndRoundPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 				System.out.println("GET GAMFIELD: "+waterGame.getPlayerID());
+				
 				greetingService.getGameField(waterGame.getPlayerID(), new AsyncCallback<GameField>() {
 
 					@Override
@@ -595,6 +612,7 @@ public class MyStartButtonHandler implements ClickHandler {
 									infoTextilLogo.setSize("25px", "25px");
 									InfoClickHandler textilInfoHandler = new InfoClickHandler(new HTML("<strong><i>Textilindustrie:</i></strong><br>Preis: "+waterGame.textilPrice+" <br>Textilienertrag pro Runde: "+FieldType.TEXTIL.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.TEXTIL.getErtragBudget()+"<br>Wirtschaftskraft:<span style=\"color:green;\"> +++++ </span> <br>Lebensqualität:<span style=\"color:green;\"> + </span> <br>Umweltfreundlichkeit: <span style=\"color:red;\"> --- </span>"));
 									infoTextilLogo.addClickHandler(textilInfoHandler);
+									waterGame.gridIndustrie.setWidget(0,2,infoTextilLogo);
 									//gridIndustrie.setWidget(0,2,new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 									waterGame.gridIndustrie.setWidget(1, 0, waterGame.textilBioPanel);
 									waterGame.gridIndustrie.setWidget(1, 1, new HTML("<b>Nachhaltige Textilien<b>"));
@@ -602,6 +620,7 @@ public class MyStartButtonHandler implements ClickHandler {
 									infoTextilBioLogo.setSize("25px", "25px");
 									InfoClickHandler textilBioInfoHandler = new InfoClickHandler(new HTML("<strong><i>Nachhaltige Textilproduktion:</i><br>Die Textilproduktion wird nachhaltig. Die Textilien werden auf umweltverträglicher und giftfreier Art gefertigt. Eine Kläranlage sorgt dafür, dass die Sauberkeit des Flusses aufrechterhalten bleibt. Soziale und faire Arbeitsbedingungen werden sichergestellt. </strong><br>Preis: "+waterGame.textilPrice+" <br>Textilienertrag pro Runde: "+FieldType.TEXTIL.getErtragRessourcen()+"<br>Budget-Ertrag pro Runde: "+FieldType.TEXTIL.getErtragBudget()+"<br>Wirtschaftskraft:<span style=\"color:green;\"> + </span> <br>Lebensqualität:<span style=\"color:green;\"> + </span> <br>Umweltfreundlichkeit: <span style=\"color:green;\"> ++ </span>"));
 									infoTextilBioLogo.addClickHandler(textilBioInfoHandler);
+									waterGame.gridIndustrie.setWidget(1,2,infoTextilBioLogo);
 									//gridIndustrie.setWidget(1,2,new HTML("<small>Preis: XXXXX <br>Ertrag pro Runde: XXXXX<br>Wirtschaftskrafe: XXXXX<br>Lebensqualität: XXXXXX<br>Umweltfreundlichkeit: XXXX<small>"));
 								}
 								if (waterGame.playerID == 3) {
@@ -783,10 +802,10 @@ public class MyStartButtonHandler implements ClickHandler {
 					}
 
 				});
-
-
-			}
+							}
 		});
+		
+		
 		waterGame.t = new StartTimer(greetingService, waterGame);
 		System.out.println("Start Timer added to player"+ waterGame.getPlayerID());
 		waterGame.t.scheduleRepeating(500);

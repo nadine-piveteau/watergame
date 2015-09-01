@@ -48,7 +48,7 @@ public class SwitchTimer extends Timer {
 				// TODO Auto-generated method stub
 				waterGame.gameRound = result;
 				waterGame.roundPanel.clear();
-				waterGame.roundCounter = new HTML(result + ". Runde");
+				waterGame.roundCounter = new HTML("Spiel "+waterGame.gameID+", "+result + ". Runde");
 				waterGame.roundCounter.addStyleName("roundCounter");
 				waterGame.roundCounter.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 
@@ -69,7 +69,7 @@ public class SwitchTimer extends Timer {
 			public void onSuccess(TradeResult result) {
 //				System.out.println("SWITCHTIMER RESULT:MYTURN: "+result.myTurn);
 				if (result.myTurn == true) {
-
+					waterGame.waitingBox.hide();
 					RootPanel.get("NotYourTurn").setVisible(false);
 					cancel();
 
@@ -82,7 +82,7 @@ public class SwitchTimer extends Timer {
 						// waterGame.tradeBoxTitle = new Label("Handel");
 						// waterGame.tradeBoxContent.add(waterGame.tradeBoxTitle);
 
-						DialogBox tradeBox = new DialogBox();
+						waterGame.tradeBox = new DialogBox();
 						VerticalPanel tradeBoxContent = new VerticalPanel();
 						Label tradeBoxTitel = new Label("Handel");
 						tradeBoxContent.add(tradeBoxTitel);
@@ -103,8 +103,8 @@ public class SwitchTimer extends Timer {
 						Button okButton = new Button("OK");
 						okButton.addClickHandler(concludeHandler);
 						tradeBoxContent.add(okButton);
-						tradeBox.add(tradeBoxContent);
-						tradeBox.center();
+						waterGame.tradeBox.add(tradeBoxContent);
+						waterGame.tradeBox.center();
 						Label ressourceTitle = new Label("Meine Ressourcen");
 						VerticalPanel tradeRessourceBoxContent = new VerticalPanel();
 						tradeRessourceBoxContent.add(ressourceTitle);
@@ -121,19 +121,22 @@ public class SwitchTimer extends Timer {
 						// waterGame.tradeBoxContent.add(okButton);
 						// waterGame.tradeBox.add(waterGame.tradeBoxContent);
 						// waterGame.tradeBox.setWidth("800px");
-						RootPanel.get("tradeContainer").add(tradeBox);
-						RootPanel.get("tradeContainer").add(
-								waterGame.tradeRessourceBox);
-						RootPanel.get("tradeContainer").setVisible(true);
-						RootPanel.get("gamefield").setVisible(false);
+						//RootPanel.get("tradeContainer").add(tradeBox);
+						//RootPanel.get("tradeContainer").add(
+							//	waterGame.tradeRessourceBox);
+						//RootPanel.get("tradeContainer").setVisible(true);
+						waterGame.tradeBox.center();
+						waterGame.tradeBox.setGlassEnabled(true);
+						waterGame.tradeBox.show();
+						RootPanel.get("gamefield").setVisible(true);
 						RootPanel.get("validateButtonContainer").setVisible(
 								false);
 						RootPanel.get("WIN").setVisible(false);
 						RootPanel.get("GAMEOVER").setVisible(false);
 
 					} else {
-
-						RootPanel.get("tradeContainer").setVisible(false);
+						waterGame.tradeBox.hide();
+						//RootPanel.get("tradeContainer").setVisible(false);
 						RootPanel.get("gamefield").setVisible(true);
 						RootPanel.get("validateButtonContainer").setVisible(
 								true);
@@ -297,9 +300,11 @@ public class SwitchTimer extends Timer {
 
 					}
 				} else {
-					RootPanel.get("gamefield").setVisible(false);
+					RootPanel.get("gamefield").setVisible(true);
 					RootPanel.get("validateButtonContainer").setVisible(false);
-					RootPanel.get("NotYourTurn").setVisible(true);
+					//RootPanel.get("NotYourTurn").setVisible(false);
+					waterGame.waitingBox.show();
+					
 				}
 			}
 		});

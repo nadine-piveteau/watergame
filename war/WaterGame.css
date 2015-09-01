@@ -57,6 +57,10 @@ h1 {
   margin: 15px 6px 6px;
 }
 
+
+blocking{
+	pointer-events: none;
+}
 h1 {
   font-size: 2em;
   font-weight: bold;
