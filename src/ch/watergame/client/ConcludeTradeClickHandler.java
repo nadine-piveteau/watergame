@@ -248,7 +248,7 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 		});
 			
 		
-		
+		waterGame.tradeBox.hide();
 		waterGame.tradeBox.clear();
 		waterGame.tradeRessourceBox.clear();
 		RootPanel.get("tradeContainer").clear();
@@ -280,10 +280,10 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 		waterGame.sugarNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
 		int fishValueInt = result.get(8);
 		waterGame.fishNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
-		waterGame.rizeValue = new Label("Reis: \t" + Integer.toString(rizeValueInt) + "/" + Integer.toString(waterGame.rizeNeededInt));
-		waterGame.fishValue = new Label("Fisch: \t" + Integer.toString(fishValueInt) + "/" + Integer.toString(waterGame.fishNeededInt));
-		waterGame.sugarValue = new Label("Zucker: \t" + Integer.toString(sugarValueInt) + "/" + Integer.toString(waterGame.sugarNeededInt));
-		waterGame.teaValue = new Label("Tee: \t" + Integer.toString(theValueInt) + "/" + Integer.toString(waterGame.theNeededInt));
+		waterGame.rizeValue = new HTML(Integer.toString(rizeValueInt) + "/" + Integer.toString(waterGame.rizeNeededInt));
+		waterGame.fishValue = new HTML( Integer.toString(fishValueInt) + "/" + Integer.toString(waterGame.fishNeededInt));
+		waterGame.sugarValue = new HTML( Integer.toString(sugarValueInt) + "/" + Integer.toString(waterGame.sugarNeededInt));
+		waterGame.teaValue = new HTML(Integer.toString(theValueInt) + "/" + Integer.toString(waterGame.theNeededInt));
 
 	}
 
@@ -295,14 +295,14 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 		int itValueInt = result.get(11);
 		waterGame.itNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
 		int budgetInt = result.get(4);
-		waterGame.lederValue = new Label("Leder: \t" + Integer.toString(lederValueInt) + "/" + Integer.toString(waterGame.lederNeededInt));
-		waterGame.textilValue = new Label("Textilien: \t" + Integer.toString(textilValueInt) + "/" + Integer.toString(waterGame.textilNeededInt));
-		waterGame.itValue = new Label("IT: \t" + Integer.toString(itValueInt) + "/" + Integer.toString(waterGame.itNeededInt));
+		waterGame.lederValue = new HTML(Integer.toString(lederValueInt) + "/" + Integer.toString(waterGame.lederNeededInt));
+		waterGame.textilValue = new HTML(Integer.toString(textilValueInt) + "/" + Integer.toString(waterGame.textilNeededInt));
+		waterGame.itValue = new HTML(Integer.toString(itValueInt) + "/" + Integer.toString(waterGame.itNeededInt));
 	}
 
 	void setKnowHowValue(ArrayList<Integer>result) {
 		int knowHow = result.get(12);
-		waterGame.knowhowValue = new Label("Wissen: \t" + Integer.toString(knowHow));
+		waterGame.knowhowValue = new HTML( Integer.toString(knowHow));
 	}
 
 	void setPopulationValue(int populationInt) {
@@ -356,17 +356,29 @@ public class ConcludeTradeClickHandler implements ClickHandler {
 	}
 	
 	void fillRessourcePanel(){
+		waterGame.ressourcePanel.clear();
 		waterGame.ressourcePanel.add(waterGame.ressourceTitle);
-		waterGame.ressourcePanel.add(waterGame.rizeValue);
-		waterGame.ressourcePanel.add(waterGame.fishValue);
-		waterGame.ressourcePanel.add(waterGame.sugarValue);
-		waterGame.ressourcePanel.add(waterGame.teaValue);
-		waterGame.ressourcePanel.add(waterGame.lederValue);
-		waterGame.ressourcePanel.add(waterGame.textilValue);
-		waterGame.ressourcePanel.add(waterGame.itValue);
-		waterGame.ressourcePanel.add(waterGame.knowhowValue);
-		waterGame.ressourcePanel.setCellHorizontalAlignment(waterGame.budgetValue, HasHorizontalAlignment.ALIGN_LEFT);
-	}
+		Grid ressourcePanelGrid = new Grid(8, 2);
+		ressourcePanelGrid.setWidget(0, 0, waterGame.rizeLabel);
+		ressourcePanelGrid.setWidget(1, 0, waterGame.fishLabel);
+		ressourcePanelGrid.setWidget(2, 0, waterGame.sugarLabel);
+		ressourcePanelGrid.setWidget(3, 0, waterGame.theLabel);
+		ressourcePanelGrid.setWidget(4, 0, waterGame.lederLabel);
+		ressourcePanelGrid.setWidget(5, 0, waterGame.textilLabel);
+		ressourcePanelGrid.setWidget(6, 0, waterGame.itLabel);
+		ressourcePanelGrid.setWidget(7, 0, waterGame.wissenLabel);
+		ressourcePanelGrid.setWidget(0, 1, waterGame.rizeValue);
+		ressourcePanelGrid.setWidget(1, 1, waterGame.fishValue);
+		ressourcePanelGrid.setWidget(2, 1, waterGame.sugarValue);
+		ressourcePanelGrid.setWidget(3, 1, waterGame.teaValue);
+		ressourcePanelGrid.setWidget(4, 1, waterGame.lederValue);
+		ressourcePanelGrid.setWidget(5, 1, waterGame.textilValue);
+		ressourcePanelGrid.setWidget(6, 1, waterGame.itValue);
+		ressourcePanelGrid.setWidget(7, 1, waterGame.knowhowValue);
+		waterGame.ressourcePanel.add(ressourcePanelGrid);
+		waterGame.ressourcePanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);;
+
+		}
 	
 	void fillPopulationPanel(){
 		waterGame.populationPanel.add(waterGame.populationLabel);

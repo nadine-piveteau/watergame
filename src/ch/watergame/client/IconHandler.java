@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLTable;
@@ -99,10 +100,14 @@ public class IconHandler implements ClickHandler{
 		}else if(imgUrlString.equals("uni.jpg")){
 			game.uniPanel.setStyleName("selectedImage");
 		}
+		game.removeImagePanel.removeStyleName("selectedImage");
+
 	}
 	
 	public void removeStyles(){
+		int i = 0;
 		for(VerticalPanel vp:imagePanels){
+			i=i+1;
 			vp.removeStyleName("selectedImage");
 		}
 	}

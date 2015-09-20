@@ -46,7 +46,7 @@ public class Player {
 	int it;
 	
 	GameField gamefield;
-	private Queue<Trade> tradePartners = new LinkedList<Trade>();
+	public Queue<Trade> tradePartners = new LinkedList<Trade>();
 
 	public Queue<Trade> getTradePartner() {
 		return tradePartners;

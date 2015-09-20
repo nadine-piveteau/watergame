@@ -22,16 +22,11 @@ HTML message;
         //new InfoPopup().show();
         int left = event.getClientX();
         int top = event.getClientY();
-        pop.setWidth("200px");
+        pop.setWidth("400px");
         pop.setPopupPosition(left-5, top-5);
+        pop.center();
         pop.show();
-       /* pop.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
-            public void setPosition(int offsetWidth, int offsetHeight) {
-              int left = event.getClientX();
-              int top = event.getClientY();
-              pop.setPopupPosition(left, top);
-            }
-          });  */      
+         
 	}
 
 }

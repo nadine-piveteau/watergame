@@ -43,6 +43,7 @@ public interface GreetingServiceAsync {
 	void setNaturkatastrophenSchutz(int playerID, boolean b, AsyncCallback<Void> callback);
 	void getNrOfSpielwechsel(AsyncCallback<ArrayList<Integer>> asyncCallback);
 	void getGameID(AsyncCallback<Integer> callback);
+	void emptyTradeResult(AsyncCallback<Void> callback);
 	
 
 }

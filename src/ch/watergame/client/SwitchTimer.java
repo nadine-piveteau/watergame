@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class SwitchTimer extends Timer {
 	private GreetingServiceAsync greetingService;
 	private WaterGame waterGame;
+	private TradeResult traderesult;
 
 	public SwitchTimer(GreetingServiceAsync greetingService, WaterGame waterGame) {
 		this.greetingService = greetingService;
@@ -35,28 +36,7 @@ public class SwitchTimer extends Timer {
 
 	@Override
 	public void run() {
-		greetingService.getRoundNR(new AsyncCallback<Integer>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onSuccess(Integer result) {
-				// TODO Auto-generated method stub
-				waterGame.gameRound = result;
-				waterGame.roundPanel.clear();
-				waterGame.roundCounter = new HTML("Spiel "+waterGame.gameID+", "+result + ". Runde");
-				waterGame.roundCounter.addStyleName("roundCounter");
-				waterGame.roundCounter.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-
-				waterGame.roundPanel.add(waterGame.roundCounter);
-
-			}
-
-		});
+		
 		greetingService.isMyTurn(new AsyncCallback<TradeResult>() {
 
 			@Override
@@ -67,13 +47,44 @@ public class SwitchTimer extends Timer {
 
 			@Override
 			public void onSuccess(TradeResult result) {
+				
+				
+				greetingService.getRoundNR(new AsyncCallback<Integer>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onSuccess(Integer result) {
+						// TODO Auto-generated method stub
+						waterGame.gameRound = result;
+						waterGame.roundPanel.clear();
+						waterGame.roundCounter = new HTML("Spiel "+waterGame.gameID+", "+result + ". Runde");
+						waterGame.roundCounter.addStyleName("roundCounter");
+						waterGame.roundCounter.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+
+						waterGame.roundPanel.add(waterGame.roundCounter);
+
+					}
+
+				});
+				
+				
+				
+				traderesult = result;
+				//fillRessourcePanel();
 //				System.out.println("SWITCHTIMER RESULT:MYTURN: "+result.myTurn);
-				if (result.myTurn == true) {
+				if (traderesult.myTurn == true) {
+					fillRessourcePanel();
 					waterGame.waitingBox.hide();
 					RootPanel.get("NotYourTurn").setVisible(false);
 					cancel();
+					if (!traderesult.tradeContractResult.isEmpty()) {
+						fillRessourcePanel();
 
-					if (!result.tradeContractResult.isEmpty()) {
 						ConcludeTradeClickHandler concludeHandler = new ConcludeTradeClickHandler(
 								waterGame, greetingService);
 						// waterGame.tradeBox.remove(waterGame.tradeBoxContent);
@@ -86,7 +97,11 @@ public class SwitchTimer extends Timer {
 						VerticalPanel tradeBoxContent = new VerticalPanel();
 						Label tradeBoxTitel = new Label("Handel");
 						tradeBoxContent.add(tradeBoxTitel);
-						for (Trade trade : result.tradeContractResult) {
+						HTML frage = new HTML("Kreuze jeden Handel, den du annehmen möchtest.");
+						tradeBoxContent.add(frage);
+						for (Trade trade : traderesult.tradeContractResult) {
+							fillRessourcePanel();
+
 							HorizontalPanel tradeMessagePanel = new HorizontalPanel();
 							HTML tradeMessage = new HTML(trade.toString());
 							tradeMessagePanel.add(tradeMessage);
@@ -100,11 +115,28 @@ public class SwitchTimer extends Timer {
 							tradeMessagePanel.add(jaButton);
 							tradeBoxContent.add(tradeMessagePanel);
 						}
+						greetingService.emptyTradeResult(new AsyncCallback<Void>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onSuccess(Void result) {
+								// TODO Auto-generated method stub
+								
+							}
+						});
 						Button okButton = new Button("OK");
 						okButton.addClickHandler(concludeHandler);
 						tradeBoxContent.add(okButton);
+						fillRessourcePanel();
+
 						waterGame.tradeBox.add(tradeBoxContent);
 						waterGame.tradeBox.center();
+						/*
 						Label ressourceTitle = new Label("Meine Ressourcen");
 						VerticalPanel tradeRessourceBoxContent = new VerticalPanel();
 						tradeRessourceBoxContent.add(ressourceTitle);
@@ -117,7 +149,7 @@ public class SwitchTimer extends Timer {
 						tradeRessourceBoxContent.add(waterGame.itValue);
 						tradeRessourceBoxContent.add(waterGame.knowhowValue);
 						waterGame.tradeRessourceBox
-								.add(tradeRessourceBoxContent);
+								.add(tradeRessourceBoxContent);*/
 						// waterGame.tradeBoxContent.add(okButton);
 						// waterGame.tradeBox.add(waterGame.tradeBoxContent);
 						// waterGame.tradeBox.setWidth("800px");
@@ -125,12 +157,12 @@ public class SwitchTimer extends Timer {
 						//RootPanel.get("tradeContainer").add(
 							//	waterGame.tradeRessourceBox);
 						//RootPanel.get("tradeContainer").setVisible(true);
-						waterGame.tradeBox.center();
-						waterGame.tradeBox.setGlassEnabled(true);
-						waterGame.tradeBox.show();
+						//waterGame.tradeBox.center();
+						//waterGame.tradeBox.setGlassEnabled(true);
+						//waterGame.tradeBox.show();
 						RootPanel.get("gamefield").setVisible(true);
 						RootPanel.get("validateButtonContainer").setVisible(
-								false);
+								true);
 						RootPanel.get("WIN").setVisible(false);
 						RootPanel.get("GAMEOVER").setVisible(false);
 
@@ -299,15 +331,20 @@ public class SwitchTimer extends Timer {
 						// zurückgeben methode hier aufrufen
 
 					}
-				} else {
+						
+						
+						} else {
 					RootPanel.get("gamefield").setVisible(true);
-					RootPanel.get("validateButtonContainer").setVisible(false);
+					RootPanel.get("validateButtonContainer").setVisible(true);
 					//RootPanel.get("NotYourTurn").setVisible(false);
 					waterGame.waitingBox.show();
 					
 				}
 			}
-		});
+					
+		
+	});
+	
 	}
 
 	void clearPanels() {
@@ -340,17 +377,13 @@ public class SwitchTimer extends Timer {
 		waterGame.sugarNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
 		int fishValueInt = result.get(8);
 		waterGame.fishNeededInt = populationInt / waterGame.grundbedarfProKopfLW;
-		waterGame.rizeValue = new Label("Reis: \t"
-				+ Integer.toString(rizeValueInt) + "/"
+		waterGame.rizeValue = new HTML(Integer.toString(rizeValueInt) + "/"
 				+ Integer.toString(waterGame.rizeNeededInt));
-		waterGame.fishValue = new Label("Fisch: \t"
-				+ Integer.toString(fishValueInt) + "/"
+		waterGame.fishValue = new HTML(Integer.toString(fishValueInt) + "/"
 				+ Integer.toString(waterGame.fishNeededInt));
-		waterGame.sugarValue = new Label("Zucker: \t"
-				+ Integer.toString(sugarValueInt) + "/"
+		waterGame.sugarValue = new HTML(Integer.toString(sugarValueInt) + "/"
 				+ Integer.toString(waterGame.sugarNeededInt));
-		waterGame.teaValue = new Label("Tee: \t"
-				+ Integer.toString(theValueInt) + "/"
+		waterGame.teaValue = new HTML(Integer.toString(theValueInt) + "/"
 				+ Integer.toString(waterGame.theNeededInt));
 		waterGame.rizeValueInteger = rizeValueInt;
 		waterGame.teaValueInteger = theValueInt;
@@ -369,13 +402,11 @@ public class SwitchTimer extends Timer {
 		int itValueInt = result.get(11);
 		waterGame.itNeededInt = populationInt / waterGame.grundbedarfProKopfIndustrie;
 		int budgetInt = result.get(4);
-		waterGame.lederValue = new Label("Leder: \t"
-				+ Integer.toString(lederValueInt) + "/"
+		waterGame.lederValue = new HTML( Integer.toString(lederValueInt) + "/"
 				+ Integer.toString(waterGame.lederNeededInt));
-		waterGame.textilValue = new Label("Textilien: \t"
-				+ Integer.toString(textilValueInt) + "/"
+		waterGame.textilValue = new HTML( Integer.toString(textilValueInt) + "/"
 				+ Integer.toString(waterGame.textilNeededInt));
-		waterGame.itValue = new Label("IT: \t" + Integer.toString(itValueInt)
+		waterGame.itValue = new HTML(Integer.toString(itValueInt)
 				+ "/" + Integer.toString(waterGame.itNeededInt));
 		waterGame.lederValueInteger = lederValueInt;
 		waterGame.textilValueInteger = lederValueInt;
@@ -384,8 +415,7 @@ public class SwitchTimer extends Timer {
 
 	void setKnowHowValue(ArrayList<Integer> result) {
 		int knowHow = result.get(12);
-		waterGame.knowhowValue = new Label("Wissen: \t"
-				+ Integer.toString(knowHow));
+		waterGame.knowhowValue = new HTML(Integer.toString(knowHow));
 		waterGame.knowhowValueInteger = knowHow;
 	}
 
@@ -453,17 +483,31 @@ public class SwitchTimer extends Timer {
 	}
 
 	void fillRessourcePanel() {
+		waterGame.ressourcePanel.clear();
 		waterGame.ressourcePanel.add(waterGame.ressourceTitle);
-		waterGame.ressourcePanel.add(waterGame.rizeValue);
-		waterGame.ressourcePanel.add(waterGame.fishValue);
-		waterGame.ressourcePanel.add(waterGame.sugarValue);
-		waterGame.ressourcePanel.add(waterGame.teaValue);
-		waterGame.ressourcePanel.add(waterGame.lederValue);
-		waterGame.ressourcePanel.add(waterGame.textilValue);
-		waterGame.ressourcePanel.add(waterGame.itValue);
-		waterGame.ressourcePanel.add(waterGame.knowhowValue);
-		waterGame.ressourcePanel.setCellHorizontalAlignment(
-				waterGame.budgetValue, HasHorizontalAlignment.ALIGN_LEFT);
+
+		Grid ressourcePanelGrid = new Grid(8, 2);
+		//Label ressourcenTitel = new Label("Ressourcenstand");
+		ressourcePanelGrid.setWidget(0, 0, waterGame.rizeLabel);
+		ressourcePanelGrid.setWidget(1, 0, waterGame.fishLabel);
+		ressourcePanelGrid.setWidget(2, 0, waterGame.sugarLabel);
+		ressourcePanelGrid.setWidget(3, 0, waterGame.theLabel);
+		ressourcePanelGrid.setWidget(4, 0, waterGame.lederLabel);
+		ressourcePanelGrid.setWidget(5, 0, waterGame.textilLabel);
+		ressourcePanelGrid.setWidget(6, 0, waterGame.itLabel);
+		ressourcePanelGrid.setWidget(7, 0, waterGame.wissenLabel);
+		ressourcePanelGrid.setWidget(0, 1, waterGame.rizeValue);
+		ressourcePanelGrid.setWidget(1, 1, waterGame.fishValue);
+		ressourcePanelGrid.setWidget(2, 1, waterGame.sugarValue);
+		ressourcePanelGrid.setWidget(3, 1, waterGame.teaValue);
+		ressourcePanelGrid.setWidget(4, 1, waterGame.lederValue);
+		ressourcePanelGrid.setWidget(5, 1, waterGame.textilValue);
+		ressourcePanelGrid.setWidget(6, 1, waterGame.itValue);
+		ressourcePanelGrid.setWidget(7, 1, waterGame.knowhowValue);
+		//waterGame.ressourcePanel.add(ressourcenTitel);
+		waterGame.ressourcePanel.add(ressourcePanelGrid);
+		waterGame.ressourcePanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);;
+
 	}
 
 	void fillPopulationPanel() {

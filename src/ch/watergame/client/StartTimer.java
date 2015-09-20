@@ -46,7 +46,7 @@ public class StartTimer extends Timer {
 								RootPanel.get("instructionButtonContainer").clear();
 								//RootPanel.get("waitingBoxContainer").clear();;
 								RootPanel.get("gamefield").setVisible(true);
-								RootPanel.get("validateButtonContainer").setVisible(false);
+								RootPanel.get("validateButtonContainer").setVisible(true);
 								//RootPanel.get("NotYourTurn").setVisible(true);
 								//RootPanel.get("NotYourTurn").setVisible(false);
 								wgame.waitingBox.show();

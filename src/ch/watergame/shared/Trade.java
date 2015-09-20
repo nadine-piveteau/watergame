@@ -44,8 +44,23 @@ public class Trade implements Serializable {
 	}
 
 	public String toString() {
-		return "<p><strong>Spieler " + (partnerAID+1) + " möchte mit dir handeln:</strong><br>Export: " + importAmount + " Einheiten " + importGood + "<br>Import:  "
-				+ exportAmount + " Einheiten " + " " + exportGood + ". <br>Willst du den Handel ausführen?<p>";
+		if(partnerAID == 0){
+			return "<p><strong>Chamoli möchte mit dir handeln:</strong><br>Export: " + importAmount + " Einheiten " + importGood + "<br>Import:  "
+					+ exportAmount + " Einheiten " + " " + exportGood + ". <br>Willst du den Handel ausführen?<p>";
+			
+		}else if(partnerAID == 1){
+			return "<p><strong>Kanpur möchte mit dir handeln:</strong><br>Export: " + importAmount + " Einheiten " + importGood + "<br>Import:  "
+					+ exportAmount + " Einheiten " + " " + exportGood + ". <br>Willst du den Handel ausführen?<p>";
+			
+		}else if (partnerAID == 2){
+			return "<p><strong>Varanasi möchte mit dir handeln:</strong><br>Export: " + importAmount + " Einheiten " + importGood + "<br>Import:  "
+					+ exportAmount + " Einheiten " + " " + exportGood + ". <br>Willst du den Handel ausführen?<p>";
+			
+		}else {
+			return "<p><strong>Kalkutta möchte mit dir handeln:</strong><br>Export: " + importAmount + " Einheiten " + importGood + "<br>Import:  "
+					+ exportAmount + " Einheiten " + " " + exportGood + ". <br>Willst du den Handel ausführen?<p>";
+			
+		}
 	}
 	
 }

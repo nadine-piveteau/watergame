@@ -26,7 +26,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
 	ArrayList<Game> gameList = new ArrayList<Game>();
 	int totalNrofPlayer = 0;
-	Game runningGame;
+	//Game runningGame;
 
 	public String greetServer(String input) throws IllegalArgumentException {
 		// Verify that the input is valid.
@@ -73,12 +73,13 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		final int MAXNUMBEROFPLAYER = 4;
 		String message;
 		if (totalNrofPlayer % MAXNUMBEROFPLAYER == 0) {
-			runningGame = new Game();
-			gameList.add(runningGame);
+			//runningGame = new Game();
+			gameList.add(new Game());
 			System.out.println("SIZE GAMELIST: " + gameList.size());
 		}
 		
-		runningGame.addPlayer();
+		gameList.get(gameList.size()-1).addPlayer();
+		//runningGame.addPlayer();
 		totalNrofPlayer += 1;
 		System.out.println("TOTAL NR OF PLAYER IN IF: " + totalNrofPlayer);
 
@@ -87,11 +88,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		System.out.println("SIZE GAMELIST: "+gameList.size());
 		session.setAttribute("GameID", gameList.size() - 1);
 		//USerID gehen von 0-3
-		session.setAttribute("UserID", runningGame.getPlayerlistSize() - 1);
+		session.setAttribute("UserID", gameList.get(gameList.size()-1).getPlayerlistSize() - 1);
 		System.out.println("GAMEID: " + session.getAttribute("GameID"));
 		//int numberOfPlayer = totalNrofPlayer % 4;
 		//numberOfPlayer von 0-3
-		int numberOfPlayer = runningGame.getPlayerlistSize()-1;
+		int numberOfPlayer = gameList.get(gameList.size()-1).getPlayerlistSize()-1;
 		if (numberOfPlayer < MAXNUMBEROFPLAYER) {
 			message = "Bitte warten...";
 			String nr = Integer.toString(numberOfPlayer);
@@ -158,6 +159,15 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			trade.myTurn = false;
 			return trade;
 		}
+	}
+	@Override
+	public void emptyTradeResult(){
+		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpSession session = request.getSession(true);
+		int i = (int) session.getAttribute("GameID");
+		Game game = gameList.get(i);
+		Player playingPlayer = game.playerlist.get(game.getPlayingPlayer());
+		playingPlayer.tradePartners.clear();
 	}
 
 	public void setNextPlayer() {
@@ -355,8 +365,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		System.out.println("PlayerID in CheckBudgetAndKnowledge: "+playerID);
 		int budget = getBudget(playerID) - rizePrice;
 		int knowledgeNew = getKnowHow(playerID) - amountknowledge;
-		if (budget >= 0 && knowledgeNew < 0) {
-			message = "Deine Stadt verfügt über nicht genügend wissen.";
+		if (budget >= 0 && knowledgeNew < -1) {
+			message = "Deine Stadt verfügt über nicht genügend Wissen.";
 			return message;
 		} else if (budget < 0) {
 			message = "Du hast nicht genügend Budget.";
@@ -834,10 +844,20 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				if (cell.equals(FieldType.RICE)) {
 					sumRICE = sumRICE + cell.getErtragRessourcen();
 				}
+				if (cell.equals(FieldType.RICEBIO)) {
+					sumRICE = sumRICE + cell.getErtragRessourcen();
+				}
 				if (cell == FieldType.TEE) {
 					sumTEE = sumTEE + cell.getErtragRessourcen();
 				}
+				if (cell == FieldType.TEEBIO) {
+					sumTEE = sumTEE + cell.getErtragRessourcen();
+				}
 				if (cell == FieldType.ZUCKER
+						&& player.getPercentualUmwelt() > 10) {
+					sumZUCKER = sumZUCKER + cell.getErtragRessourcen();
+				}
+				if (cell == FieldType.ZUCKERBIO
 						&& player.getPercentualUmwelt() > 10) {
 					sumZUCKER = sumZUCKER + cell.getErtragRessourcen();
 				}
@@ -845,13 +865,25 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				if (cell == FieldType.FISCH && player.getPercentualUmwelt() > 10) {
 					sumFISCH = sumFISCH + cell.getErtragRessourcen();
 				}
+				if (cell == FieldType.FISHBIO && player.getPercentualUmwelt() > 10) {
+					sumFISCH = sumFISCH + cell.getErtragRessourcen();
+				}
 				if (cell == FieldType.LEDER) {
+					sumLEDER = sumLEDER + cell.getErtragRessourcen();
+				}
+				if (cell == FieldType.LEDERBIO) {
 					sumLEDER = sumLEDER + cell.getErtragRessourcen();
 				}
 				if (cell == FieldType.TEXTIL) {
 					sumTEXTIL = sumTEXTIL + cell.getErtragRessourcen();
 				}
+				if (cell == FieldType.TEXTILBIO) {
+					sumTEXTIL = sumTEXTIL + cell.getErtragRessourcen();
+				}
 				if (cell == FieldType.IT) {
+					sumIT = sumIT + cell.getErtragRessourcen();
+				}
+				if (cell == FieldType.ITBIO) {
 					sumIT = sumIT + cell.getErtragRessourcen();
 				}
 			}
@@ -885,22 +917,46 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				if (cell.equals(FieldType.RICE)) {
 					sumRICE = sumRICE + cell.getErtragRessourcen();
 				}
+				if (cell.equals(FieldType.RICEBIO)) {
+					sumRICE = sumRICE + cell.getErtragRessourcen();
+				}
 				if (cell == FieldType.TEE) {
 					sumTEE = sumTEE + cell.getErtragRessourcen();
 				}
-				if (cell == FieldType.ZUCKER) {
+				if (cell == FieldType.TEEBIO) {
+					sumTEE = sumTEE + cell.getErtragRessourcen();
+				}
+				if (cell == FieldType.ZUCKER
+						&& player.getPercentualUmwelt() > 10) {
 					sumZUCKER = sumZUCKER + cell.getErtragRessourcen();
 				}
-				if (cell == FieldType.FISCH) {
+				if (cell == FieldType.ZUCKERBIO
+						&& player.getPercentualUmwelt() > 10) {
+					sumZUCKER = sumZUCKER + cell.getErtragRessourcen();
+				}
+				// wenn umwelt >10% ist und f
+				if (cell == FieldType.FISCH && player.getPercentualUmwelt() > 10) {
+					sumFISCH = sumFISCH + cell.getErtragRessourcen();
+				}
+				if (cell == FieldType.FISHBIO && player.getPercentualUmwelt() > 10) {
 					sumFISCH = sumFISCH + cell.getErtragRessourcen();
 				}
 				if (cell == FieldType.LEDER) {
 					sumLEDER = sumLEDER + cell.getErtragRessourcen();
 				}
+				if (cell == FieldType.LEDERBIO) {
+					sumLEDER = sumLEDER + cell.getErtragRessourcen();
+				}
 				if (cell == FieldType.TEXTIL) {
 					sumTEXTIL = sumTEXTIL + cell.getErtragRessourcen();
 				}
+				if (cell == FieldType.TEXTILBIO) {
+					sumTEXTIL = sumTEXTIL + cell.getErtragRessourcen();
+				}
 				if (cell == FieldType.IT) {
+					sumIT = sumIT + cell.getErtragRessourcen();
+				}
+				if (cell == FieldType.ITBIO) {
 					sumIT = sumIT + cell.getErtragRessourcen();
 				}
 			}

@@ -80,7 +80,7 @@ public class WaterGame implements EntryPoint {
 	// initial page
 		final Button startButton = new Button("Spiel starten");
 		final Button instructionButton = new Button("Spielanleitung");
-		
+		VerticalPanel removeImagePanel;
 		//TradeBox
 		//public DialogBox tradeBox ;
 		public DialogBox tradeRessourceBox;
@@ -109,7 +109,7 @@ public class WaterGame implements EntryPoint {
 		Label wirtschaftsValue;
 		Label lebensqualitaetLabel = new Label("Lebensqualität");
 		Label lebensqualitaetValue;
-		Label umweltLabel = new Label("Reinheitsgrad des Flusses");
+		Label umweltLabel = new Label("Reinheit des Ganges");
 		Label umweltValue;
 		final int grundbedarfProKopfLW = 2;
 		final int grundbedarfProKopfIndustrie = 3;
@@ -127,10 +127,10 @@ public class WaterGame implements EntryPoint {
 		HorizontalPanel exportPanel = new HorizontalPanel();
 		// Ressourcen Panel
 		Label ressourceTitle = new Label("Ressourcenstand");
-		HTML tradePlayer1 = new HTML("<strong>Spieler 1</strong>");
-		HTML tradePlayer2 = new HTML("<strong>Spieler 2</strong>");
-		HTML tradePlayer3 = new HTML("<strong>Spieler 3</strong>");
-		HTML tradePlayer4 = new HTML("<strong>Spieler 4</strong>");
+		HTML tradePlayer1 = new HTML("<strong>Chamoli</strong>");
+		HTML tradePlayer2 = new HTML("<strong>Kanpur</strong>");
+		HTML tradePlayer3 = new HTML("<strong>Varanasi</strong>");
+		HTML tradePlayer4 = new HTML("<strong>Kalkutta</strong>");
 		HTML importTitle = new HTML("<p><h5>Import                         </h5></p>");
 		HTML exportTitle = new HTML("<p><h5>Export</h5></p>");
 		// Trade field
@@ -151,17 +151,17 @@ public class WaterGame implements EntryPoint {
 		ListBox exportList3;
 		ListBox exportList4;
 		// political measures field
-		int preisUmweltverschmutzung= 800;
+		int preisUmweltverschmutzung= 500;
 		boolean activeUmweltschutz;
-		int preisReformen = 800;
+		int preisReformen = 500;
 		boolean activeReformen;
-		int preisNaturkatastrophen = 800;
+		int preisNaturkatastrophen = 500;
 		boolean activeNaturkatastrophen;
 		Label titleMeasures = new Label("Massnahmen");
-		HTML umweltSchutzLabel = new HTML("<strong>Massnahmen gegen Umweltverschmutzung</strong><br>Preis: "+  preisUmweltverschmutzung);
+		HTML umweltSchutzLabel = new HTML("<strong>Säuberung des Flusses</strong><br>Preis: "+  preisUmweltverschmutzung);
 		CheckBox umweltSchutzButton = new CheckBox ();
 		//HTML umweltSchutzBeschreibung = new HTML("<h5>Flusssäuberung, Energiesparmassnahmen<br> Preis: XXXX<h5>");
-		HTML reformen = new HTML("<strong>Demokratiefördernde Massnahmen</strong><br>Preis: "+preisReformen);
+		HTML reformen = new HTML("<strong>Förderung der Demokratie</strong><br>Preis: "+preisReformen);
 		CheckBox reformenButton = new CheckBox ();
 		//HTML reformenBeschreibung = new HTML("<h5>Verbesserung des politischen Systems <br> Preis: XXXX<h5>");
 		HTML naturgefahrenSchutz = new HTML("<strong>Schutz vor Naturkatastrophen</strong><br>Preis: "+preisNaturkatastrophen);
@@ -178,7 +178,7 @@ public class WaterGame implements EntryPoint {
 		static int selectedPrice;
 		static int selectedPriceRemove;
 		static int selectedKnowledge;
-		Label fieldsTitle = new Label("Felder");
+		Label fieldsTitle = new Label("Funktionsfelder");
 		Label lwLabel = new Label("Landwirtschaft");
 		Label indLabel = new Label("Industrie");
 		Label siedlungLabel = new Label("Siedlung");
@@ -274,10 +274,10 @@ public class WaterGame implements EntryPoint {
 
 		// BOTTOM PANEL-----------------------------------------
 		VerticalPanel validateButtonPanel = new VerticalPanel();
-		final Button validateButton = new Button("Validieren");
+		final Button validateButton = new Button("Abschliessen");
 		HorizontalPanel bottomPanel = new HorizontalPanel();
 		VerticalPanel commonIndikatorPanel = new VerticalPanel();
-		Label commonIndikatorLabel = new Label("Fortschritt");
+		Label commonIndikatorLabel = new Label("Gesamtleistung");
 		int commonIndikator;
 		
 
@@ -285,25 +285,30 @@ public class WaterGame implements EntryPoint {
 		String wirtschaftIndicatorValue;
 		String lebensqualiIndicatorValue;
 		String umweltIndicatorValue;
-		final Label rizeLabel = new Label("Reis: ");
-		Label rizeValue;
+		final HTML rizeLabel = new HTML("Reis: ");
+		HTML rizeValue;
 		int rizeValueInteger;
-		final Label fishLabel = new Label("Fisch: ");
-		Label fishValue;
+		final HTML fishLabel = new HTML("Fisch: ");
+		HTML fishValue;
 		int fishValueInteger;
-		final Label sugarLabel = new Label("Zucker: ");
-		Label sugarValue;
+		final HTML sugarLabel = new HTML("Zuckerrohr: ");
+		HTML sugarValue;
 		int sugarValueInteger;
-		final Label theLabel = new Label("Tee: ");
-		Label teaValue;
+		final HTML theLabel = new HTML("Tee: ");
+		HTML teaValue;
 		int teaValueInteger;
-		Label lederValue;
+		final HTML lederLabel = new HTML("Leder: ");
+		HTML lederValue;
 		int lederValueInteger;
-		Label textilValue;
+		final HTML textilLabel = new HTML("Textil: ");
+		HTML textilValue;
 		int textilValueInteger;
-		Label itValue;
+		final HTML itLabel = new HTML("IT: ");
+		HTML itValue;
 		int itValueInteger;
-		Label knowhowValue;
+		HTML knowhowValue;
+		final HTML wissenLabel = new HTML("Wissen: ");
+
 		int knowhowValueInteger;
 		
 		// RUNDEN ZÄhler!!!
@@ -401,7 +406,9 @@ public class WaterGame implements EntryPoint {
 				commonIndikatorPanel.setCellVerticalAlignment(commonIndikatorLabel, HasVerticalAlignment.ALIGN_MIDDLE);
 				commonIndikatorPanel.setCellHorizontalAlignment(commonIndikatorLabel, HasHorizontalAlignment.ALIGN_CENTER);
 
-				commonIndikatorPanel.setWidth("300px");
+				commonIndikatorPanel.setWidth("25%");
+//				commonIndikatorPanel.setWidth("300px");
+
 				//bottomPanel.add(commonIndikatorPanel);
 				fieldsAndRoundCounter.add(commonIndikatorPanel);
 				

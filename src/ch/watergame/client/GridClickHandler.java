@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
@@ -48,8 +49,8 @@ public class GridClickHandler implements ClickHandler {
 				
 				UpgradeClickHandler upgradehandler = new UpgradeClickHandler(
 						"rizeFieldbio.jpeg", greetingService, game, row, col);
-				FieldDoubleClickHandler doubleclick = new FieldDoubleClickHandler(row, col, "transparent_graphic.png", game, greetingService);
-				insertImage.addDoubleClickHandler(doubleclick);
+				//FieldDoubleClickHandler doubleclick = new FieldDoubleClickHandler(row, col, "transparent_graphic.png", game, greetingService);
+				//insertImage.addDoubleClickHandler(doubleclick);
 				insertImage.addClickHandler(upgradehandler);
 				// insertImage.addClickHandler(insertedImageGridHandler);
 			}
@@ -66,7 +67,29 @@ public class GridClickHandler implements ClickHandler {
 				UpgradeClickHandler upgradehandler = new UpgradeClickHandler(
 						"zuckerbio.jpg", greetingService, game, row, col);
 				insertImage.addClickHandler(upgradehandler);
-			} else {
+			}
+			else if (this.imgString.equals("fisch.jpg")) {
+				UpgradeClickHandler upgradehandler = new UpgradeClickHandler(
+						"fischbio.jpg", greetingService, game, row, col);
+				insertImage.addClickHandler(upgradehandler);
+			}
+			else if (this.imgString.equals("leder.JPG")) {
+				UpgradeClickHandler upgradehandler = new UpgradeClickHandler(
+						"lederbio.jpg", greetingService, game, row, col);
+				insertImage.addClickHandler(upgradehandler);
+			}
+			else if (this.imgString.equals("textil.jpg")) {
+				UpgradeClickHandler upgradehandler = new UpgradeClickHandler(
+						"textilbio.jpg", greetingService, game, row, col);
+				insertImage.addClickHandler(upgradehandler);
+			}
+			else if (this.imgString.equals("it.jpg")) {
+				UpgradeClickHandler upgradehandler = new UpgradeClickHandler(
+						"itbio.jog.jpg", greetingService, game, row, col);
+				insertImage.addClickHandler(upgradehandler);
+			}
+			
+			else {
 				insertImage.addClickHandler(insertedImageGridHandler);
 			}
 			// game.budgetValue = new Label
@@ -136,7 +159,7 @@ public class GridClickHandler implements ClickHandler {
 
 												});
 									}
-										else if(result.equals("Deine Stadt verfügt über nicht genügend wissen.")){
+										else if(result.equals("Deine Stadt verfügt über nicht genügend Wissen.")){
 											Window.alert(result);
 										}else if(result.equals("Du hast nicht genügend Budget.")){
 											Window.alert(result);
