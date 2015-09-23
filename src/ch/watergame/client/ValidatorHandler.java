@@ -638,7 +638,7 @@ public class ValidatorHandler implements ClickHandler {
 				//SwitchTimer tx = new SwitchTimer(greetingService, waterGame);
 				//tx.scheduleRepeating(500);
 				waterGame.startSwitchTimer();
-				waterGame.startEndTimer();
+				//waterGame.startEndTimer();
 
 			}
 		});

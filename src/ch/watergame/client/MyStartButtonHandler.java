@@ -49,15 +49,14 @@ public class MyStartButtonHandler implements ClickHandler {
 		RootPanel.get("gamefield").setVisible(true);
 		// RootPanel.get("gamefield").setStyleName("blocking");
 		greetingService.startGame(new AsyncCallback<String>() {
-			public void onFailure(Throwable caught) {
-				System.out.println("Failed");
-				Window.alert("Connection problem1");
+			public void onFailure(Throwable t) {
+				t.printStackTrace();
+				Window.alert("Connection problem1" + t.getMessage());
 			}
 
 			public void onSuccess(String result) {
 				waterGame.t = new StartTimer(greetingService, waterGame);
-				System.out.println("Start Timer added to player"
-						+ waterGame.getPlayerID());
+				System.out.println("Start Timer added to player"+ waterGame.getPlayerID());
 				waterGame.t.scheduleRepeating(500);
 
 				waterGame.setplayerID(Integer.parseInt(result.substring(0, 1)));
@@ -109,9 +108,10 @@ public class MyStartButtonHandler implements ClickHandler {
 						new AsyncCallback<GameField>() {
 
 							@Override
-							public void onFailure(Throwable caught) {
+							public void onFailure(Throwable t) {
+								t.printStackTrace();
 								System.out.println("Gamefield not created");
-								Window.alert("Connection Problem 2 ");
+								Window.alert("Connection Problem 2 " + t.getMessage());
 							}
 
 							@Override
@@ -1344,7 +1344,7 @@ public class MyStartButtonHandler implements ClickHandler {
 													// labelInfo1 = new
 													// HorizontalPanel();
 													HTML label1 = new HTML(
-															"<b>Fisch<b>");
+															"<b>Fischerei<b>");
 													// labelInfo1.add(label1);
 													// labelInfo1.add(waterGame.infoLogo);
 													waterGame.gridLW

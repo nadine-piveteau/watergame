@@ -52,7 +52,7 @@ public class StartTimer extends Timer {
 								wgame.waitingBox.show();
 								System.out.println("Switchtimer has been added to player     "+wgame.getPlayerID());
 								wgame.startSwitchTimer();
-								wgame.startEndTimer();
+								//wgame.startEndTimer();
 								
 							}
 						}
@@ -66,7 +66,7 @@ public class StartTimer extends Timer {
 			@Override
 			public void onFailure(Throwable caught) {
 				System.out.println("False.");
-
+				
 			}
 		});
 	}

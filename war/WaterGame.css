@@ -2,6 +2,15 @@
 
 
 /** Example rules used by the template application (remove for your app) */
+.gwt-PopupPanelGlass {
+  background-color: #000;
+  opacity: 0.3;
+  filter: literal("alpha(opacity=30)");
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+}
+
 h1 {
   font-size: 2em;
   font-weight: bold;

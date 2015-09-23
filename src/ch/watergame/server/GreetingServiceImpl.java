@@ -22,10 +22,9 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * The server-side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class GreetingServiceImpl extends RemoteServiceServlet implements
-		GreetingService {
-	ArrayList<Game> gameList = new ArrayList<Game>();
-	int totalNrofPlayer = 0;
+public class GreetingServiceImpl extends RemoteServiceServlet implements GreetingService {
+	static ArrayList<Game> gameList = new ArrayList<Game>();
+	static int totalNrofPlayer = 0;
 	//Game runningGame;
 
 	public String greetServer(String input) throws IllegalArgumentException {
@@ -85,6 +84,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		HttpServletRequest request = this.getThreadLocalRequest();
 		HttpSession session = request.getSession(true);
+		
 		System.out.println("SIZE GAMELIST: "+gameList.size());
 		session.setAttribute("GameID", gameList.size() - 1);
 		//USerID gehen von 0-3

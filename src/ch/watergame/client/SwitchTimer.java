@@ -28,6 +28,7 @@ public class SwitchTimer extends Timer {
 	private GreetingServiceAsync greetingService;
 	private WaterGame waterGame;
 	private TradeResult traderesult;
+	private static final int MAX_ROUNDS = 15;
 
 	public SwitchTimer(GreetingServiceAsync greetingService, WaterGame waterGame) {
 		this.greetingService = greetingService;
@@ -46,7 +47,7 @@ public class SwitchTimer extends Timer {
 			}
 
 			@Override
-			public void onSuccess(TradeResult result) {
+			public void onSuccess(final TradeResult result) {
 				
 				
 				greetingService.getRoundNR(new AsyncCallback<Integer>() {
@@ -58,288 +59,271 @@ public class SwitchTimer extends Timer {
 					}
 
 					@Override
-					public void onSuccess(Integer result) {
+					public void onSuccess(Integer numberOfRounds) {
 						// TODO Auto-generated method stub
-						waterGame.gameRound = result;
+						waterGame.gameRound = numberOfRounds;
 						waterGame.roundPanel.clear();
-						waterGame.roundCounter = new HTML("Spiel "+waterGame.gameID+", "+result + ". Runde");
+						waterGame.roundCounter = new HTML("Spiel "+waterGame.gameID+", "+numberOfRounds + ". Runde");
 						waterGame.roundCounter.addStyleName("roundCounter");
 						waterGame.roundCounter.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 
 						waterGame.roundPanel.add(waterGame.roundCounter);
+						
+						if (numberOfRounds > MAX_ROUNDS){
+							RootPanel.get("WIN").setVisible(false);
+							RootPanel.get("GAMEOVER").setVisible(true);
+							RootPanel.get("sendButtonContainer").setVisible(false);
+							RootPanel.get("instructionButtonContainer").setVisible(false);
+							RootPanel.get("waitingBoxContainer").setVisible(false);
+							RootPanel.get("tradeContainer").setVisible(false);
+							RootPanel.get("gamefield").setVisible(false);
+							RootPanel.get("validateButtonContainer").setVisible(true);
+							RootPanel.get("NotYourTurn").setVisible(false);
+							RootPanel.get("validateButtonContainer").clear();
+						}else{
+							traderesult = result;
+							//fillRessourcePanel();
+//							System.out.println("SWITCHTIMER RESULT:MYTURN: "+result.myTurn);
+							if (traderesult.myTurn == true) {
+								fillRessourcePanel();
+								waterGame.waitingBox.hide();
+								RootPanel.get("NotYourTurn").setVisible(false);
+								cancel();
+								if (!traderesult.tradeContractResult.isEmpty()) {
+									fillRessourcePanel();
 
+									ConcludeTradeClickHandler concludeHandler = new ConcludeTradeClickHandler(
+											waterGame, greetingService);
+									// waterGame.tradeBox.remove(waterGame.tradeBoxContent);
+									RootPanel.get("tradeContainer").clear();
+									// waterGame.tradeBox.center();
+									// waterGame.tradeBoxTitle = new Label("Handel");
+									// waterGame.tradeBoxContent.add(waterGame.tradeBoxTitle);
+
+									waterGame.tradeBox = new DialogBox();
+									VerticalPanel tradeBoxContent = new VerticalPanel();
+									Label tradeBoxTitel = new Label("Handel");
+									tradeBoxContent.add(tradeBoxTitel);
+									HTML frage = new HTML("Kreuze jeden Handel, den du annehmen möchtest.");
+									tradeBoxContent.add(frage);
+									for (Trade trade : traderesult.tradeContractResult) {
+										fillRessourcePanel();
+
+										HorizontalPanel tradeMessagePanel = new HorizontalPanel();
+										HTML tradeMessage = new HTML(trade.toString());
+										tradeMessagePanel.add(tradeMessage);
+										CheckBox jaButton = new CheckBox();
+										// Button neinButton = new Button("NEIN");
+										JaTradeButtonClickHandler jaHandler = new JaTradeButtonClickHandler(
+												trade, greetingService, concludeHandler,
+												jaButton);
+										jaButton.addClickHandler(jaHandler);
+										// tradeMessagePanel.add(neinButton);
+										tradeMessagePanel.add(jaButton);
+										tradeBoxContent.add(tradeMessagePanel);
+									}
+									greetingService.emptyTradeResult(new AsyncCallback<Void>() {
+
+										@Override
+										public void onFailure(Throwable caught) {
+											// TODO Auto-generated method stub
+											
+										}
+
+										@Override
+										public void onSuccess(Void result) {
+											// TODO Auto-generated method stub
+											
+										}
+									});
+									Button okButton = new Button("OK");
+									okButton.addClickHandler(concludeHandler);
+									tradeBoxContent.add(okButton);
+									fillRessourcePanel();
+
+									waterGame.tradeBox.add(tradeBoxContent);
+									waterGame.tradeBox.center();
+									RootPanel.get("gamefield").setVisible(true);
+									RootPanel.get("validateButtonContainer").setVisible(
+											true);
+									RootPanel.get("WIN").setVisible(false);
+									RootPanel.get("GAMEOVER").setVisible(false);
+
+								} else {
+									waterGame.tradeBox.hide();
+									//RootPanel.get("tradeContainer").setVisible(false);
+									RootPanel.get("gamefield").setVisible(true);
+									RootPanel.get("validateButtonContainer").setVisible(
+											true);
+									RootPanel.get("WIN").setVisible(false);
+									RootPanel.get("GAMEOVER").setVisible(false);
+									// Zufallsereigniss hier aufrufen
+									System.out.println("BEFORE EVENT EXECUTED");
+									greetingService.executeEvent(waterGame.playerID,
+											new AsyncCallback<String>() {
+
+												@Override
+												public void onFailure(Throwable caught) {
+													// TODO Auto-generated method stub
+
+												}
+
+												@Override
+												public void onSuccess(String result) {
+													// TODO Auto-generated method stub
+													if (result != null) {
+														System.out.println("Event : "+ result);
+														// Window.alert(result);
+														DialogBox alertEvent = new DialogBox();
+														VerticalPanel contentAlertMessage = new VerticalPanel();
+														HTML message = new HTML(result);
+														OkEventAlertClickHandler okClickHandler = new OkEventAlertClickHandler(alertEvent);
+														Button okAlertMessageButton = new Button("OK");
+														okAlertMessageButton.addClickHandler(okClickHandler);
+														contentAlertMessage.add(message);
+														contentAlertMessage.add(okAlertMessageButton);
+														contentAlertMessage.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+														alertEvent.add(contentAlertMessage);
+														alertEvent.center();
+														alertEvent.show();
+													}
+
+													greetingService
+															.updateAndGetRessources(new AsyncCallback<ArrayList<Integer>>() {
+
+																@Override
+																public void onFailure(
+																		Throwable caught) {
+																	// TODO Auto-generated
+																	// method stub
+
+																}
+
+																@Override
+																public void onSuccess(
+																		ArrayList<Integer> result) {
+																	System.out
+																			.println("Event method: "
+																					+ result);
+																	System.out.println("New Rice amount client side: "
+																			+ result.get(5));
+																	int populationInt = result
+																			.get(3);
+
+																	// clear
+																	// wirtschaft/lebensquali/umwelt/population/resourcen
+																	// Panel
+																	clearPanels();
+																	// set new Values for
+																	// indicators,
+																	// ressources, knohow
+																	// and population
+																	setIndicatorValue(result);
+																	setRessourceValueLW(
+																			result,
+																			populationInt);
+																	setRessourceValueIndustrie(
+																			result,
+																			populationInt);
+																	setKnowHowValue(result);
+																	setPopulationValue(populationInt);
+																	setBudgetValue(result
+																			.get(4));
+
+																	// fill the panels
+																	fillWirtschaftskraftPanel();
+																	fillLebensqualiPanel();
+																	fillUmweltPanel();
+																	fillPopulationPanel();
+																	fillRessourcePanel();
+																	fillBudgetPanel();
+																	fillMeasuresPanel();
+																	greetingService
+																			.getCommonIndicator(new AsyncCallback<Integer>() {
+
+																				@Override
+																				public void onFailure(Throwable t) {
+																					t.printStackTrace();
+																					Window.alert("common indicator failure: " + t.getMessage());
+																				}
+
+																				@Override
+																				public void onSuccess(Integer result) {
+																					if(result < waterGame.WINNINGINDIKATOR){
+																					
+																					HTML commonIndicatorHTML = new HTML(
+																							"<progress value=\""
+																									+ result
+																									+ "\" max=\"100\">"
+																									+ result
+																									+ "</progress>");
+																					waterGame.commonIndikatorPanel
+																							.add(waterGame.commonIndikatorLabel);
+																					waterGame.commonIndikatorPanel
+																							.add(commonIndicatorHTML);
+																					Label percentage = new Label(
+																							Integer.toString(result));
+																					waterGame.commonIndikatorPanel
+																							.add(percentage);
+																					waterGame.commonIndikatorPanel
+																							.setCellVerticalAlignment(
+																									waterGame.commonIndikatorLabel,
+																									HasVerticalAlignment.ALIGN_MIDDLE);
+																					waterGame.commonIndikatorPanel
+																							.setCellHorizontalAlignment(
+																									waterGame.commonIndikatorLabel,
+																									HasHorizontalAlignment.ALIGN_CENTER);
+																					waterGame.commonIndikatorPanel
+																							.setCellVerticalAlignment(
+																									commonIndicatorHTML,
+																									HasVerticalAlignment.ALIGN_MIDDLE);
+																					waterGame.commonIndikatorPanel
+																							.setCellHorizontalAlignment(
+																									commonIndicatorHTML,
+																									HasHorizontalAlignment.ALIGN_CENTER);
+																					waterGame.commonIndikatorPanel
+																							.setCellVerticalAlignment(
+																									percentage,
+																									HasVerticalAlignment.ALIGN_MIDDLE);
+																					waterGame.commonIndikatorPanel
+																							.setCellHorizontalAlignment(
+																									percentage,
+																									HasHorizontalAlignment.ALIGN_CENTER);
+																					}else{
+																						RootPanel.get("WIN").setVisible(true);
+																						RootPanel.get("GAMEOVER").setVisible(false);
+																						RootPanel.get("sendButtonContainer").setVisible(false);
+																						RootPanel.get("instructionButtonContainer").setVisible(false);
+																						RootPanel.get("waitingBoxContainer").setVisible(false);
+																						RootPanel.get("tradeContainer").setVisible(false);
+																						RootPanel.get("gamefield").setVisible(false);
+																						RootPanel.get("NotYourTurn").setVisible(false);
+																						RootPanel.get("validateButtonContainer").clear();
+																					}
+																				}
+																			});
+																}
+															});
+												}
+											});
+									// refreshAndGetRessources: neue werte updaten und
+									// zurückgeben methode hier aufrufen
+
+								}
+									
+									
+									} else {
+								RootPanel.get("gamefield").setVisible(true);
+								RootPanel.get("validateButtonContainer").setVisible(true);
+								//RootPanel.get("NotYourTurn").setVisible(false);
+								waterGame.waitingBox.show();
+								// waterGame.startEndTimer();
+								
+							}
+						}
 					}
 
 				});
-				
-				
-				
-				traderesult = result;
-				//fillRessourcePanel();
-//				System.out.println("SWITCHTIMER RESULT:MYTURN: "+result.myTurn);
-				if (traderesult.myTurn == true) {
-					fillRessourcePanel();
-					waterGame.waitingBox.hide();
-					RootPanel.get("NotYourTurn").setVisible(false);
-					cancel();
-					if (!traderesult.tradeContractResult.isEmpty()) {
-						fillRessourcePanel();
-
-						ConcludeTradeClickHandler concludeHandler = new ConcludeTradeClickHandler(
-								waterGame, greetingService);
-						// waterGame.tradeBox.remove(waterGame.tradeBoxContent);
-						RootPanel.get("tradeContainer").clear();
-						// waterGame.tradeBox.center();
-						// waterGame.tradeBoxTitle = new Label("Handel");
-						// waterGame.tradeBoxContent.add(waterGame.tradeBoxTitle);
-
-						waterGame.tradeBox = new DialogBox();
-						VerticalPanel tradeBoxContent = new VerticalPanel();
-						Label tradeBoxTitel = new Label("Handel");
-						tradeBoxContent.add(tradeBoxTitel);
-						HTML frage = new HTML("Kreuze jeden Handel, den du annehmen möchtest.");
-						tradeBoxContent.add(frage);
-						for (Trade trade : traderesult.tradeContractResult) {
-							fillRessourcePanel();
-
-							HorizontalPanel tradeMessagePanel = new HorizontalPanel();
-							HTML tradeMessage = new HTML(trade.toString());
-							tradeMessagePanel.add(tradeMessage);
-							CheckBox jaButton = new CheckBox();
-							// Button neinButton = new Button("NEIN");
-							JaTradeButtonClickHandler jaHandler = new JaTradeButtonClickHandler(
-									trade, greetingService, concludeHandler,
-									jaButton);
-							jaButton.addClickHandler(jaHandler);
-							// tradeMessagePanel.add(neinButton);
-							tradeMessagePanel.add(jaButton);
-							tradeBoxContent.add(tradeMessagePanel);
-						}
-						greetingService.emptyTradeResult(new AsyncCallback<Void>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-								
-							}
-
-							@Override
-							public void onSuccess(Void result) {
-								// TODO Auto-generated method stub
-								
-							}
-						});
-						Button okButton = new Button("OK");
-						okButton.addClickHandler(concludeHandler);
-						tradeBoxContent.add(okButton);
-						fillRessourcePanel();
-
-						waterGame.tradeBox.add(tradeBoxContent);
-						waterGame.tradeBox.center();
-						/*
-						Label ressourceTitle = new Label("Meine Ressourcen");
-						VerticalPanel tradeRessourceBoxContent = new VerticalPanel();
-						tradeRessourceBoxContent.add(ressourceTitle);
-						tradeRessourceBoxContent.add(waterGame.rizeValue);
-						tradeRessourceBoxContent.add(waterGame.fishValue);
-						tradeRessourceBoxContent.add(waterGame.sugarValue);
-						tradeRessourceBoxContent.add(waterGame.teaValue);
-						tradeRessourceBoxContent.add(waterGame.lederValue);
-						tradeRessourceBoxContent.add(waterGame.textilValue);
-						tradeRessourceBoxContent.add(waterGame.itValue);
-						tradeRessourceBoxContent.add(waterGame.knowhowValue);
-						waterGame.tradeRessourceBox
-								.add(tradeRessourceBoxContent);*/
-						// waterGame.tradeBoxContent.add(okButton);
-						// waterGame.tradeBox.add(waterGame.tradeBoxContent);
-						// waterGame.tradeBox.setWidth("800px");
-						//RootPanel.get("tradeContainer").add(tradeBox);
-						//RootPanel.get("tradeContainer").add(
-							//	waterGame.tradeRessourceBox);
-						//RootPanel.get("tradeContainer").setVisible(true);
-						//waterGame.tradeBox.center();
-						//waterGame.tradeBox.setGlassEnabled(true);
-						//waterGame.tradeBox.show();
-						RootPanel.get("gamefield").setVisible(true);
-						RootPanel.get("validateButtonContainer").setVisible(
-								true);
-						RootPanel.get("WIN").setVisible(false);
-						RootPanel.get("GAMEOVER").setVisible(false);
-
-					} else {
-						waterGame.tradeBox.hide();
-						//RootPanel.get("tradeContainer").setVisible(false);
-						RootPanel.get("gamefield").setVisible(true);
-						RootPanel.get("validateButtonContainer").setVisible(
-								true);
-						RootPanel.get("WIN").setVisible(false);
-						RootPanel.get("GAMEOVER").setVisible(false);
-						// Zufallsereigniss hier aufrufen
-						System.out.println("BEFORE EVENT EXECUTED");
-						greetingService.executeEvent(waterGame.playerID,
-								new AsyncCallback<String>() {
-
-									@Override
-									public void onFailure(Throwable caught) {
-										// TODO Auto-generated method stub
-
-									}
-
-									@Override
-									public void onSuccess(String result) {
-										// TODO Auto-generated method stub
-										if (result != null) {
-											System.out.println("Event : "
-													+ result);
-											// Window.alert(result);
-											DialogBox alertEvent = new DialogBox();
-											VerticalPanel contentAlertMessage = new VerticalPanel();
-											HTML message = new HTML(result);
-											OkEventAlertClickHandler okClickHandler = new OkEventAlertClickHandler(
-													alertEvent);
-											Button okAlertMessageButton = new Button(
-													"OK");
-											okAlertMessageButton
-													.addClickHandler(okClickHandler);
-											contentAlertMessage.add(message);
-											contentAlertMessage
-													.add(okAlertMessageButton);
-											contentAlertMessage
-													.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-											alertEvent.add(contentAlertMessage);
-											alertEvent.center();
-											alertEvent.show();
-										}
-
-										greetingService
-												.updateAndGetRessources(new AsyncCallback<ArrayList<Integer>>() {
-
-													@Override
-													public void onFailure(
-															Throwable caught) {
-														// TODO Auto-generated
-														// method stub
-
-													}
-
-													@Override
-													public void onSuccess(
-															ArrayList<Integer> result) {
-														System.out
-																.println("Event method: "
-																		+ result);
-														System.out.println("New Rice amount client side: "
-																+ result.get(5));
-														int populationInt = result
-																.get(3);
-
-														// clear
-														// wirtschaft/lebensquali/umwelt/population/resourcen
-														// Panel
-														clearPanels();
-														// set new Values for
-														// indicators,
-														// ressources, knohow
-														// and population
-														setIndicatorValue(result);
-														setRessourceValueLW(
-																result,
-																populationInt);
-														setRessourceValueIndustrie(
-																result,
-																populationInt);
-														setKnowHowValue(result);
-														setPopulationValue(populationInt);
-														setBudgetValue(result
-																.get(4));
-
-														// fill the panels
-														fillWirtschaftskraftPanel();
-														fillLebensqualiPanel();
-														fillUmweltPanel();
-														fillPopulationPanel();
-														fillRessourcePanel();
-														fillBudgetPanel();
-														fillMeasuresPanel();
-														greetingService
-																.getCommonIndicator(new AsyncCallback<Integer>() {
-
-																	@Override
-																	public void onFailure(
-																			Throwable caught) {
-																		// TODO
-																		// Auto-generated
-																		// method
-																		// stub
-
-																	}
-
-																	@Override
-																	public void onSuccess(
-																			Integer result) {
-																		// TODO
-																		// Auto-generated
-																		// method
-																		// stub
-
-																		HTML commonIndicatorHTML = new HTML(
-																				"<progress value=\""
-																						+ result
-																						+ "\" max=\"100\">"
-																						+ result
-																						+ "</progress>");
-																		waterGame.commonIndikatorPanel
-																				.add(waterGame.commonIndikatorLabel);
-																		waterGame.commonIndikatorPanel
-																				.add(commonIndicatorHTML);
-																		Label percentage = new Label(
-																				Integer.toString(result));
-																		waterGame.commonIndikatorPanel
-																				.add(percentage);
-																		waterGame.commonIndikatorPanel
-																				.setCellVerticalAlignment(
-																						waterGame.commonIndikatorLabel,
-																						HasVerticalAlignment.ALIGN_MIDDLE);
-																		waterGame.commonIndikatorPanel
-																				.setCellHorizontalAlignment(
-																						waterGame.commonIndikatorLabel,
-																						HasHorizontalAlignment.ALIGN_CENTER);
-																		waterGame.commonIndikatorPanel
-																				.setCellVerticalAlignment(
-																						commonIndicatorHTML,
-																						HasVerticalAlignment.ALIGN_MIDDLE);
-																		waterGame.commonIndikatorPanel
-																				.setCellHorizontalAlignment(
-																						commonIndicatorHTML,
-																						HasHorizontalAlignment.ALIGN_CENTER);
-																		waterGame.commonIndikatorPanel
-																				.setCellVerticalAlignment(
-																						percentage,
-																						HasVerticalAlignment.ALIGN_MIDDLE);
-																		waterGame.commonIndikatorPanel
-																				.setCellHorizontalAlignment(
-																						percentage,
-																						HasHorizontalAlignment.ALIGN_CENTER);
-
-																	}
-																});
-													}
-												});
-									}
-								});
-						// refreshAndGetRessources: neue werte updaten und
-						// zurückgeben methode hier aufrufen
-
-					}
-						
-						
-						} else {
-					RootPanel.get("gamefield").setVisible(true);
-					RootPanel.get("validateButtonContainer").setVisible(true);
-					//RootPanel.get("NotYourTurn").setVisible(false);
-					waterGame.waitingBox.show();
-					
-				}
 			}
 					
 		

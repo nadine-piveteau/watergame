@@ -30,7 +30,7 @@ public class EndTimer extends Timer {
 			@Override
 			public void onSuccess(ArrayList<Integer> result) {
 				// TODO Auto-generated method stub
-				if(result.get(0)>40&&result.get(1)<wgame.WINNINGINDIKATOR){
+				if( result.get(0) > 40 && result.get(1) < wgame.WINNINGINDIKATOR){
 					System.out.println("Winningindikator"+ result.get(0));
 					System.out.println("Winningindikator"+ result.get(1));
 
@@ -51,7 +51,7 @@ public class EndTimer extends Timer {
 					RootPanel.get("validateButtonContainer").add(newGame);
 					RootPanel.get("validateButtonContainer").setVisible(true);
 					cancel();
-				}else if(result.get(1)>=wgame.WINNINGINDIKATOR&&result.get(0)<=40){
+				}else if( result.get(1) >= wgame.WINNINGINDIKATOR && result.get(0) <= 40){
 					RootPanel.get("WIN").setVisible(true);
 					RootPanel.get("GAMEOVER").setVisible(false);
 					RootPanel.get("sendButtonContainer").setVisible(false);
